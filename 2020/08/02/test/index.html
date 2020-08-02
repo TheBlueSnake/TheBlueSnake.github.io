@@ -107,21 +107,10 @@
       <div class="post-content-main animate__animated  animate__fadeInUp">
         <!-- 目录 -->
         
-        <script type="math/tex; mode=display">
-A = \begin{bmatrix}
-        a_{11}    & a_{12}    & ...    & a_{1n}\\
-        a_{21}    & a_{22}    & ...    & a_{2n}\\
-        a_{31}    & a_{22}    & ...    & a_{3n}\\
-        \vdots    & \vdots    & \ddots & \vdots\\
-        a_{n1}    & a_{n2}    & ... & a_{nn}\\
-    \end{bmatrix} , b = \begin{bmatrix}
-        b_{1}  \\
-        b_{2}  \\
-        b_{3}  \\
-        \vdots \\
-        b_{n}  \\
-    \end{bmatrix}</script><p>啊？</p>
-<script type="math/tex; mode=display">\pi</script>
+        <p>$$<br>A = \begin{bmatrix}<br>        a_{11}    &amp; a_{12}    &amp; …    &amp; a_{1n}\<br>        a_{21}    &amp; a_{22}    &amp; …    &amp; a_{2n}\<br>        a_{31}    &amp; a_{22}    &amp; …    &amp; a_{3n}\<br>        \vdots    &amp; \vdots    &amp; \ddots &amp; \vdots\<br>        a_{n1}    &amp; a_{n2}    &amp; … &amp; a_{nn}\<br>    \end{bmatrix} , b = \begin{bmatrix}<br>        b_{1}  \<br>        b_{2}  \<br>        b_{3}  \<br>        \vdots \<br>        b_{n}  \<br>    \end{bmatrix}<br>$$</p>
+<p>啊？</p>
+<p><code>$\pi$</code></p>
+
         <!-- 分类文章 -->
         
         <!-- 评论 -->
@@ -157,7 +146,24 @@ A = \begin{bmatrix}
 
 
 
-<script src="/js/white.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="/js/white.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
 
