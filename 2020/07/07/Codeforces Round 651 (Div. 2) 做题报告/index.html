@@ -52,7 +52,7 @@
           <li class="menu-li animate__animated  animate__fadeInUp" id="sort">
              Categories
              <div class="categories-outer " id="sort-div">
-               <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Codeforces/">Codeforces</a></li></ul>
+               <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/OI/">OI</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/OI/Atcoder/">Atcoder</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OI/Codeforces/">Codeforces</a></li></ul></li></ul>
              </div>
           </li>
         
@@ -142,8 +142,19 @@ n=2^k\times p\quad(p=2k+1,k\in Z)</script><ol>
         <!-- 分类文章 -->
         
           <div class="post-categoris-bottom">
-            <div class="post-categoris-name">Codeforces</div>
+            <div class="post-categoris-name">OI</div>
             <ul>
+            
+            
+              
+                <li class="base">
+                  <a  href="/2020/07/05/AtcoderBeginnerContest%20137%20%E5%81%9A%E9%A2%98%E6%8A%A5%E5%91%8A/" class="post-categoris-bottom-link">
+                  AtcoderBeginnerContest 137 做题报告
+                </a>
+                </li>
+              
+              
+            
             
             
               
@@ -227,9 +238,24 @@ n=2^k\times p\quad(p=2k+1,k\in Z)</script><ol>
 
 
 
-<script src="/js/white.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="/js/white.js"></script>
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

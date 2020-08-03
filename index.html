@@ -52,7 +52,7 @@
           <li class="menu-li animate__animated  animate__fadeInUp" id="sort">
              Categories
              <div class="categories-outer " id="sort-div">
-               <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Codeforces/">Codeforces</a></li></ul>
+               <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/OI/">OI</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/OI/Atcoder/">Atcoder</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OI/Codeforces/">Codeforces</a></li></ul></li></ul>
              </div>
           </li>
         
@@ -127,9 +127,24 @@
 </div>
 
 
-<script src="/js/white.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+<script src="/js/white.js"></script>
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
