@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>基础数据结构 &lt; TheBlueSnake Blog</title>
+  <title>基础图论算法 &lt; TheBlueSnake Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -123,8 +123,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-04 09:27">
-      2020-08-04 09:27
+    <time datetime="2020-08-04 09:36">
+      2020-08-04 09:36
     </time>
   </div>
 
@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      160 字
+      204 字
     </span>
   
 
@@ -166,22 +166,23 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h3 id="基础数据结构"><a href="#基础数据结构" class="headerlink" title="基础数据结构"></a>基础数据结构</h3><p>一些常用的基础数据结构，随着时间增加，原来可能是高级数据结构的东西也会加到这张表来。这张表展示的是对我来说比较基础，应该考试时可以随手写的数据结构。</p>
+              <h3 id="基础图论算法"><a href="#基础图论算法" class="headerlink" title="基础图论算法"></a>基础图论算法</h3><p>以前学习过的一些图论算法，已经完全掌握的，考试的时候随手就可以写并且可以写对的图论相关算法会列举在这张表中。随着实力的提升，原来一些可能比较困难的图论算法也会归纳在这张表中。</p>
 <ul>
-<li>数组</li>
-<li>（普通，双端，块状）链表</li>
-<li>（普通，双端，优先，单调）队列</li>
-<li>（普通，单调）栈</li>
-<li>（大根，小根）堆</li>
-<li>哈希表（自然溢出，双哈希表）</li>
-<li>并查集（按秩合并，路径压缩）</li>
-<li>树状数组</li>
-<li>ST表</li>
-<li>（递归，zkw）线段树</li>
-<li>Tire树</li>
-<li>Splay</li>
-<li>（普通，FHQ）Treap</li>
-<li>可持久化（数组，线段树，Tire树，平衡树）</li>
+<li>单源最短路（Dijkstra）</li>
+<li>多源最短路（Floyd）</li>
+<li>带负权单源最短路（SPFA）</li>
+<li>网络流（EK，ISAP）</li>
+<li>最小生成树（Prim（代价更新），Kruskal（边从小到大））</li>
+<li>LCA算法<ul>
+<li>离线：Tarjan（$O(n+q)$）</li>
+<li>在线：倍增（$O(n\log n)$，$O(\log n)$）</li>
+<li>在线：树链剖分（$O(n)$，$O(\log n)$）</li>
+<li>在线：ST表（$O(n\log n)$，$O(1)$）</li>
+</ul>
+</li>
+<li>强联通分量（Tarjan）</li>
+<li>树链剖分+数据结构</li>
+<li>二分图最大匹配（匈牙利算法，建立网络流计算）</li>
 </ul>
 
             </article>
@@ -196,7 +197,7 @@
                     
                       <a class="hover-with-bg" href="/categories/OI/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
                     
-                      <a class="hover-with-bg" href="/categories/OI/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                      <a class="hover-with-bg" href="/categories/OI/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9B%BE%E8%AE%BA/">图论</a>
                     
                   </div>
                 
@@ -309,7 +310,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "基础数据结构&nbsp;",
+        "基础图论算法&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 25,
