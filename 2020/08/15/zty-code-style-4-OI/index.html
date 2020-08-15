@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" type="image/png" href="/img/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>TheBlueSnake&#39;s OI代码规范 &lt; TheBlueSnake Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 35vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>TheBlueSnake's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://i.loli.net/2019/12/11/jF3snSoXBeU4AiN.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-15 18:13">
+      2020-08-15 18:13
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>本文主要介绍<em>TheBlueSnake</em>多年OI经验总结的代码规范，有参考$Google$与$Microsoft$的代码规范。可能会随着时间和习惯的改变更新。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>代码开头是声明与程序相关注释，随后源码开头是<strong>头文件</strong>，<strong>预编译命令</strong>，<strong>结构体声明</strong>，<strong>变量声明</strong>，<strong>函数的声明及代码</strong>，<strong>主程序声明及代码</strong>。</p>
+<p>代码无论是否结束均不可超过100字符，在二元计算符（<code>+</code>，<code>-</code>，<code>*</code>，<code>/</code>，<code>&amp;</code>，<code>|</code>，<code>&amp;&amp;</code>，<code>||</code>，<code>^</code>，<code>&gt;</code>，<code>&lt;</code>，<code>,</code>）处进行分割。且要注意分割时<code>(</code>与<code>)</code>的位置，对于优先级差分较大的代码尽量放在同一行内。</p>
+<h3 id="声明，程序注释"><a href="#声明，程序注释" class="headerlink" title="声明，程序注释"></a>声明，程序注释</h3><p>声明及程序内容有关的总体注释认为属于代码中，但不属于程序源码内容，<strong>全部</strong>置于程序代码开头。可以用于声明程序写作时间，作者。编写该程序目的，及该程序实现的目的等。</p>
+<h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><p>头文件置于整个源码的开头，能使用<code>#include&lt;bits/stdc++.h&gt;</code>的时候尽量使用，并将该头文件始终置于代码源码中第一行。其他头文件中，将C++标准库置于其次，C标准库置于再次，交互库置于再次。且能够使用<code>#include&lt;header&gt;</code>时不使用<code>#include &quot;header&quot;</code>。</p>
+<p>随后对于C++标准命名空间使用<code>using namespace std;</code>。</p>
+<h3 id="预编译命令"><a href="#预编译命令" class="headerlink" title="预编译命令"></a>预编译命令</h3><p>多层<code>#if</code>与<code>#endif</code>嵌套时，<code>#endif</code>后应有注释表明其所对应的<code>#if</code>。开头常用的<code>#define</code>定义有如下：</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFll 0x3f3f3f3f3f3f3f3fll</span></code></pre>
+<p>对于其他常量内容定义，应使用<code>const</code>，<code>typedef</code>来定义，如：</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = MAX_INT;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;</code></pre>
+<h3 id="结构体声明"><a href="#结构体声明" class="headerlink" title="结构体声明"></a>结构体声明</h3><p>结构体的定义只有图论常用边的定义可以使用单行定义，如：</p>
+<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">edge</span>&#123;</span><span class="hljs-keyword">int</span> u, v, l; edge(<span class="hljs-keyword">int</span> au = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> av = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> al = <span class="hljs-number">0</span>)&#123;u = au; v = av; l = al;&#125;&#125;;</code></pre>
+<p>其他非常用结构体无论多简单<strong>一律</strong>展开书写，具体书写格式参照代码规范细节。</p>
+<h3 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h3><p>变量声明只有图论常用图的定义可以使用单行内混合定义，如：</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">int</span> tot, frt[MAXN], nxt[MAXM]; edge ed[MAXM];</code></pre>
+<p>其余情况下<strong>一律</strong>单行只有一个变量类型，且相关或在同一代码块中使用的变量定义在相邻几行内。</p>
+<h3 id="函数声明"><a href="#函数声明" class="headerlink" title="函数声明"></a>函数声明</h3><p>函数使用中不允许使用<code>inline</code>关键字，无论是否是简短函数均不可编写为内联函数。</p>
+<p>函数调用时传参应避免传入数组，以及各种巨大的容器，而应传引用。</p>
+<p>函数内部代码规范详细参照下方代码规范细节。</p>
+<h3 id="主程序声明"><a href="#主程序声明" class="headerlink" title="主程序声明"></a>主程序声明</h3><p>主程序声明使用<code>int main()</code>，且必须在程序最后使用返回值<code>return 0;</code>无论该代码是否可能被遇到。</p>
+<p>主程序内部代码规范详细参照下方代码规范细节。</p>
+<h2 id="代码规范细节"><a href="#代码规范细节" class="headerlink" title="代码规范细节"></a>代码规范细节</h2><h3 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h3><p>每一代码块内采用单个Tab缩进，正常使用的IDE应设置TAB宽度为4个空格。</p>
+<h3 id="空行与换行"><a href="#空行与换行" class="headerlink" title="空行与换行"></a>空行与换行</h3><p><strong>头文件</strong>，<strong>预编译命令</strong>，<strong>结构体声明</strong>，<strong>变量声明</strong>，<strong>函数的声明及代码</strong>，<strong>主程序声明及代码</strong>之间应该空行，不想关的函数定义两侧应该空行，代码内部的分段（如读入，预处理，处理，输出等）可酌情空行。</p>
+<p>行末大括号不换行。能拆开来写的代码尽量拆开来写，消极使用<code>,</code>，积极换行，且在<code>if()</code>，<code>for(; ; )</code>，<code>while()</code>后多使用大括号以便方便进行调试。不主动进行压行。</p>
+<h3 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h3><p>一定要加空格的地方：</p>
+<ol>
+<li>二元运算符（<code>+</code>，<code>-</code>，<code>*</code>，<code>/</code>，<code>&amp;</code>，<code>|</code>，<code>&amp;&amp;</code>，<code>||</code>，<code>^</code>，<code>&gt;</code>，<code>&lt;</code>）两侧（<code>,</code>除外）。</li>
+<li><code>,</code>与<code>;</code>的右边（不推荐在同一行内采用<code>;</code>写多条语句）</li>
+<li>三元运算符中<code>?</code>与<code>:</code>的左右两侧。</li>
+<li>指针类型和引用类型的定义中<code>*</code>与<code>&amp;</code>的左侧。（例：<code>int *x;</code>，<code>some_function(int &amp;x)</code>）</li>
+<li>为编译需要必须添加空格的地方。（如不同数据类型之间<code>const long long</code>）</li>
+<li>第5条中特别注意标准库容器套标准库容器里，后方<code>&gt;</code>一定加空格，无论是采用C98编译还是C11或更高编译。（例：<code>vector&lt;pair&lt;int, pair&lt;int, int&gt; &gt; &gt;</code>）</li>
+</ol>
+<p>一定不要加空格的地方：</p>
+<ol>
+<li>单目运算符（<code>!</code>，<code>~</code>，<code>&amp;</code>，<code>*</code>，<code>-</code>，<code>++</code>，<code>--</code>）之间</li>
+<li>两个括号之间。（例<code>(variableA * (variableB + (variableC| variableD)))</code>）</li>
+<li>左大括号的左侧。（由不换行策略，做大括号不应处于行首）</li>
+<li>函数名与左括号之间（包括定义，使用）。（例<code>int qpow(int x);</code>）</li>
+<li><code>,</code>与<code>;</code>的左侧。</li>
+<li><code>*</code>与<code>&amp;</code>的右侧。</li>
+<li><code>.</code>，<code>-&gt;</code>，<code>::</code>的两侧。</li>
+<li><code>operator</code>与要重载的运算符之间。（例：<code>operator&lt;</code>）</li>
+</ol>
+<h3 id="命名规则"><a href="#命名规则" class="headerlink" title="命名规则"></a>命名规则</h3><p>一般使用小写字母命名，使用<code>_</code>进行间隔。不强迫使用英文，可以使用拼音作为变量名（如并查集的<code>fa[]</code>被占用时可使用<code>bing[]</code>）。</p>
+<p>特例或注意要点：</p>
+<ol>
+<li>循环变量除数学式中有使用的以外，其余采用<code>i</code>，<code>j</code>，<code>k</code>，<code>p</code>，<code>q</code>等进行循环。</li>
+<li>全局变量采用<code>MAXN</code>作为数量大小，可使用<code>MAXM</code>作为辅助（二维、图、多种输入等），<code>MOD</code>作为取模的量，<code>INF</code>与<code>INFll</code>作为初始最大值。</li>
+<li>模板中可以使用其他模板命名，以及部分算法原名进行大写命名。（如：<code>KMP</code>，<code>FFT</code>，<code>NTT</code>，<code>CDQ</code>）</li>
+<li>临时变量使用<code>tmps</code>，<code>tmp</code>，或者使用下划线开头<code>_val</code>，<code>_ans</code>。</li>
+<li>最大最小值规避使用<code>min</code>，<code>max</code>，使用<code>maximum</code>，<code>minimum</code>或<code>maxi</code>，<code>mini</code>代替。</li>
+</ol>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/OI/">OI</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">代码规范</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "TheBlueSnake's OI代码规范&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 25,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
