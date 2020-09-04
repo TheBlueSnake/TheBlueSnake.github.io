@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" type="image/png" href="/img/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>dfs序学习笔记 | TheBlueSnake Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 35vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>TheBlueSnake's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://i.loli.net/2019/12/11/jF3snSoXBeU4AiN.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-01 19:04">
+      2020-09-01 19:04
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h3 id="什么是欧拉序"><a href="#什么是欧拉序" class="headerlink" title="什么是欧拉序"></a>什么是欧拉序</h3><p>欧拉序是dfs序中的一种，假设有一棵树，对其进行dfs的时候，每次进入到一个节点就记录该节点的信息，最终得到的序列就是这棵树的欧拉序。</p>
+<p>举例：</p>
+<pre><figcaption><span>text</span></figcaption><code class="hljs plain">10
+1 2
+1 3
+3 4
+3 5
+2 6
+5 7
+3 8
+5 9
+2 10</code></pre>
+<p><img src="https://i.loli.net/2020/09/01/Mro7ZHpL6xaBc5T.png" srcset="/img/loading.gif" alt="欧拉序-图1.PNG"></p>
+<p>它的遍历为<code>1-&gt;2-&gt;10-&gt;6-&gt;3-&gt;8-&gt;5-&gt;7-&gt;9-&gt;4</code>，最终得到的欧拉序列是<code>1, 2, 10, 2, 6, 2, 1, 3, 8, 3, 5, 7, 5, 9, 5, 3, 4, 3, 1</code>。我们可以发现，对于欧拉序来说，其中每个节点第一次出现和最后一次出现的位置截成的子序列正好是其子树内的欧拉序，如3节点的第一次出现在8位置，最后一次出现在19位置，中间截成的子序列正好是3的子树的欧拉序。</p>
+<h3 id="dfs序有什么作用"><a href="#dfs序有什么作用" class="headerlink" title="dfs序有什么作用"></a>dfs序有什么作用</h3><p>dfs序的本质就是将一个本来在树上维护的数据转变为$O(n)$级的一维数据进行维护。此时可以<strong>在线</strong>进行维护的量为以某一节点为根的子树，同时dfs序的每一个子序列均代表原树上的一条路径（不一定是简单路径）且任意路径均可以表示为欧拉序上的一条子序列。所以可以进行的常用操作有：</p>
+<h4 id="利用欧拉序在线求LCA"><a href="#利用欧拉序在线求LCA" class="headerlink" title="利用欧拉序在线求LCA"></a>利用欧拉序在线求LCA</h4><p>欧拉序的最基本应用，需要在<code>dfs</code>的时候同时维护一下每个点的深度，那么任意两点$i$，$j$的LCA就是$i$首次进入欧拉序的位置<code>id[i]</code>和<code>idin[j]</code>，其截出的子序列中深度最小的节点就是两点的LCA，可以使用ST表在线维护，最终做到$O(n\log n)$预处理，$O(1)$求两点LCA。</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">/*</span>
+<span class="hljs-comment">利用欧拉序求LCA</span>
+<span class="hljs-comment">题目链接https://www.luogu.com.cn/problem/P3379</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">500100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXM = <span class="hljs-number">1000100</span>;
+
+<span class="hljs-keyword">int</span> n, m, s;
+<span class="hljs-keyword">int</span> tot, frt[MAXN], nxt[MAXM], ed[MAXM];
+<span class="hljs-keyword">int</span> dep[MAXN], cnt, seq[MAXN &lt;&lt; <span class="hljs-number">1</span>];
+<span class="hljs-keyword">int</span> id[MAXN], st[<span class="hljs-number">24</span>][MAXN &lt;&lt; <span class="hljs-number">1</span>], lg[MAXN &lt;&lt; <span class="hljs-number">1</span>];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> v)</span></span>&#123;
+    ed[++tot] = v;
+    nxt[tot] = frt[u]; frt[u] = tot;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> fa)</span></span>&#123;
+    <span class="hljs-keyword">int</span> v;
+    seq[++cnt] = u;
+    id[u] = cnt;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = frt[u]; i; i = nxt[i])&#123;
+        v = ed[i];
+        <span class="hljs-keyword">if</span>(v != fa)&#123;
+            dep[v] = dep[u] + <span class="hljs-number">1</span>;
+            dfs(v, u);
+            seq[++cnt] = u;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">int</span> _min(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)&#123;<span class="hljs-keyword">return</span> dep[x] &lt; dep[y] ? x : y;&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d %d&quot;</span>, &amp;n, &amp;m, &amp;s);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> au, av, i = <span class="hljs-number">1</span>; i &lt;= n - <span class="hljs-number">1</span>; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;au, &amp;av);
+        add_edge(au, av);
+        add_edge(av, au);
+    &#125;
+    cnt = <span class="hljs-number">0</span>;
+    dep[s] = <span class="hljs-number">1</span>;
+    dfs(s, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= cnt; j++) st[<span class="hljs-number">0</span>][j] = seq[j];
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">20</span>; i++)&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= cnt; j++)&#123;
+            st[i][j] = _min(st[i - <span class="hljs-number">1</span>][j], st[i - <span class="hljs-number">1</span>][j + (<span class="hljs-number">1</span> &lt;&lt; (i - <span class="hljs-number">1</span>))]);
+        &#125;
+    &#125;
+    lg[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>; <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= cnt; i++) lg[i] = lg[i &gt;&gt; <span class="hljs-number">1</span>] + <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> qx, qy, i = <span class="hljs-number">1</span>; i &lt;= m; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;qx, &amp;qy);
+        <span class="hljs-keyword">int</span> l = id[qx], r = id[qy];
+        <span class="hljs-keyword">if</span>(r &lt; l) swap(l, r);
+        <span class="hljs-keyword">int</span> qlg = lg[r - l + <span class="hljs-number">1</span>];
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, _min(st[qlg][l], st[qlg][r - (<span class="hljs-number">1</span> &lt;&lt; qlg) + <span class="hljs-number">1</span>]));
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<h4 id="dfs序配合可持久化线段树维护树上节点一定深度内的节点"><a href="#dfs序配合可持久化线段树维护树上节点一定深度内的节点" class="headerlink" title="dfs序配合可持久化线段树维护树上节点一定深度内的节点"></a>dfs序配合可持久化线段树维护树上节点一定深度内的节点</h4><p>dfs序中的一个子序列可以表示树上一个子树内的所有节点，所以用可持久化线段树，将节点dfs序作为时间轴，将深度作为序列id，将size作为维护的元素即可算出答案。</p>
+<pre><code class="hljs cpp"><span class="hljs-comment">/*</span>
+<span class="hljs-comment">dfs序+可持久化线段树</span>
+<span class="hljs-comment">[湖南集训]谈笑风生</span>
+<span class="hljs-comment">题目链接 https://www.luogu.com.cn/problem/P3899</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">300100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXM = <span class="hljs-number">600100</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+
+ll n, q;
+ll tot, frt[MAXN], nxt[MAXM], ed[MAXM];
+ll maxdep, dep[MAXN], sz[MAXN];
+ll cnt, rcnt, root[MAXN], tr[MAXN &lt;&lt; <span class="hljs-number">5</span>], ch[MAXN &lt;&lt; <span class="hljs-number">5</span>][<span class="hljs-number">2</span>], idx[MAXN];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(ll u, ll v)</span></span>&#123;
+    ed[++tot] = v;
+    nxt[tot] = frt[u]; frt[u] = tot;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs1</span><span class="hljs-params">(ll u, ll fa)</span></span>&#123;
+    ll v;
+    sz[u] = <span class="hljs-number">1</span>;
+    maxdep = max(maxdep, dep[u]);
+    <span class="hljs-keyword">for</span>(ll i = frt[u]; i; i = nxt[i])&#123;
+        v = ed[i];
+        <span class="hljs-keyword">if</span>(v != fa)&#123;
+            dep[v] = dep[u] + <span class="hljs-number">1</span>;
+            dfs1(v, u);
+            sz[u] += sz[v];
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">build</span><span class="hljs-params">(ll rt, ll l, ll r)</span></span>&#123;
+    tr[rt] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span>(l == r) <span class="hljs-keyword">return</span>;
+    ll mid = (l + r) &gt;&gt; <span class="hljs-number">1</span>;
+    ch[rt][<span class="hljs-number">0</span>] = ++cnt;
+    ch[rt][<span class="hljs-number">1</span>] = ++cnt;
+    build(ch[rt][<span class="hljs-number">0</span>], l, mid);
+    build(ch[rt][<span class="hljs-number">1</span>], mid + <span class="hljs-number">1</span>, r);
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(ll ort, ll rt, ll l, ll r, ll pos, ll val)</span></span>&#123;
+    tr[rt] = tr[ort] + val;
+    <span class="hljs-keyword">if</span>(l == r) <span class="hljs-keyword">return</span>;
+    ll mid = (l + r) &gt;&gt; <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span>(pos &lt;= mid)&#123;
+        ch[rt][<span class="hljs-number">0</span>] = ++cnt;
+        ch[rt][<span class="hljs-number">1</span>] = ch[ort][<span class="hljs-number">1</span>];
+        insert(ch[ort][<span class="hljs-number">0</span>], ch[rt][<span class="hljs-number">0</span>], l, mid, pos, val);
+    &#125;<span class="hljs-keyword">else</span>&#123;
+        ch[rt][<span class="hljs-number">0</span>] = ch[ort][<span class="hljs-number">0</span>];
+        ch[rt][<span class="hljs-number">1</span>] = ++cnt;
+        insert(ch[ort][<span class="hljs-number">1</span>], ch[rt][<span class="hljs-number">1</span>], mid + <span class="hljs-number">1</span>, r, pos, val);
+    &#125;
+&#125;
+
+<span class="hljs-function">ll <span class="hljs-title">query</span><span class="hljs-params">(ll rt, ll al, ll ar, ll l, ll r)</span></span>&#123;
+    <span class="hljs-keyword">if</span>(l &lt;= al &amp;&amp; ar &lt;= r) <span class="hljs-keyword">return</span> tr[rt];
+    ll mid = (al + ar) &gt;&gt; <span class="hljs-number">1</span>, res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span>(l &lt;= mid) res += query(ch[rt][<span class="hljs-number">0</span>], al, mid, l, r);
+    <span class="hljs-keyword">if</span>(mid + <span class="hljs-number">1</span> &lt;= r) res += query(ch[rt][<span class="hljs-number">1</span>], mid + <span class="hljs-number">1</span>, ar, l, r);
+    <span class="hljs-keyword">return</span> res;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs2</span><span class="hljs-params">(ll u, ll fa)</span></span>&#123;
+    ll v;
+    idx[u] = ++rcnt;
+    root[idx[u]] = ++cnt;
+    insert(root[rcnt - <span class="hljs-number">1</span>], root[rcnt], <span class="hljs-number">1</span>, maxdep, dep[u], sz[u] - <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">for</span>(ll i = frt[u]; i; i = nxt[i])&#123;
+        v = ed[i];
+        <span class="hljs-keyword">if</span>(v != fa)&#123;
+            dfs2(v, u);
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld %lld&quot;</span>, &amp;n, &amp;q);
+    <span class="hljs-keyword">for</span>(ll u, v, i = <span class="hljs-number">1</span>; i &lt;= n - <span class="hljs-number">1</span>; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld %lld&quot;</span>, &amp;u, &amp;v);
+        add_edge(u, v);
+        add_edge(v, u);
+    &#125;
+    dep[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    dfs1(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>);
+    <span class="hljs-built_in">memset</span>(root, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span>(root));
+    <span class="hljs-built_in">memset</span>(tr, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span>(tr));
+    <span class="hljs-built_in">memset</span>(ch, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span>(ch));
+    root[rcnt = <span class="hljs-number">0</span>] = cnt = <span class="hljs-number">1</span>;
+    build(root[<span class="hljs-number">0</span>], <span class="hljs-number">1</span>, maxdep);
+    dfs2(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">for</span>(ll p, k, i = <span class="hljs-number">1</span>; i &lt;= q; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld %lld&quot;</span>, &amp;p, &amp;k);
+        ll ans = (sz[p] - <span class="hljs-number">1</span>) * min(k, dep[p] - <span class="hljs-number">1</span>);
+        ll lpos = idx[p], rpos = idx[p] + sz[p] - <span class="hljs-number">1</span>;
+        ans += query(root[rpos], <span class="hljs-number">1</span>, maxdep, dep[p] + <span class="hljs-number">1</span>, min(maxdep, dep[p] + k))
+               - query(root[lpos - <span class="hljs-number">1</span>], <span class="hljs-number">1</span>, maxdep, dep[p] + <span class="hljs-number">1</span>, min(maxdep, dep[p] + k));
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lld\n&quot;</span>, ans);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/OI/">OI</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9B%BE%E8%AE%BA/">图论</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "dfs序学习笔记&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 25,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
