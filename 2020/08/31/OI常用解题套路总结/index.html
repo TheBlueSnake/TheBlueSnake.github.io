@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      859 字
+      1k 字
     </span>
   
 
@@ -203,6 +203,15 @@
 <li>给定一棵树，对于整棵树的形态进行要求判断<ul>
 <li>进行中序遍历，使用遍历串进行处理，如将对称二叉树变为区间最长回文子串。<ul>
 <li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P5018">[NOIp2018普及]对称二叉树</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="动态规划类"><a href="#动态规划类" class="headerlink" title="动态规划类"></a>动态规划类</h2><ol>
+<li>有$k$次操作，每次操作给出一个左闭右开的区间（或封闭区间可以转换为“左闭右加一开”）将区间内的数进行某种操作（比如全部$+1$），最终计算$ans$只与单独每个位置相关（如$ans=\sum\limits_{i=1}^m A_i^{k}$）。<ul>
+<li>可以将该问题转变为一个括号序列，使用<code>f[i][j][k]</code>表示$i$位置，$j$左括号，$k$右括号；或者对于某些问题可以扔掉一维，变为<code>f[i][j]</code>，表示$i$位置，在括号内$j$层进行转移计算。<ul>
+<li><img src="https://i.loli.net/2020/09/11/slnAtchKj2BkYg5.png" srcset="/img/loading.gif" alt="题目原文.PNG"></li>
 </ul>
 </li>
 </ul>
