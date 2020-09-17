@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      1.7k 字
     </span>
   
 
@@ -181,7 +181,7 @@
 <h3 id="如何构造AC自动机"><a href="#如何构造AC自动机" class="headerlink" title="如何构造AC自动机"></a>如何构造AC自动机</h3><p>使用类似Trie树的的方式进行构造。每一个状态表示为字符串集合中的一个可行前缀。转移函数为两种可能，一种是正常连接每个节点与其子节点，即表示某一模式串的更长的前缀，另一种是匹配失败的时候进行的fail转移。</p>
 <p>由于AC自动机过水，AC自动机的构造此处仅进行简单的文字描述。在搭建Trie树的时候多记录一个<code>fail[i]</code>，表示第<code>i</code>个节点匹配失败的时候，其最长的成功匹配节点在哪里（类似KMP的失配数组），根节点的<code>fail[]</code>就是自己本身，根节点的子节点的<code>fail[]</code>还是根节点，其他的点<code>fail[]</code>指针指向其父节点的<code>fail[]</code>下的该新添加的下一个字符，如果不存在那个节点，就将该<code>fail[]</code>指向根节点。</p>
 <h3 id="如何查询AC自动机"><a href="#如何查询AC自动机" class="headerlink" title="如何查询AC自动机"></a>如何查询AC自动机</h3><p>由于AC自动机过水，AC自动机的查询此处仅进行简单的文字描述。跟着Trie树一步一步向下走，到了某一个节点的时候，从该节点的<code>fail[]</code>开始一直递归，直到到根节点为止，将中间递归遍历到的节点更新答案或记录，随后继续向下走，如果失配到底了，就直接走<code>fail[]</code>即可。</p>
-<h3 id="【模板】AC自动机"><a href="#【模板】AC自动机" class="headerlink" title="【模板】AC自动机"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3808">【模板】AC自动机</a></h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<h3 id="【模板】AC自动机（简单版）"><a href="#【模板】AC自动机（简单版）" class="headerlink" title="【模板】AC自动机（简单版）"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3808">【模板】AC自动机（简单版）</a></h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">1000100</span>;
 <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXL = <span class="hljs-number">1000100</span>;
@@ -250,7 +250,7 @@
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h3 id="【模板】AC自动机（简单版）"><a href="#【模板】AC自动机（简单版）" class="headerlink" title="【模板】AC自动机（简单版）"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3808">【模板】AC自动机（简单版）</a></h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<h3 id="【模板】AC自动机（加强版）"><a href="#【模板】AC自动机（加强版）" class="headerlink" title="【模板】AC自动机（加强版）"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3796">【模板】AC自动机（加强版）</a></h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">200</span>;
 <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXL = <span class="hljs-number">10100</span>;
@@ -329,6 +329,93 @@
     &#125;    
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
+<p><strong>此做法暴力跳<code>fail[]</code>过了，但是复杂度不对，暂时咕咕咕，以后有时间再写正解。</strong></p>
+<h3 id="【模板】AC自动机（二次加强版）"><a href="#【模板】AC自动机（二次加强版）" class="headerlink" title="【模板】AC自动机（二次加强版）"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P5357">【模板】AC自动机（二次加强版）</a></h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">200100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXL = <span class="hljs-number">200100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXQ = <span class="hljs-number">2000100</span>;
+
+<span class="hljs-keyword">int</span> n, edpos[MAXN &lt;&lt; <span class="hljs-number">1</span>];
+<span class="hljs-keyword">char</span> input[MAXQ];
+<span class="hljs-keyword">int</span> tot, ch[MAXL][<span class="hljs-number">30</span>], fail[MAXL], cnt[MAXL];
+<span class="hljs-keyword">int</span> etot, frt[MAXL], nxt[MAXL], ed[MAXL];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;pos)</span></span>&#123;<span class="hljs-keyword">return</span> pos = (pos == <span class="hljs-number">0</span> ? ++tot : pos);&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> v)</span></span>&#123;
+    ed[++etot] = v;
+    nxt[etot] = frt[u]; frt[u] = etot;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">insert</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *str)</span></span>&#123;
+    <span class="hljs-keyword">int</span> len = <span class="hljs-built_in">strlen</span>(str);
+    <span class="hljs-keyword">int</span> pos = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;
+        pos = update(ch[pos][str[i] - <span class="hljs-string">&#x27;a&#x27;</span>]);
+    &#125;
+    <span class="hljs-keyword">return</span> pos;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">build</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; que;
+    <span class="hljs-keyword">int</span> pos;
+    <span class="hljs-built_in">memset</span>(fail, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(fail));
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">26</span>; i++)&#123;
+        <span class="hljs-keyword">if</span>(ch[<span class="hljs-number">0</span>][i]) que.push(ch[<span class="hljs-number">0</span>][i]);
+    &#125;
+    <span class="hljs-keyword">while</span>(!que.empty())&#123;
+        pos = que.front(); que.pop();
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">26</span>; i++)&#123;
+            <span class="hljs-keyword">if</span>(ch[pos][i])&#123;
+                fail[ch[pos][i]] = ch[fail[pos]][i];
+                que.push(ch[pos][i]);
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                ch[pos][i] = ch[fail[pos]][i];
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *str)</span></span>&#123;
+    <span class="hljs-built_in">memset</span>(cnt, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(cnt));
+    <span class="hljs-keyword">int</span> len = <span class="hljs-built_in">strlen</span>(str);
+    <span class="hljs-keyword">int</span> pos = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;
+        pos = ch[pos][str[i] - <span class="hljs-string">&#x27;a&#x27;</span>];
+        cnt[pos]++;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u)</span></span>&#123;
+    <span class="hljs-keyword">int</span> v;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = frt[u]; i; i = nxt[i])&#123;
+        v = ed[i];
+        dfs(v);
+        cnt[u] += cnt[v];
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    tot = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">memset</span>(ch, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(ch));
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, input + <span class="hljs-number">1</span>);
+        edpos[i] = insert(input + <span class="hljs-number">1</span>);
+    &#125;
+    build();
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, input + <span class="hljs-number">1</span>);
+    query(input + <span class="hljs-number">1</span>);
+    etot = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">memset</span>(frt, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(frt));
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= tot; i++) add_edge(fail[i], i);
+    dfs(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, cnt[edpos[i]]);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<p>多模串匹配按照此程序作为基准，建立fail树进行答案统计才可获得正确复杂度。</p>
+<h3 id="AC自动机总结"><a href="#AC自动机总结" class="headerlink" title="AC自动机总结"></a>AC自动机总结</h3><p>用于多模字符串匹配的快速算法，感觉会了AC自动机就不用KMP了？不过一般都是先学KMP的…复杂度建立Trie树为$O(\sum S_i)$，建立<code>fail[]</code>指针为$O(\sum S_i)$，模式串匹配为$O(S)$，建立fail树反向处理为$O(\sum S_i)$。</p>
 
             </article>
             <hr>
