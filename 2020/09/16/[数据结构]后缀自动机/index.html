@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>[数据结构] 各种自动机索引篇 | TheBlueSnake Blog</title>
+  <title>[数据结构] 后缀自动机 | TheBlueSnake Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -123,8 +123,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-09-18 15:29">
-      2020-09-18 15:29
+    <time datetime="2020-09-16 16:39">
+      2020-09-16 16:39
     </time>
   </div>
 
@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      220 字
+      1.4k 字
     </span>
   
 
@@ -166,15 +166,67 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="自动机"><a href="#自动机" class="headerlink" title="自动机"></a>自动机</h2><h3 id="什么是自动机？"><a href="#什么是自动机？" class="headerlink" title="什么是自动机？"></a>什么是自动机？</h3><p>自动机一般是确定有限状态自动机DFA（<code>Definite Finite Automata</code>）的数学模型。FSM是根据输入，可以依据转移函数进行状态间的转移的一种机器。信息中常见的自动机有：</p>
+              <p>后缀自动机是个人认为OI中最难的自动机了，接下来的内容极大可能包括但不限于：感性理解、咕咕咕、持续更新、我也不清楚等内容。以下为该学习笔记学习时参考的其他各位大佬的博客友链：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="http://bluesnake.top/2020/09/16/[数据结构]AC自动机/">AC自动机</a></li>
-<li><a href="[http://bluesnake.top/2020/09/16/%5B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5DAC%E8%87%AA%E5%8A%A8%E6%9C%BA/](http://bluesnake.top/2020/09/16/[数据结构]AC自动机/">后缀自动机（广义后缀自动机）</a>)</li>
-<li>子序列自动机</li>
-<li>回文自动机</li>
-<li>以及其他不常见的自动机模型</li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zjp-shadow/p/9218214.html#autoid-0-0-0">后缀自动机（SAM）学习笔记</a> —— zjp_shadow</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/doyouseeman/article/details/52245413">后缀自动机学习小记</a> —— Facico</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lvmaooi/article/details/82596420">后缀自动机概述</a> —— lvmaooi</li>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.org/blog/Kesdiael3/hou-zhui-zi-dong-ji-yang-xie">史上最通俗的后缀自动机详解</a> —— KesdiaelKen</li>
 </ul>
-<h3 id="自动机有什么用？"><a href="#自动机有什么用？" class="headerlink" title="自动机有什么用？"></a>自动机有什么用？</h3><p>自动机主要运用在字符串的处理上，通常将字符串的某个子串作为自动机的一种状态，其中自动机可以根据需要利用转移函数通过一种状态转移为另一种状态。此时的自动机一般使用图论的方式进行保存，将字符串上的问题转换为图论相关问题。</p>
+<p>感谢各位大佬的无私整理，下面开始正文。</p>
+<h3 id="什么是后缀自动机"><a href="#什么是后缀自动机" class="headerlink" title="什么是后缀自动机"></a>什么是后缀自动机</h3><blockquote>
+<p>  首先，后缀自动机是一种有限状态自动机，他可以识别且只识别一个字符串的后缀。但是这并不是后缀自动机强大的地方，我可以说如果把AC自动机反向插入我同样可以做到这一点。</p>
+<p>  后缀自动机真正的用处在于它可以识别每一个子串。—— lvmaooi</p>
+</blockquote>
+<p>同时，建立一个字符串$S$的后缀自动机仅需要$O(\left|S\right|)$的复杂度。</p>
+<h3 id="怎么建立后缀自动机——预备知识"><a href="#怎么建立后缀自动机——预备知识" class="headerlink" title="怎么建立后缀自动机——预备知识"></a>怎么建立后缀自动机——预备知识</h3><p>对于给定的一个字符串$S$，我们如何建立一个自动机来保证我们可以遍历到每一个可能的后缀呢？首先，我们会想到建立一个Trie树，比如对于一个字符串，$\underline{aabbabd}$它的一个可行的自动机（Trie）是这样子的。</p>
+<p><img src="https://i.loli.net/2020/09/17/RACzvQJ5ZaKWtOX.png" srcset="/img/loading.gif" alt="后缀自动机0.PNG"></p>
+<blockquote>
+<ol>
+<li>有一个源点，若干终止节点。每一条边，表示在目前字符串后加上的字母，从源点到任意一个节点的任意路径可以形成一个字符串。</li>
+<li>从源点到任意节点的任意路径形成的字符串均为原串子串。从源点到任意节点的任意路径<strong>均不能</strong>形成的字符串均不为原串子串。（简单来说，这个图可以表示，且仅可以表示出原串的所有子串）</li>
+<li>从源点到任意终止节点的任意路径形成的字符串均为原串后缀。</li>
+<li><p>从源点楚大的任意两条不同路径形成的字符串不相同。</p>
+<p>如果满足以上四个性质，那我们便可以用此DAG（注：DFA）处理许多事情。比如，判断某一个串是否为原串的子串（做法：从源点跑这个串，跑到<code>NULL</code>说明不是子串）、不同字串的个数（做法：DAG（注：DFA）上dp）等。后缀自动机可以处理的问题则多得多，因为它有更特殊的性质。—— KesdiaelKen</p>
+</li>
+</ol>
+</blockquote>
+<p><br/n></p>
+<blockquote>
+<p>  绿色节点为起始状态，橙色节点是终结状态。我们可以发现直接建图的时间复杂度和空间复杂度都是$O(n^2)$级别的，并不优秀。—— Facico</p>
+</blockquote>
+<p>原因是状态数太多了，但如果你动手自己做一下的话就会发现可以大量地拷贝复制来快速创建出Trie树，所以我们想办法如何对状态数进行压缩。</p>
+<blockquote>
+<p>  对于一个字符串$S$，它对应的后缀自动机是一个<strong>最小的</strong>确定有限状态自动机，接受且只接受$S$的后缀。对于一个DFA来说，我们可以用一个五元组<strong>&lt;字符集、状态集、转移函数、起始状态、终结状态集&gt;</strong>来表示它。其中比较重要的是它的状态集和转移函数。—— zjp_shadow</p>
+</blockquote>
+<p><br/n></p>
+<blockquote>
+<p>  如果两个子串$A$和$B$的$endpos(A)=endpos(B)$的话，那么他们明显一个是另一个的后缀，假设$A$是$B$的后缀，那么他们再继续扩展都只会是一种状态，所以可以把他们合并为同一种状态。</p>
+<p>  其实后缀自动机就像是一个维护$endpos()$集合的关系的一个自动机。—— Facico</p>
+</blockquote>
+<p>首先先定义一些接下来会使用到的概念：</p>
+<ul>
+<li><p>子串的结束位置集合函数<code>endpos()</code></p>
+<blockquote>
+<p>  对于原串$S$的一个子串$s$，$endpos(s)$表示了所有出现的结束位置的集合。</p>
+<p>  以$S=\underline{aabbabd}$为例，$endpos(\underline{ab})=\{3,6\}$，因为$\underline{ab}$一共出现了两次，结束位置分别是$3$和$6$。同理，$endpos(\underline{a})=\{1,2,5\}$，$endpos(\underline{abba})=\{5\}$。——zjp_shadow</p>
+</blockquote>
+<p>$endpos(s)$有可能是空集，比如对于$S=\underline{aabbabd}$时，$endpos(\underline{ad})=\varnothing$。</p>
+</li>
+</ul>
+<p>以及一些会用到的性质和其证明：</p>
+<ul>
+<li><p>对于$S$的任意两个子串$s_1$和$s_2$（不妨设$\left|s_1\right|\leq\left|s_2\right|$）。则$s1$是$s2$的后缀当且仅当$endpos(s_1)\subseteq endpos(s_2)$，$s_1$不是$s_2$的后缀当且仅当$endpos(s_1)\cap endpos(s_2)=\varnothing$。由于两者关系只可能是$s_1$是$s_2$后缀或$s_1$不是$s_2$后缀两者中的一种，所以对于任意$s_1$和$s_2$，均有$endpos(s_1)\subseteq endpos(s_2)$或$endpos(s_1)\cap endpos(s_2)=\varnothing$。</p>
+<blockquote>
+<p>  首先证明$s_1$是$s_2$的后缀时，$endpos(s_1)\subseteq endpos(s_2)$。由于$s_1$是$s_2$后缀，所以每次出现$s_2$的时候，$s_1$一定会伴随着出现，因此得证。</p>
+<p>  然后证明$endpos(s_1)\subseteq endpos(s_2)$时，$s_1$是$s_2$的后缀。显然，$endpos(s_2)\neq\varnothing$，那么意味着每次$s_2$结束时$s_1$也会结束，且$\left|s_1\right|\leq\left|s_2\right|$，那么显然成立。</p>
+<p>  所以两者互为充要条件。那么$s_1$不是$s_2$的后缀当且仅当$endpos(s_1)\cap endpos(s_2)=\varnothing$就是其中的推论了，后者是前者的必要条件。—— zjp_shadow</p>
+</blockquote>
+</li>
+<li><p>SAM中的一个状态包含的</p>
+</li>
+</ul>
+<h3 id="怎么建立后缀自动机——如何构造"><a href="#怎么建立后缀自动机——如何构造" class="headerlink" title="怎么建立后缀自动机——如何构造"></a>怎么建立后缀自动机——如何构造</h3><p>后缀自动机的构造是一个递增构造的过程，即我已经构造出了$S_{1,i}$的后缀自动机，现在我要构造$S_{1,i+1}$的后缀自动机。</p>
 
             </article>
             <hr>
@@ -301,7 +353,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "[数据结构] 各种自动机索引篇&nbsp;",
+        "[数据结构] 后缀自动机&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 25,

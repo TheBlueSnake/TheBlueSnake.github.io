@@ -166,7 +166,7 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="AC自动机"><a href="#AC自动机" class="headerlink" title="AC自动机"></a>AC自动机</h2><h3 id="使用范围（持续更新）"><a href="#使用范围（持续更新）" class="headerlink" title="使用范围（持续更新）"></a>使用范围（持续更新）</h3><ul>
+              <h3 id="使用范围（持续更新）"><a href="#使用范围（持续更新）" class="headerlink" title="使用范围（持续更新）"></a>使用范围（持续更新）</h3><ul>
 <li>多模字符串匹配，即在一个字符串集合中寻找有多少模式串在文本串中匹配。</li>
 </ul>
 <h3 id="如何构造AC自动机"><a href="#如何构造AC自动机" class="headerlink" title="如何构造AC自动机"></a>如何构造AC自动机</h3><p>使用类似Trie树的的方式进行构造。每一个状态表示为字符串集合中的一个可行前缀。转移函数为两种可能，一种是正常连接每个节点与其子节点，即表示某一模式串的更长的前缀，另一种是匹配失败的时候进行的fail转移。</p>

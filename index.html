@@ -145,12 +145,12 @@
         <div>自动机什么是自动机？自动机一般是确定有限状态自动机DFA（Definite Finite Automata）的数学模型。FSM是根据输入，可以依据转移函数进行状态间的转移的一种机器。信息中常见的自动机有：
 
 AC自动机
-后缀自动机（广义后缀自动机）
+后缀自动机（广义后缀自动机）)
 子序列自动机
 回文自动机
 以及其他不常见的自动机模型
 
-自动机有什么用？自动机主要运用在字符串的处理上，通常将字符串的某个子串作为自动机的一种状态，其</div>
+自动机有什么用？自动机主要运用在字符串的处理上，通常将字符串的某个子串作为自动机的一种状态，</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -187,11 +187,55 @@ AC自动机
         
           
         
-        <div>AC自动机使用范围（持续更新）
+        <div>使用范围（持续更新）
 多模字符串匹配，即在一个字符串集合中寻找有多少模式串在文本串中匹配。
 
 如何构造AC自动机使用类似Trie树的的方式进行构造。每一个状态表示为字符串集合中的一个可行前缀。转移函数为两种可能，一种是正常连接每个节点与其子节点，即表示某一模式串的更长的前缀，另一种是匹配失败的时候进行的fail转移。
-由于AC自动机过水，AC自动机的构造此处仅进行简单的文字描述。在搭建T</div>
+由于AC自动机过水，AC自动机的构造此处仅进行简单的文字描述。在搭建Trie树的</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-16
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
+            
+              <a href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            
+              <a href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/09/16/%5B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5D%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/">[数据结构] 后缀自动机</a>
+
+      <a href="/2020/09/16/%5B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5D%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E6%9C%BA/" class="index-excerpt">
+        
+        
+          
+        
+        <div>后缀自动机是个人认为OI中最难的自动机了，接下来的内容极大可能包括但不限于：感性理解、咕咕咕、持续更新、我也不清楚等内容。以下为该学习笔记学习时参考的其他各位大佬的博客友链：
+
+后缀自动机（SAM）学习笔记 —— zjp_shadow
+后缀自动机学习小记 —— Facico
+后缀自动机概述 —— lvmaooi
+史上最通俗的后缀自动机详解 —— KesdiaelKen
+
+感谢各位大佬的无私整理，下</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -515,47 +559,11 @@ $O(n\log n)$预处理，$O(1)$查询RMQ，不支持修改，使用ST表。
     </div>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/08/06/wintercamp2020-tour/">WC2020冬令营游记</a>
-
-      <a href="/2020/08/06/wintercamp2020-tour/" class="index-excerpt">
-        
-        
-          
-        
-        <div>2020的冬令营结束了，参加的第一个全国赛事，一想在OI经历了这么多事情之后，很有可能是除了接下来的APIO之外唯二参加的全国赛事之外唯一参加的全国赛事了，还是写篇游记好了。
-Day 0 (7/31)冬令营开始的前一天，晚上，上着信竞老师的课，提高班的东西听起来是那么简单，总感觉都会了，但是NOI班的东西又是那么困难，每天3道题最开始还能做出一两道，后来就一道都做不出来了。经过了长时间回归文化课A</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-08-06
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
-            
-              <a href="/categories/OI%E7%9B%B8%E5%85%B3/%E6%B8%B8%E8%AE%B0-%E6%84%9F%E6%83%B3/">游记/感想</a>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   
