@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" type="image/png" href="/img/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>[数据结构] AC自动机 | TheBlueSnake Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 75vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>TheBlueSnake's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://i.loli.net/2020/09/04/dkWiupI56tbNMOJ.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-16 16:39">
+      2020-09-16 16:39
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="AC自动机"><a href="#AC自动机" class="headerlink" title="AC自动机"></a>AC自动机</h2><h3 id="使用范围（持续更新）"><a href="#使用范围（持续更新）" class="headerlink" title="使用范围（持续更新）"></a>使用范围（持续更新）</h3><ul>
+<li>多模字符串匹配，即在一个字符串集合中寻找有多少模式串在文本串中匹配。</li>
+</ul>
+<h3 id="如何构造AC自动机"><a href="#如何构造AC自动机" class="headerlink" title="如何构造AC自动机"></a>如何构造AC自动机</h3><p>使用类似Trie树的的方式进行构造。每一个状态表示为字符串集合中的一个可行前缀。转移函数为两种可能，一种是正常连接每个节点与其子节点，即表示某一模式串的更长的前缀，另一种是匹配失败的时候进行的fail转移。</p>
+<p>由于AC自动机过水，AC自动机的构造此处仅进行简单的文字描述。在搭建Trie树的时候多记录一个<code>fail[i]</code>，表示第<code>i</code>个节点匹配失败的时候，其最长的成功匹配节点在哪里（类似KMP的失配数组），根节点的<code>fail[]</code>就是自己本身，根节点的子节点的<code>fail[]</code>还是根节点，其他的点<code>fail[]</code>指针指向其父节点的<code>fail[]</code>下的该新添加的下一个字符，如果不存在那个节点，就将该<code>fail[]</code>指向根节点。</p>
+<h3 id="如何查询AC自动机"><a href="#如何查询AC自动机" class="headerlink" title="如何查询AC自动机"></a>如何查询AC自动机</h3><p>由于AC自动机过水，AC自动机的查询此处仅进行简单的文字描述。跟着Trie树一步一步向下走，到了某一个节点的时候，从该节点的<code>fail[]</code>开始一直递归，直到到根节点为止，将中间递归遍历到的节点更新答案或记录，随后继续向下走，如果失配到底了，就直接走<code>fail[]</code>即可。</p>
+<h3 id="【模板】AC自动机（简单版）"><a href="#【模板】AC自动机（简单版）" class="headerlink" title="【模板】AC自动机（简单版）"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3808">【模板】AC自动机（简单版）</a></h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">1000100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXL = <span class="hljs-number">1000100</span>;
+
+<span class="hljs-keyword">int</span> n;
+<span class="hljs-keyword">char</span> input[MAXL];
+<span class="hljs-keyword">int</span> tot, ch[MAXL][<span class="hljs-number">30</span>], fail[MAXL], cnt[MAXL], vis[MAXL];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;pos)</span></span>&#123;<span class="hljs-keyword">return</span> pos = (pos == <span class="hljs-number">0</span> ? ++tot : pos);&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *str)</span></span>&#123;
+    <span class="hljs-keyword">int</span> len = <span class="hljs-built_in">strlen</span>(str);
+    <span class="hljs-keyword">int</span> pos = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;
+        pos = update(ch[pos][str[i] - <span class="hljs-string">&#x27;a&#x27;</span>]);
+    &#125;
+    cnt[pos]++;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">build</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-keyword">int</span> pos;
+    <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; que;
+    <span class="hljs-built_in">memset</span>(fail, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(fail));
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">26</span>; i++)&#123;
+        <span class="hljs-keyword">if</span>(ch[<span class="hljs-number">0</span>][i])
+            que.push(ch[<span class="hljs-number">0</span>][i]);
+    &#125;
+    <span class="hljs-keyword">while</span>(!que.empty())&#123;
+        pos = que.front(); que.pop();
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">26</span>; i++)&#123;
+            <span class="hljs-keyword">if</span>(ch[pos][i])&#123;
+                fail[ch[pos][i]] = ch[fail[pos]][i];
+                que.push(ch[pos][i]);
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                ch[pos][i] = ch[fail[pos]][i];
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *str)</span></span>&#123;
+    <span class="hljs-built_in">memset</span>(vis, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(vis));
+    <span class="hljs-keyword">int</span> len, pos, res;
+    len = <span class="hljs-built_in">strlen</span>(str);
+    pos = res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;
+        pos = ch[pos][str[i] - <span class="hljs-string">&#x27;a&#x27;</span>];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = pos; j &amp;&amp; !vis[j]; j = fail[j])&#123;
+            res += cnt[j];
+            vis[j] = <span class="hljs-number">1</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> res;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    tot = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, input + <span class="hljs-number">1</span>);
+        insert(input + <span class="hljs-number">1</span>);
+    &#125;
+    build();
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, input + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">int</span> ans = query(input + <span class="hljs-number">1</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<h3 id="【模板】AC自动机（加强版）"><a href="#【模板】AC自动机（加强版）" class="headerlink" title="【模板】AC自动机（加强版）"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3796">【模板】AC自动机（加强版）</a></h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">200</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXL = <span class="hljs-number">10100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXS = <span class="hljs-number">1000100</span>;
+
+<span class="hljs-keyword">int</span> n;
+<span class="hljs-built_in">string</span> str[MAXN], ques;
+<span class="hljs-keyword">int</span> edpos[MAXN];
+<span class="hljs-keyword">int</span> tot, ch[MAXL][<span class="hljs-number">30</span>], cnt[MAXL], fail[MAXL];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;pos)</span></span>&#123;<span class="hljs-keyword">return</span> pos = (pos == <span class="hljs-number">0</span> ? ++tot : pos);&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">insert</span><span class="hljs-params">(<span class="hljs-built_in">string</span> s)</span></span>&#123;
+    <span class="hljs-keyword">int</span> len = s.size();
+    <span class="hljs-keyword">int</span> pos = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;
+        pos = update(ch[pos][s[i] - <span class="hljs-string">&#x27;a&#x27;</span>]);
+    &#125;
+    <span class="hljs-keyword">return</span> pos;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">build</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-keyword">int</span> pos;
+    <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; que;
+    <span class="hljs-built_in">memset</span>(fail, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(fail));
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">26</span>; i++)&#123;
+        <span class="hljs-keyword">if</span>(ch[<span class="hljs-number">0</span>][i])
+            que.push(ch[<span class="hljs-number">0</span>][i]);
+    &#125;
+    <span class="hljs-keyword">while</span>(!que.empty())&#123;
+        pos = que.front(); que.pop();
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">26</span>; i++)&#123;
+            <span class="hljs-keyword">if</span>(ch[pos][i])&#123;
+                fail[ch[pos][i]] = ch[fail[pos]][i];
+                que.push(ch[pos][i]);
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                ch[pos][i] = ch[fail[pos]][i];
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-built_in">string</span> s)</span></span>&#123;
+    <span class="hljs-built_in">memset</span>(cnt, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(cnt));
+    <span class="hljs-keyword">int</span> len = s.size();
+    <span class="hljs-keyword">int</span> pos = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;
+        pos = ch[pos][s[i] - <span class="hljs-string">&#x27;a&#x27;</span>];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = pos; j; j = fail[j])&#123;
+            cnt[j]++;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-keyword">while</span>(<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n))&#123;
+        <span class="hljs-keyword">if</span>(n == <span class="hljs-number">0</span>) <span class="hljs-keyword">break</span>;
+        tot = <span class="hljs-number">0</span>;
+        <span class="hljs-built_in">memset</span>(ch, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(ch));
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+            <span class="hljs-built_in">cin</span> &gt;&gt; str[i];
+            edpos[i] = insert(str[i]);
+        &#125;
+        build();
+        <span class="hljs-built_in">cin</span> &gt;&gt; ques;
+        query(ques);
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+            ans = max(ans, cnt[edpos[i]]);
+        &#125;
+        <span class="hljs-built_in">cout</span> &lt;&lt; ans &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+            <span class="hljs-keyword">if</span>(cnt[edpos[i]] == ans)
+                <span class="hljs-built_in">cout</span> &lt;&lt; str[i] &lt;&lt; <span class="hljs-built_in">endl</span>;
+        &#125;    
+    &#125;    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<p><strong>此做法暴力跳fail过了，但是复杂度不对，暂时咕咕咕，以后有时间再写正解。</strong></p>
+<h3 id="【模板】AC自动机（二次加强版）"><a href="#【模板】AC自动机（二次加强版）" class="headerlink" title="【模板】AC自动机（二次加强版）"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P5357">【模板】AC自动机（二次加强版）</a></h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">200100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXL = <span class="hljs-number">200100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXQ = <span class="hljs-number">2000100</span>;
+
+<span class="hljs-keyword">int</span> n, edpos[MAXN &lt;&lt; <span class="hljs-number">1</span>];
+<span class="hljs-keyword">char</span> input[MAXQ];
+<span class="hljs-keyword">int</span> tot, ch[MAXL][<span class="hljs-number">30</span>], fail[MAXL], cnt[MAXL];
+<span class="hljs-keyword">int</span> etot, frt[MAXL], nxt[MAXL], ed[MAXL];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;pos)</span></span>&#123;<span class="hljs-keyword">return</span> pos = (pos == <span class="hljs-number">0</span> ? ++tot : pos);&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> v)</span></span>&#123;
+    ed[++etot] = v;
+    nxt[etot] = frt[u]; frt[u] = etot;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">insert</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *str)</span></span>&#123;
+    <span class="hljs-keyword">int</span> len = <span class="hljs-built_in">strlen</span>(str);
+    <span class="hljs-keyword">int</span> pos = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;
+        pos = update(ch[pos][str[i] - <span class="hljs-string">&#x27;a&#x27;</span>]);
+    &#125;
+    <span class="hljs-keyword">return</span> pos;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">build</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; que;
+    <span class="hljs-keyword">int</span> pos;
+    <span class="hljs-built_in">memset</span>(fail, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(fail));
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">26</span>; i++)&#123;
+        <span class="hljs-keyword">if</span>(ch[<span class="hljs-number">0</span>][i]) que.push(ch[<span class="hljs-number">0</span>][i]);
+    &#125;
+    <span class="hljs-keyword">while</span>(!que.empty())&#123;
+        pos = que.front(); que.pop();
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">26</span>; i++)&#123;
+            <span class="hljs-keyword">if</span>(ch[pos][i])&#123;
+                fail[ch[pos][i]] = ch[fail[pos]][i];
+                que.push(ch[pos][i]);
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                ch[pos][i] = ch[fail[pos]][i];
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *str)</span></span>&#123;
+    <span class="hljs-built_in">memset</span>(cnt, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(cnt));
+    <span class="hljs-keyword">int</span> len = <span class="hljs-built_in">strlen</span>(str);
+    <span class="hljs-keyword">int</span> pos = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; len; i++)&#123;
+        pos = ch[pos][str[i] - <span class="hljs-string">&#x27;a&#x27;</span>];
+        cnt[pos]++;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u)</span></span>&#123;
+    <span class="hljs-keyword">int</span> v;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = frt[u]; i; i = nxt[i])&#123;
+        v = ed[i];
+        dfs(v);
+        cnt[u] += cnt[v];
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    tot = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">memset</span>(ch, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(ch));
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, input + <span class="hljs-number">1</span>);
+        edpos[i] = insert(input + <span class="hljs-number">1</span>);
+    &#125;
+    build();
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, input + <span class="hljs-number">1</span>);
+    query(input + <span class="hljs-number">1</span>);
+    etot = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">memset</span>(frt, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(frt));
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= tot; i++) add_edge(fail[i], i);
+    dfs(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, cnt[edpos[i]]);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<p>多模串匹配按照此程序作为基准，建立fail树进行答案统计才可获得正确复杂度。</p>
+<h3 id="AC自动机总结"><a href="#AC自动机总结" class="headerlink" title="AC自动机总结"></a>AC自动机总结</h3><p>用于多模字符串匹配的快速算法，感觉会了AC自动机就不用KMP了？不过一般都是先学KMP的…复杂度建立Trie树为$O(\sum S_i)$，建立<code>fail[]</code>指针为$O(\sum S_i)$，模式串匹配为$O(S)$，建立fail树反向处理为$O(\sum S_i)$。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "[数据结构] AC自动机&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 25,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
