@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.3k 字
+      448 字
     </span>
   
 
@@ -206,110 +206,94 @@ g_{i,j}=\max_{i\leq k< j}\left\{f_{i,k}+f_{k+1,j}\right\}</script><h4 id="AC代�
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="P3146-USACO16OPEN-248-G"><a href="#P3146-USACO16OPEN-248-G" class="headerlink" title="P3146 [USACO16OPEN]248 G"></a>P3146 [USACO16OPEN]248 G</h3><p>下一题的简化版，同样是一眼题，区间dp。</p>
-<h4 id="状态设计-1"><a href="#状态设计-1" class="headerlink" title="状态设计"></a>状态设计</h4><pre><code class="hljs f[i][j]```表示从```i```至```j```可以在末尾合并出的最大数。">
-#### 转移方程
+<h4 id="状态设计-1"><a href="#状态设计-1" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示从<code>i</code>至<code>j</code>可以在末尾合并出的最大数。</p>
+<h4 id="转移方程-1"><a href="#转移方程-1" class="headerlink" title="转移方程"></a>转移方程</h4><script type="math/tex; mode=display">
+f_{i,j}=\max_{i\leq k<j}\left\{\begin{aligned}
+&f_{i,k}+1&f_{i,k}=f_{k+1,j}\\
+&f_{k+1,j}&f_{i,k}\neq f_{k+1,j}\\
+\end{aligned}\right\}</script><h4 id="AC代码-1"><a href="#AC代码-1" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFL 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">300</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
 
-$$
-f_&#123;i,j&#125;&#x3D;\max_&#123;i\leq k&lt;j&#125;\left\&#123;\begin&#123;aligned&#125;
-&amp;f_&#123;i,k&#125;+1&amp;f_&#123;i,k&#125;&#x3D;f_&#123;k+1,j&#125;\\
-&amp;f_&#123;k+1,j&#125;&amp;f_&#123;i,k&#125;\neq f_&#123;k+1,j&#125;\\
-\end&#123;aligned&#125;\right\&#125;
-$$
+<span class="hljs-keyword">int</span> n, arr[MAXN];
+<span class="hljs-keyword">int</span> f[MAXN][MAXN], ans;
 
-#### AC代码
-
-&#96;&#96;&#96;cpp
-#include&lt;bits&#x2F;stdc++.h&gt;
-using namespace std;
-#define INF 0x3f3f3f3f
-#define INFL 0x3f3f3f3f3f3f3f3fll
-const int MAXN &#x3D; 300;
-typedef long long ll;
-
-int n, arr[MAXN];
-int f[MAXN][MAXN], ans;
-
-int main()&#123;int _task &#x3D; 1; &#x2F;&#x2F;scanf(&quot;%d&quot;, &amp;_task);
-    while(_task--)&#123;
-        int ans &#x3D; 0;
-        scanf(&quot;%d&quot;, &amp;n);
-        for(int i &#x3D; 1; i &lt;&#x3D; n; i++)&#123;
-            scanf(&quot;%d&quot;, &amp;arr[i]);
-            ans &#x3D; max(ans, arr[i]);
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">int</span> _task = <span class="hljs-number">1</span>; <span class="hljs-comment">//scanf(&quot;%d&quot;, &amp;_task);</span>
+    <span class="hljs-keyword">while</span>(_task--)&#123;
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+            <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;arr[i]);
+            ans = max(ans, arr[i]);
         &#125;
-        memset(f, 0, sizeof(f));
-        for(int i &#x3D; 1; i &lt;&#x3D; n; i++) f[i][i] &#x3D; arr[i];
-        for(int i &#x3D; 2; i &lt;&#x3D; n; i++)&#123;
-            for(int j &#x3D; 1; j + i - 1 &lt;&#x3D; n; j++)&#123;
-                int endpos &#x3D; j + i - 1;
-                for(int k &#x3D; j; k &lt;&#x3D; endpos - 1; k++)&#123;
-                    if(f[j][k] &#x3D;&#x3D; f[k + 1][endpos])&#123;
-                        f[j][endpos] &#x3D; max(f[j][endpos], f[j][k] &#x3D;&#x3D; f[k + 1][endpos] ? f[j][k] + 1 : f[k + 1][endpos]);
+        <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(f));
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) f[i][i] = arr[i];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j + i - <span class="hljs-number">1</span> &lt;= n; j++)&#123;
+                <span class="hljs-keyword">int</span> endpos = j + i - <span class="hljs-number">1</span>;
+                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k = j; k &lt;= endpos - <span class="hljs-number">1</span>; k++)&#123;
+                    <span class="hljs-keyword">if</span>(f[j][k] == f[k + <span class="hljs-number">1</span>][endpos])&#123;
+                        f[j][endpos] = max(f[j][endpos], f[j][k] == f[k + <span class="hljs-number">1</span>][endpos] ? f[j][k] + <span class="hljs-number">1</span> : f[k + <span class="hljs-number">1</span>][endpos]);
                     &#125;
                 &#125;
-                ans &#x3D; max(ans, f[j][endpos]);
+                ans = max(ans, f[j][endpos]);
             &#125;
         &#125;
-        printf(&quot;%d\n&quot;, ans);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
     &#125;
-    return 0;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h3 id="P3147-USACO16OPEN-262144-P"><a href="#P3147-USACO16OPEN-262144-P" class="headerlink" title="P3147 [USACO16OPEN]262144 P"></a>P3147 [USACO16OPEN]262144 P</h3><p>详见<a href="[http://bluesnake.top/2020/09/28/%5BUSACO16OPEN%5D262144P/](http://bluesnake.top/2020/09/28/[USACO16OPEN]262144P/"><strong>该题的杂题报告</strong></a>)</p>
+<h3 id="P3147-USACO16OPEN-262144-P"><a href="#P3147-USACO16OPEN-262144-P" class="headerlink" title="P3147 [USACO16OPEN]262144 P"></a>P3147 [USACO16OPEN]262144 P</h3><p>详见<a target="_blank" rel="noopener" href="http://bluesnake.top/2020/09/28/%5BUSACO16OPEN%5D262144P/"><strong>该题的杂题报告</strong></a></p>
 <h3 id="P3205-HNOI2010-合唱队"><a href="#P3205-HNOI2010-合唱队" class="headerlink" title="P3205 [HNOI2010]合唱队"></a>P3205 [HNOI2010]合唱队</h3><p>可能稍微会想一下，反向思考插入过程，可以认为是一种拆开来的过程，每次只是首或尾才会更新。</p>
-<h4 id="状态设计-2"><a href="#状态设计-2" class="headerlink" title="状态设计"></a>状态设计</h4><pre><code class="hljs f[i][j][0/1]```表示从理想队形```i```位置至```j```位置，从首（```f[i][j][0]```）还是从尾（```f[i][j][1]```）进入该队伍。">
-#### 转移方程
+<h4 id="状态设计-2"><a href="#状态设计-2" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j][0/1]</code>表示从理想队形<code>i</code>位置至<code>j</code>位置，从首（<code>f[i][j][0]</code>）还是从尾（<code>f[i][j][1]</code>）进入该队伍。</p>
+<h4 id="转移方程-2"><a href="#转移方程-2" class="headerlink" title="转移方程"></a>转移方程</h4><p>理想队形第<code>i</code>位表示为<code>a[i]</code></p>
+<script type="math/tex; mode=display">
+f_{i,j,0}=f_{i+1,j,0}*\left[a_i<a_{i+1}\right]+f_{i+1,j,1}*\left[a_i<a_j\right]\\
+f_{i,j,1}=f_{i,j-1,0}*\left[a_i<a_j\right]+f_{i,j-1,1}*\left[a_{j-1}<a_j\right]\\</script><h4 id="AC代码-2"><a href="#AC代码-2" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFL 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">1100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MOD = <span class="hljs-number">19650827</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
 
-理想队形第&#96;&#96;&#96;i&#96;&#96;&#96;位表示为&#96;&#96;&#96;a[i]&#96;&#96;&#96;
-$$
-f_&#123;i,j,0&#125;&#x3D;f_&#123;i+1,j,0&#125;*\left[a_i&lt;a_&#123;i+1&#125;\right]+f_&#123;i+1,j,1&#125;*\left[a_i&lt;a_j\right]\\
-f_&#123;i,j,1&#125;&#x3D;f_&#123;i,j-1,0&#125;*\left[a_i&lt;a_j\right]+f_&#123;i,j-1,1&#125;*\left[a_&#123;j-1&#125;&lt;a_j\right]\\
-$$
+<span class="hljs-keyword">int</span> n, arr[MAXN];
+<span class="hljs-keyword">int</span> f[MAXN][MAXN][<span class="hljs-number">2</span>];
 
-#### AC代码
-
-&#96;&#96;&#96;cpp
-#include&lt;bits&#x2F;stdc++.h&gt;
-using namespace std;
-#define INF 0x3f3f3f3f
-#define INFL 0x3f3f3f3f3f3f3f3fll
-const int MAXN &#x3D; 1100;
-const int MOD &#x3D; 19650827;
-typedef long long ll;
-
-int n, arr[MAXN];
-int f[MAXN][MAXN][2];
-
-int main()&#123;int _task &#x3D; 1; &#x2F;&#x2F;scanf(&quot;%d&quot;, &amp;_task);
-    while(_task--)&#123;
-        scanf(&quot;%d&quot;, &amp;n);
-        for(int i &#x3D; 1; i &lt;&#x3D; n; i++)&#123;
-            scanf(&quot;%d&quot;, &amp;arr[i]);
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">int</span> _task = <span class="hljs-number">1</span>; <span class="hljs-comment">//scanf(&quot;%d&quot;, &amp;_task);</span>
+    <span class="hljs-keyword">while</span>(_task--)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+            <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;arr[i]);
         &#125;
-        memset(f, 0, sizeof(f));
-        for(int i &#x3D; 1; i &lt;&#x3D; n; i++)&#123;
-            f[i][i][0] &#x3D; 1;
-            f[i][i][1] &#x3D; 0;
-&#x2F;&#x2F;            printf(&quot;:f[%d][%d][0] &#x3D; %d\n&quot;, i, i, f[i][i][0]);
-&#x2F;&#x2F;            printf(&quot;:f[%d][%d][1] &#x3D; %d\n&quot;, i, i, f[i][i][1]);
+        <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(f));
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+            f[i][i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+            f[i][i][<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+<span class="hljs-comment">//            printf(&quot;:f[%d][%d][0] = %d\n&quot;, i, i, f[i][i][0]);</span>
+<span class="hljs-comment">//            printf(&quot;:f[%d][%d][1] = %d\n&quot;, i, i, f[i][i][1]);</span>
         &#125;
-        for(int i &#x3D; 2; i &lt;&#x3D; n; i++)&#123;
-            for(int j &#x3D; 1; i + j - 1 &lt;&#x3D; n; j++)&#123;
-                int e &#x3D; i + j - 1;
-                f[j][e][0] &#x3D; (1ll * f[j + 1][e][0] * (arr[j] &lt; arr[j + 1]) % MOD
-                           + 1ll * f[j + 1][e][1] * (arr[j] &lt; arr[e]) % MOD) % MOD;
-                f[j][e][1] &#x3D; (1ll * f[j][e - 1][0] * (arr[j] &lt; arr[e]) % MOD
-                           + 1ll * f[j][e - 1][1] * (arr[e - 1] &lt; arr[e]) % MOD) % MOD;
-&#x2F;&#x2F;                printf(&quot;:f[%d][%d][0] &#x3D; %d\n&quot;, j, e, f[j][e][0]);
-&#x2F;&#x2F;                printf(&quot;:f[%d][%d][1] &#x3D; %d\n&quot;, j, e, f[j][e][1]);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; i + j - <span class="hljs-number">1</span> &lt;= n; j++)&#123;
+                <span class="hljs-keyword">int</span> e = i + j - <span class="hljs-number">1</span>;
+                f[j][e][<span class="hljs-number">0</span>] = (<span class="hljs-number">1l</span>l * f[j + <span class="hljs-number">1</span>][e][<span class="hljs-number">0</span>] * (arr[j] &lt; arr[j + <span class="hljs-number">1</span>]) % MOD
+                           + <span class="hljs-number">1l</span>l * f[j + <span class="hljs-number">1</span>][e][<span class="hljs-number">1</span>] * (arr[j] &lt; arr[e]) % MOD) % MOD;
+                f[j][e][<span class="hljs-number">1</span>] = (<span class="hljs-number">1l</span>l * f[j][e - <span class="hljs-number">1</span>][<span class="hljs-number">0</span>] * (arr[j] &lt; arr[e]) % MOD
+                           + <span class="hljs-number">1l</span>l * f[j][e - <span class="hljs-number">1</span>][<span class="hljs-number">1</span>] * (arr[e - <span class="hljs-number">1</span>] &lt; arr[e]) % MOD) % MOD;
+<span class="hljs-comment">//                printf(&quot;:f[%d][%d][0] = %d\n&quot;, j, e, f[j][e][0]);</span>
+<span class="hljs-comment">//                printf(&quot;:f[%d][%d][1] = %d\n&quot;, j, e, f[j][e][1]);</span>
             &#125;
         &#125;
-        printf(&quot;%d\n&quot;, (f[1][n][0] + f[1][n][1]) % MOD);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, (f[<span class="hljs-number">1</span>][n][<span class="hljs-number">0</span>] + f[<span class="hljs-number">1</span>][n][<span class="hljs-number">1</span>]) % MOD);
     &#125;
-    return 0;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="P4342-IOI1998-Polygon"><a href="#P4342-IOI1998-Polygon" class="headerlink" title="P4342 [IOI1998]Polygon"></a>P4342 [IOI1998]Polygon</h3><p>很好地一道区间dp，有负数的参与，不过无脑转移就可以了。</p>
 <h4 id="状态设计-3"><a href="#状态设计-3" class="headerlink" title="状态设计"></a>状态设计</h4><p>先将原串复制一遍，然后<code>f[i][j]</code>表示从<code>i</code>至<code>j</code>能计算获得的最大值，<code>g[i][j]</code>表示从<code>i</code>至<code>j</code>能获得的最小值。</p>
-<h4 id="转移方程-1"><a href="#转移方程-1" class="headerlink" title="转移方程"></a>转移方程</h4><p>复制后的串第<code>i</code>符号位表示为<code>flg[i]</code></p>
+<h4 id="转移方程-3"><a href="#转移方程-3" class="headerlink" title="转移方程"></a>转移方程</h4><p>复制后的串第<code>i</code>符号位表示为<code>flg[i]</code></p>
 <script type="math/tex; mode=display">
 1^{\circ}\quad 第i符号位为加号时
 \left\{\begin{aligned}
@@ -320,7 +304,7 @@ g_{i,j}&=\min_{i\leq k<j}\left\{g_{i,k}+g_{k+1,j}\right\}\\
 \left\{\begin{aligned}
 f_{i,j}&=\max_{i\leq k<k}\left\{f_{i,k}*f_{k+1,j},\;f_{i,k}*g_{k+1,j},\;g_{i,k}*f_{k+1,j},\;g_{i,k}*g_{k+1,j}\right\}\\
 g_{i,j}&=\min_{i\leq k<k}\left\{f_{i,k}*f_{k+1,j},\;f_{i,k}*g_{k+1,j},\;g_{i,k}*f_{k+1,j},\;g_{i,k}*g_{k+1,j}\right\}\\
-\end{aligned}\right.</script><h4 id="AC代码-1"><a href="#AC代码-1" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+\end{aligned}\right.</script><h4 id="AC代码-3"><a href="#AC代码-3" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">110</span>;
 
