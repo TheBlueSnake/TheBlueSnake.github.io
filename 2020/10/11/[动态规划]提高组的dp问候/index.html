@@ -359,6 +359,56 @@ g_{i,j}&=\min_{i\leq k<k}\left\{f_{i,k}*f_{k+1,j},\;f_{i,k}*g_{k+1,j},\;g_{i,k}*
     &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
+<h3 id="P4302-SCOI2003-字符串折叠"><a href="#P4302-SCOI2003-字符串折叠" class="headerlink" title="P4302 [SCOI2003]字符串折叠"></a>P4302 [SCOI2003]字符串折叠</h3><p>很好玩的区间dp，~竟然刷到了学长的题解~。</p>
+<h4 id="状态设计-4"><a href="#状态设计-4" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示从<code>i</code>至<code>j</code>子串的最短折叠长度。</p>
+<h4 id="转移方程-4"><a href="#转移方程-4" class="headerlink" title="转移方程"></a>转移方程</h4><p>我们设函数$f(S,len)$表示将字符串$S$划分成$\frac{\left|S\right|}{len}$段长度为$len$的相同子串时，其最短折叠长度。若无法分割，则返回<code>0x3f3f3f3f</code>。同时用$S_{i,j}$表示原串$S$中从$i$开始，到$j$结束所截的子串。</p>
+<script type="math/tex; mode=display">
+f_{i,j}=\min\left(
+\min_{\left.k\middle|\left|S\right|\right.}\left\{f(S_{i,j},k)\right\},
+\min_{i\leq k<j}\left\{f_{i,k}+f_{k,j}\right\}
+\right)</script><h4 id="AC代码-4"><a href="#AC代码-4" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">110</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+
+<span class="hljs-keyword">int</span> n;
+<span class="hljs-keyword">char</span> str[MAXN];
+<span class="hljs-keyword">int</span> f[MAXN][MAXN];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">calc</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> j, <span class="hljs-keyword">int</span> k)</span></span>&#123;
+    <span class="hljs-keyword">if</span>((j - i + <span class="hljs-number">1</span>) % k != <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> INF;
+    <span class="hljs-keyword">int</span> parts = (j - i + <span class="hljs-number">1</span>) / k;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> p = i; p &lt;= i + k - <span class="hljs-number">1</span>; p++)&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> pt = k; p + pt &lt;= j; pt += k)&#123;
+            <span class="hljs-keyword">if</span>(str[p + pt] != str[p]) <span class="hljs-keyword">return</span> INF;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span>(parts == <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> k;
+    <span class="hljs-keyword">if</span>(parts &lt; <span class="hljs-number">10</span>) <span class="hljs-keyword">return</span> min(j - i + <span class="hljs-number">1</span>, f[i][i + k - <span class="hljs-number">1</span>] + <span class="hljs-number">2</span> + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span>(parts &lt; <span class="hljs-number">100</span>) <span class="hljs-keyword">return</span> f[i][i + k - <span class="hljs-number">1</span>] + <span class="hljs-number">2</span> + <span class="hljs-number">2</span>;
+    <span class="hljs-keyword">return</span> f[i][i + k - <span class="hljs-number">1</span>] + <span class="hljs-number">2</span> + <span class="hljs-number">3</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, str + <span class="hljs-number">1</span>);
+    n = <span class="hljs-built_in">strlen</span>(str + <span class="hljs-number">1</span>);
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0x3f</span>, <span class="hljs-keyword">sizeof</span>(f));
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) f[i][i] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> l = <span class="hljs-number">2</span>; l &lt;= n; l++)&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i + l - <span class="hljs-number">1</span> &lt;= n; i++)&#123;
+            <span class="hljs-keyword">int</span> j = i + l - <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k = <span class="hljs-number">1</span>; k &lt;= l; k++)&#123;
+                f[i][j] = min(f[i][j], calc(i, j, k));
+            &#125;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k = i; k &lt;= j - <span class="hljs-number">1</span>; k++)&#123;
+                f[i][j] = min(f[i][j], f[i][k] + f[k + <span class="hljs-number">1</span>][j]);
+            &#125;
+<span class="hljs-comment">//            printf(&quot;:f[%d][%d] = %d\n&quot;, i, j, f[i][j]);</span>
+        &#125;
+    &#125;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, f[<span class="hljs-number">1</span>][n]);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 
             </article>
             <hr>
