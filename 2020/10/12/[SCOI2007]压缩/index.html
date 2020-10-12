@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.6k 字
+      693 字
     </span>
   
 
@@ -167,51 +167,117 @@
             
             <article class="markdown-body">
               <h2 id="题面"><a href="#题面" class="headerlink" title="题面"></a>题面</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给一个由小写字母组成的字符串，我们可以用一种简单的方法来压缩其中的重复信息。压缩后的字符串除了小写字母外还可以（但不必）包含大写字母<code>R</code>与<code>M</code>，其中M标记重复串的开始，<code>R</code>重复从上一个<code>M</code>（如果当前位置左边没有<code>M</code>，则从串的开始算起）开始的解压结果（称为缓冲串）。</p>
-<pre><code class="hljs bcdcdcdcd```可以压缩为```bMcdRR```，下面是解压缩的过程：">
-| 已解压的部分 |    解压结果     |     缓冲串     |
-| :----------: | :-------------: | :------------: |
-|   &#96;&#96;&#96;b&#96;&#96;&#96;    |     &#96;&#96;&#96;b&#96;&#96;&#96;     |    &#96;&#96;&#96;b&#96;&#96;&#96;     |
-|   &#96;&#96;&#96;bM&#96;&#96;&#96;   |     &#96;&#96;&#96;b&#96;&#96;&#96;     |       无       |
-|  &#96;&#96;&#96;bMc&#96;&#96;&#96;   |    &#96;&#96;&#96;bc&#96;&#96;&#96;     |    &#96;&#96;&#96;c&#96;&#96;&#96;     |
-|  &#96;&#96;&#96;bMcd&#96;&#96;&#96;  |    &#96;&#96;&#96;bcd&#96;&#96;&#96;    |    &#96;&#96;&#96;cd&#96;&#96;&#96;    |
-| &#96;&#96;&#96;bMcdR&#96;&#96;&#96;  |   &#96;&#96;&#96;bcdcd&#96;&#96;&#96;   |   &#96;&#96;&#96;cdcd&#96;&#96;&#96;   |
-| &#96;&#96;&#96;bMcdRR&#96;&#96;&#96; | &#96;&#96;&#96;bcdcdcdcd&#96;&#96;&#96; | &#96;&#96;&#96;cdcdcdcd&#96;&#96;&#96; |
-
-### 输入格式
-
-输入仅一行，包含待压缩字符串，仅包含小写字母，长度为$n$。
-
-### 输出格式
-
-输出仅一行，即压缩后字符串的最短长度。
-
-### 输入样例1
-</code></pre>
-<p>aaaaaaa<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs clean"></p>
-<h3 id="输出样例1"><a href="#输出样例1" class="headerlink" title="输出样例1"></a>输出样例<span class="hljs-number">1</span></h3><p>&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;<br>5<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs clean"></p>
-<h3 id="输入样例2"><a href="#输入样例2" class="headerlink" title="输入样例2"></a>输入样例<span class="hljs-number">2</span></h3><p>&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;<br>bcdcdcdcdxcdcdcdcd<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs clean"></p>
-<h3 id="输出样例2"><a href="#输出样例2" class="headerlink" title="输出样例2"></a>输出样例<span class="hljs-number">2</span></h3><p>&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;<br>12<br>&lt;!—hexoPostRenderEscape:<pre><code class="hljs autohotkey"></p>
+<p><br><code>bcdcdcdcd</code>可以压缩为<code>bMcdRR</code>，下面是解压缩的过程：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">已解压的部分</th>
+<th style="text-align:center">解压结果</th>
+<th style="text-align:center">缓冲串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>b</code></td>
+<td style="text-align:center"><code>b</code></td>
+<td style="text-align:center"><code>b</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>bM</code></td>
+<td style="text-align:center"><code>b</code></td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>bMc</code></td>
+<td style="text-align:center"><code>bc</code></td>
+<td style="text-align:center"><code>c</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>bMcd</code></td>
+<td style="text-align:center"><code>bcd</code></td>
+<td style="text-align:center"><code>cd</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>bMcdR</code></td>
+<td style="text-align:center"><code>bcdcd</code></td>
+<td style="text-align:center"><code>cdcd</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>bMcdRR</code></td>
+<td style="text-align:center"><code>bcdcdcdcd</code></td>
+<td style="text-align:center"><code>cdcdcdcd</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h3><p>输入仅一行，包含待压缩字符串，仅包含小写字母，长度为$n$。</p>
+<h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>输出仅一行，即压缩后字符串的最短长度。</p>
+<h3 id="输入样例1"><a href="#输入样例1" class="headerlink" title="输入样例1"></a>输入样例1</h3><pre><code class="hljs ebnf"><span class="hljs-attribute">aaaaaaa</span></code></pre>
+<h3 id="输出样例1"><a href="#输出样例1" class="headerlink" title="输出样例1"></a>输出样例1</h3><pre><code class="hljs angelscript"><span class="hljs-number">5</span></code></pre>
+<h3 id="输入样例2"><a href="#输入样例2" class="headerlink" title="输入样例2"></a>输入样例2</h3><pre><code class="hljs ebnf"><span class="hljs-attribute">bcdcdcdcdxcdcdcdcd</span></code></pre>
+<h3 id="输出样例2"><a href="#输出样例2" class="headerlink" title="输出样例2"></a>输出样例2</h3><pre><code class="hljs angelscript"><span class="hljs-number">12</span></code></pre>
 <h3 id="说明-提示"><a href="#说明-提示" class="headerlink" title="说明/提示"></a>说明/提示</h3><p>在第一个例子中，解为<code>aaaRa</code>。在第二个例子中，解为<code>bMcdRRxMcdRR</code>。</p>
-<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><p>$<span class="hljs-number">50</span>\%$的数据满足：$<span class="hljs-number">1</span>\leq n\leq <span class="hljs-number">20</span>$</p>
-<p>$<span class="hljs-number">100</span>\%$的数据满足：$<span class="hljs-number">1</span>\leq n\leq <span class="hljs-number">50</span>$</p>
-<h2 id="题解-amp-分析"><a href="#题解-amp-分析" class="headerlink" title="题解 &amp; 分析"></a>题解 &amp; 分析</h2><p><span class="hljs-title">很有趣的一道题，看起来和[P4302 [SCOI2003]字符串折叠](https:</span>//www.luogu.com.cn/problem/P4302)很像，但是仔细自己做一做就会发现完全不一样。</p>
-<p>首先依然是同样考虑区间dp，最开始想的肯定是用<code>f[i][j]</code>表示从<code>i</code>至<code>j</code>的最小值，如果你用和P4302类似的转移方程的话， 你会发现在样例<span class="hljs-number">2</span>就无法通过。原因是这道题的<code>R</code>重复上一个<code>M</code>，所以说如果出现比如<code>MabcdMefRR</code>的串，它的解压结果是<code>abcdefefefef</code>，和之前想的不一样。</p>
-<p>我们会发现该串看起来是将一部分重复$<span class="hljs-number">2</span>^x$次，随后将它们拼接起来，所以考虑先计算$<span class="hljs-number">2</span>^x$的拼接结果，然后用$f_&#123;i,j&#125;=\min_&#123;i\leq k&lt;j&#125;\left\&#123;f_&#123;i,k&#125;+f_&#123;k+<span class="hljs-number">1</span>,j&#125;\right\&#125;$的转移方程将它们拼接起来。这种做法我们通过了两个样例，交一发会发现是$<span class="hljs-number">60</span>$分。原因是会出现同开头的嵌套时没有关系的，比如<code>ababababcabababc</code>可以被压缩为<code>MabRRcR</code>即可。</p>
-<p>所以接下来考虑正解，状态<code>f[i][j][&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;]</code>表示从<code>i</code>至<code>j</code>，保证<code>i</code>前有一个<code>M</code>，且保证<code>i</code>至<code>j</code>之间不存在<code>M</code>的情况下，可以压缩成的最小长度。状态<code>f[i][j][&lt;span class=&quot;hljs-number&quot;&gt;1&lt;/span&gt;]</code>表示从<code>i</code>至<code>j</code>，保证<code>i</code>前有一个<code>M</code>，在<code>i</code>至<code>j</code>之间存在<code>M</code>的情况下，可以压缩成的最小长度。</p>
-<p>设我们有函数$chk(i,j,k)$表示从<code>i</code>至<code>j</code>，是否可以在$\frac&#123;a+b&#125;<span class="hljs-number">2</span>$处切一刀，切前后，转移方程如下：</p>
+<h3 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h3><p>$50\%$的数据满足：$1\leq n\leq 20$</p>
+<p>$100\%$的数据满足：$1\leq n\leq 50$</p>
+<h2 id="题解-amp-分析"><a href="#题解-amp-分析" class="headerlink" title="题解 &amp; 分析"></a>题解 &amp; 分析</h2><p>很有趣的一道题，看起来和<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4302">P4302 [SCOI2003]字符串折叠</a>很像，但是仔细自己做一做就会发现完全不一样。</p>
+<p>首先依然是同样考虑区间dp，最开始想的肯定是用<code>f[i][j]</code>表示从<code>i</code>至<code>j</code>的最小值，如果你用和P4302类似的转移方程的话， 你会发现在样例2就无法通过。原因是这道题的<code>R</code>重复上一个<code>M</code>，所以说如果出现比如<code>MabcdMefRR</code>的串，它的解压结果是<code>abcdefefefef</code>，和之前想的不一样。</p>
+<p>我们会发现该串看起来是将一部分重复$2^x$次，随后将它们拼接起来，所以考虑先计算$2^x$的拼接结果，然后用$f_{i,j}=\min_{i\leq k&lt;j}\left\{f_{i,k}+f_{k+1,j}\right\}$的转移方程将它们拼接起来。这种做法我们通过了两个样例，交一发会发现是$60$分。原因是会出现同开头的嵌套时没有关系的，比如<code>ababababcabababc</code>可以被压缩为<code>MabRRcR</code>即可。</p>
+<p>所以接下来考虑正解，状态<code>f[i][j][0]</code>表示从<code>i</code>至<code>j</code>，保证<code>i</code>前有一个<code>M</code>，且保证<code>i</code>至<code>j</code>之间不存在<code>M</code>的情况下，可以压缩成的最小长度。状态<code>f[i][j][1]</code>表示从<code>i</code>至<code>j</code>，保证<code>i</code>前有一个<code>M</code>，在<code>i</code>至<code>j</code>之间存在<code>M</code>的情况下，可以压缩成的最小长度。</p>
+<p>设我们有函数$chk(i,j,k)$表示从<code>i</code>至<code>j</code>，是否可以在$\frac{a+b}2$处切一刀，切前后，转移方程如下：</p>
 <script type="math/tex; mode=display">
-\begin&#123;gather&#125;
-f_&#123;i,j,<span class="hljs-number">0</span>&#125;=\min_&#123;i\leq k&lt;j&#125;\left\&#123;f_&#123;i,k,<span class="hljs-number">0</span>&#125;+j-k\right\&#125;\tag&#123;<span class="hljs-number">1</span>&#125; \\
-f_&#123;i,j,<span class="hljs-number">1</span>&#125;=\min_&#123;i\leq k&lt;j&#125;\left\&#123;\min\left(f_&#123;i,k,<span class="hljs-number">0</span>&#125;,f_&#123;i,k,<span class="hljs-number">1</span>&#125;\right)+\min\left(f_&#123;k+<span class="hljs-number">1</span>,j,<span class="hljs-number">0</span>&#125;,f_&#123;k+<span class="hljs-number">1</span>,j,<span class="hljs-number">1</span>&#125;\right)+<span class="hljs-number">1</span>\right\&#125;\tag&#123;<span class="hljs-number">2</span>&#125;
-\end&#123;gather&#125;</script><p>特别地，当$chk(i,j,k)=<span class="hljs-literal">true</span>$时，存在以下转移：</p>
+\begin{gather}
+f_{i,j,0}=\min_{i\leq k<j}\left\{f_{i,k,0}+j-k\right\}\tag{1} \\
+f_{i,j,1}=\min_{i\leq k<j}\left\{\min\left(f_{i,k,0},f_{i,k,1}\right)+\min\left(f_{k+1,j,0},f_{k+1,j,1}\right)+1\right\}\tag{2}
+\end{gather}</script><p>特别地，当$chk(i,j,k)=true$时，存在以下转移：</p>
 <script type="math/tex; mode=display">
-f_&#123;i,j,<span class="hljs-number">0</span>&#125;=f_&#123;i,\frac&#123;i+j&#125;<span class="hljs-number">2</span>,<span class="hljs-number">0</span>&#125;+<span class="hljs-number">1</span>\tag&#123;<span class="hljs-number">3</span>&#125;</script><h2 id="正确性证明"><a href="#正确性证明" class="headerlink" title="正确性证明"></a>正确性证明</h2><p>转移方程$(<span class="hljs-number">1</span>)$，枚举其切开的位置<code>k</code>，对于<code>i</code>至<code>k</code>的字符，由于位置<code>i</code>前面有一个<code>M</code>，采用最佳压缩方$f_&#123;i,k,<span class="hljs-number">0</span>&#125;$，但是由于从<code>i</code>至<code>j</code>之间不存在<code>M</code>，我们考虑将其原封不动地复制过来，花费是$j-(k+<span class="hljs-number">1</span>)+<span class="hljs-number">1</span>=j-k$。</p>
-<p>转移方程$(<span class="hljs-number">2</span>)$，枚举中间<code>M</code>的位置<code>k</code>，那么开头从<code>i</code>至<code>k</code>的字符，花费最小就是$\min\left(f_&#123;i,k,<span class="hljs-number">0</span>&#125;,f_&#123;i,k,<span class="hljs-number">1</span>&#125;\right)$。然后我们在位置<code>k</code>后放置一个<code>M</code>，从<code>k + &lt;span class=&quot;hljs-number&quot;&gt;1&lt;/span&gt;</code>至<code>j</code>的字符的最小花费就变成了$\min(f_&#123;k+<span class="hljs-number">1</span>,j,<span class="hljs-number">0</span>&#125;,f_&#123;k+<span class="hljs-number">1</span>,j,<span class="hljs-number">1</span>&#125;)$。于是全部的最小花费就是$\min\left(f_&#123;i,k,<span class="hljs-number">0</span>&#125;,f_&#123;i,k,<span class="hljs-number">1</span>&#125;\right)+\min\left(f_&#123;k+<span class="hljs-number">1</span>,j,<span class="hljs-number">0</span>&#125;,f_&#123;k+<span class="hljs-number">1</span>,j,<span class="hljs-number">1</span>&#125;\right)+<span class="hljs-number">1</span>$，最后一个$<span class="hljs-number">1</span>$就是中间加上的<code>M</code>的长度。</p>
-<p>转移方程$(<span class="hljs-number">3</span>)$，即当前位置可以被切开，从<code>i</code>至$\frac&#123;i+j&#125;<span class="hljs-number">2</span>$，从$\frac&#123;i+j&#125;<span class="hljs-number">2</span>+<span class="hljs-number">1</span>$至<code>j</code>两部分完全相同，此时要求中间不能存在干扰的<code>M</code>，否则最后加入的<code>R</code>会干扰最终的答案，使解压结果不正确，花费只会在前半段的基础上多一个<code>R</code>因此直接加一即可。</p>
-<h2 id="AC代码"><a href="#AC代码" class="headerlink" title="AC代码"></a>AC代码</h2><p>```cpp<br><span class="hljs-meta">#include&lt;bits/stdc++.h&gt;</span><br>using namespace std<span class="hljs-comment">;</span><br>const int MAXN = <span class="hljs-number">64</span><span class="hljs-comment">;</span></p>
-<p>int n<span class="hljs-comment">;</span><br>char str[MAXN]<span class="hljs-comment">;</span><br>int f[MAXN][MAXN][<span class="hljs-number">2</span>]<span class="hljs-comment">;</span></p>
-<p>bool chk(int i, int j)&#123;<br>    if((j - i + <span class="hljs-number">1</span>) % <span class="hljs-number">2</span> != <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span><span class="hljs-comment">;</span><br>    int mid = (i + j) &gt;&gt; <span class="hljs-number">1</span><span class="hljs-comment">;</span><br>    for(int p = i<span class="hljs-comment">; p &lt;= mid; p++)&#123;</span><br>        if(str[p] != str[p + mid - i + <span class="hljs-number">1</span>])&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span><span class="hljs-comment">;</span><br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span><span class="hljs-comment">;</span><br>&#125;</p>
-<p>int main()&#123;<br>    scanf(<span class="hljs-string">&quot;%s&quot;</span>, str + <span class="hljs-number">1</span>)<span class="hljs-comment">;</span><br>    n = strlen(str + <span class="hljs-number">1</span>)<span class="hljs-comment">;</span><br>    memset(f, <span class="hljs-number">0</span>x3f, sizeof(f))<span class="hljs-comment">;</span><br>    for(int i = <span class="hljs-number">1</span><span class="hljs-comment">; i &lt;= n; i++)</span><br>        for(int j = i<span class="hljs-comment">; j &lt;= n; j++)</span><br>            f[i][j][<span class="hljs-number">0</span>] = f[i][j][<span class="hljs-number">1</span>] = j - i + <span class="hljs-number">1</span><span class="hljs-comment">;</span><br>    for(int l = <span class="hljs-number">2</span><span class="hljs-comment">; l &lt;= n; l++)&#123;</span><br>        for(int i = <span class="hljs-number">1</span><span class="hljs-comment">; i + l - 1 &lt;= n; i++)&#123;</span><br>            int j = i + l - <span class="hljs-number">1</span><span class="hljs-comment">;</span><br>            if(chk(i, j))&#123;<br>                f[i][j][<span class="hljs-number">0</span>] = min(f[i][(i + j) / <span class="hljs-number">2</span>][<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>, f[i][j][<span class="hljs-number">0</span>])<span class="hljs-comment">;</span><br>            &#125;<br>            for(int k = i<span class="hljs-comment">; k &lt;= j - 1; k++)&#123;</span><br>                f[i][j][<span class="hljs-number">0</span>] = min(f[i][j][<span class="hljs-number">0</span>], f[i][k][<span class="hljs-number">0</span>] + j - (k + <span class="hljs-number">1</span>) + <span class="hljs-number">1</span>)<span class="hljs-comment">;</span><br>                f[i][j][<span class="hljs-number">1</span>] = min(<br>                             f[i][j][<span class="hljs-number">1</span>],<br>                             min(f[i][k][<span class="hljs-number">0</span>], f[i][k][<span class="hljs-number">1</span>]) + min(f[k + <span class="hljs-number">1</span>][j][<span class="hljs-number">0</span>], f[k + <span class="hljs-number">1</span>][j][<span class="hljs-number">1</span>]) + <span class="hljs-number">1</span><br>                             )<span class="hljs-comment">;</span><br>            &#125;<br>        &#125;<br>    &#125;<br>    printf(<span class="hljs-string">&quot;%d\n&quot;</span>, min(f[<span class="hljs-number">1</span>][n][<span class="hljs-number">0</span>], f[<span class="hljs-number">1</span>][n][<span class="hljs-number">1</span>]))<span class="hljs-comment">;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><span class="hljs-comment">;</span><br>&#125;&lt;/code&gt;&lt;/pre&gt;:hexoPostRenderEscape—&gt;</p>
+f_{i,j,0}=f_{i,\frac{i+j}2,0}+1\tag{3}</script><h2 id="正确性证明"><a href="#正确性证明" class="headerlink" title="正确性证明"></a>正确性证明</h2><p>转移方程$(1)$，枚举其切开的位置<code>k</code>，对于<code>i</code>至<code>k</code>的字符，由于位置<code>i</code>前面有一个<code>M</code>，采用最佳压缩方$f_{i,k,0}$，但是由于从<code>i</code>至<code>j</code>之间不存在<code>M</code>，我们考虑将其原封不动地复制过来，花费是$j-(k+1)+1=j-k$。</p>
+<p>转移方程$(2)$，枚举中间<code>M</code>的位置<code>k</code>，那么开头从<code>i</code>至<code>k</code>的字符，花费最小就是$\min\left(f_{i,k,0},f_{i,k,1}\right)$。然后我们在位置<code>k</code>后放置一个<code>M</code>，从<code>k + 1</code>至<code>j</code>的字符的最小花费就变成了$\min(f_{k+1,j,0},f_{k+1,j,1})$。于是全部的最小花费就是$\min\left(f_{i,k,0},f_{i,k,1}\right)+\min\left(f_{k+1,j,0},f_{k+1,j,1}\right)+1$，最后一个$1$就是中间加上的<code>M</code>的长度。</p>
+<p>转移方程$(3)$，即当前位置可以被切开，从<code>i</code>至$\frac{i+j}2$，从$\frac{i+j}2+1$至<code>j</code>两部分完全相同，此时要求中间不能存在干扰的<code>M</code>，否则最后加入的<code>R</code>会干扰最终的答案，使解压结果不正确，花费只会在前半段的基础上多一个<code>R</code>因此直接加一即可。</p>
+<h2 id="AC代码"><a href="#AC代码" class="headerlink" title="AC代码"></a>AC代码</h2><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">64</span>;
+
+<span class="hljs-keyword">int</span> n;
+<span class="hljs-keyword">char</span> str[MAXN];
+<span class="hljs-keyword">int</span> f[MAXN][MAXN][<span class="hljs-number">2</span>];
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">chk</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> j)</span></span>&#123;
+    <span class="hljs-keyword">if</span>((j - i + <span class="hljs-number">1</span>) % <span class="hljs-number">2</span> != <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">int</span> mid = (i + j) &gt;&gt; <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> p = i; p &lt;= mid; p++)&#123;
+        <span class="hljs-keyword">if</span>(str[p] != str[p + mid - i + <span class="hljs-number">1</span>])&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, str + <span class="hljs-number">1</span>);
+    n = <span class="hljs-built_in">strlen</span>(str + <span class="hljs-number">1</span>);
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0x3f</span>, <span class="hljs-keyword">sizeof</span>(f));
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = i; j &lt;= n; j++)
+            f[i][j][<span class="hljs-number">0</span>] = f[i][j][<span class="hljs-number">1</span>] = j - i + <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> l = <span class="hljs-number">2</span>; l &lt;= n; l++)&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i + l - <span class="hljs-number">1</span> &lt;= n; i++)&#123;
+            <span class="hljs-keyword">int</span> j = i + l - <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">if</span>(chk(i, j))&#123;
+                f[i][j][<span class="hljs-number">0</span>] = min(f[i][(i + j) / <span class="hljs-number">2</span>][<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>, f[i][j][<span class="hljs-number">0</span>]);
+            &#125;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k = i; k &lt;= j - <span class="hljs-number">1</span>; k++)&#123;
+                f[i][j][<span class="hljs-number">0</span>] = min(f[i][j][<span class="hljs-number">0</span>], f[i][k][<span class="hljs-number">0</span>] + j - (k + <span class="hljs-number">1</span>) + <span class="hljs-number">1</span>);
+                f[i][j][<span class="hljs-number">1</span>] = min(
+                             f[i][j][<span class="hljs-number">1</span>],
+                             min(f[i][k][<span class="hljs-number">0</span>], f[i][k][<span class="hljs-number">1</span>]) + min(f[k + <span class="hljs-number">1</span>][j][<span class="hljs-number">0</span>], f[k + <span class="hljs-number">1</span>][j][<span class="hljs-number">1</span>]) + <span class="hljs-number">1</span>
+                             );
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, min(f[<span class="hljs-number">1</span>][n][<span class="hljs-number">0</span>], f[<span class="hljs-number">1</span>][n][<span class="hljs-number">1</span>]));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 
             </article>
             <hr>
