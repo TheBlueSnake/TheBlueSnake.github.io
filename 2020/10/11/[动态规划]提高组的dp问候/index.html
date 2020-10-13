@@ -359,7 +359,7 @@ g_{i,j}&=\min_{i\leq k<k}\left\{f_{i,k}*f_{k+1,j},\;f_{i,k}*g_{k+1,j},\;g_{i,k}*
     &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h3 id="P4302-SCOI2003-字符串折叠"><a href="#P4302-SCOI2003-字符串折叠" class="headerlink" title="P4302 [SCOI2003]字符串折叠"></a>P4302 [SCOI2003]字符串折叠</h3><p>很好玩的区间dp，~竟然刷到了学长的题解~。</p>
+<h3 id="P4302-SCOI2003-字符串折叠"><a href="#P4302-SCOI2003-字符串折叠" class="headerlink" title="P4302 [SCOI2003]字符串折叠"></a>P4302 [SCOI2003]字符串折叠</h3><p>很好玩的区间dp，<del>竟然刷到了学长的题解</del>。</p>
 <h4 id="状态设计-4"><a href="#状态设计-4" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示从<code>i</code>至<code>j</code>子串的最短折叠长度。</p>
 <h4 id="转移方程-4"><a href="#转移方程-4" class="headerlink" title="转移方程"></a>转移方程</h4><p>我们设函数$f(S,len)$表示将字符串$S$划分成$\frac{\left|S\right|}{len}$段长度为$len$的相同子串时，其最短折叠长度。若无法分割，则返回<code>0x3f3f3f3f</code>。同时用$S_{i,j}$表示原串$S$中从$i$开始，到$j$结束所截的子串。</p>
 <script type="math/tex; mode=display">
@@ -410,6 +410,99 @@ f_{i,j}=\min\left(
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="P2470-SCOI2007-压缩"><a href="#P2470-SCOI2007-压缩" class="headerlink" title="P2470 [SCOI2007]压缩"></a>P2470 [SCOI2007]压缩</h3><p>详见<a target="_blank" rel="noopener" href="http://bluesnake.top/2020/10/12/%5BSCOI2007%5D%E5%8E%8B%E7%BC%A9/"><strong>该题的杂题报告</strong></a>。</p>
+<h3 id="P1941-飞扬的小鸟"><a href="#P1941-飞扬的小鸟" class="headerlink" title="P1941 飞扬的小鸟"></a>P1941 飞扬的小鸟</h3><p>很有趣的一道题，将近花了一个小时才A的一道绿题，完美地向我们解释了什么叫做要维护内存安全。</p>
+<h4 id="状态设计-5"><a href="#状态设计-5" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示鸟飞到<code>(i,j)</code>位置所需要的最小点击次数。</p>
+<h4 id="转移方程-5"><a href="#转移方程-5" class="headerlink" title="转移方程"></a>转移方程</h4><p>记位置$i$的上升高度是$inc_{i}$，下降高度是$dec_{i}$</p>
+<p>首先是向上飞行的dp转移式，在实际实现中需要用完全背包进行优化。</p>
+<script type="math/tex; mode=display">
+f_{i,j}=\min_{\;\;0<k<j\\\left.inc_{i-1}\middle|j-k\right.}\left\{
+f_{i-1,k}+\frac{j-k}{inc_{i-1}}
+\right\}</script><p>特别地，对于顶端$y=m$位置会顶头不会继续上升，需要在上面的基础上加上：</p>
+<script type="math/tex; mode=display">
+f_{i,m}=\min_{m-inc_{i-1}\leq k<m}\left\{f_{i,k}+1\right\}</script><p>然后是向下自然掉落的dp转移式：</p>
+<script type="math/tex; mode=display">
+f_{i,j}=f_{i-1,j+dec_{i-1}}\quad\cdots\cdots\quad\left[j+dec_{i-1}<m\right]</script><p>特别地，当该处有水管时，记水管低位置$l_i$，高位置$h_i$，存在最高优先级的赋值：</p>
+<script type="math/tex; mode=display">
+f_{i,k}=0\quad\cdots\cdots\quad k\in\left[1,j+dec_{i-1}\right]\cup\left[m-inc_{i-1},m\right]</script><h4 id="AC代码-5"><a href="#AC代码-5" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">10100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXM = <span class="hljs-number">1100</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span>&#123;</span>
+    <span class="hljs-keyword">int</span> p, l, h;
+    node(<span class="hljs-keyword">int</span> ap = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> al = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> ah = <span class="hljs-number">0</span>)&#123;
+        p = ap; l = al; h = ah;
+    &#125;
+&#125;;
+
+<span class="hljs-keyword">int</span> n, m, k;
+<span class="hljs-keyword">int</span> incl[MAXN], decl[MAXN];
+node arr[MAXN];
+<span class="hljs-keyword">int</span> f[MAXN][MAXM];
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(node x, node y)</span></span>&#123;
+    <span class="hljs-keyword">return</span> x.p &lt; y.p;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d %d&quot;</span>, &amp;n, &amp;m, &amp;k);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;= n - <span class="hljs-number">1</span>; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;incl[i], &amp;decl[i]);
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= k; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d %d&quot;</span>, &amp;arr[i].p, &amp;arr[i].l, &amp;arr[i].h);
+    &#125;
+    sort(arr + <span class="hljs-number">1</span>, arr + k + <span class="hljs-number">1</span>, cmp);
+<span class="hljs-comment">//    for(int i = 1; i &lt;= k; i++)&#123;</span>
+<span class="hljs-comment">//        printf(&quot;:%d %d %d:\n&quot;, arr[i].p, arr[i].l, arr[i].h);</span>
+<span class="hljs-comment">//    &#125;</span>
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0x3f</span>, <span class="hljs-keyword">sizeof</span>(f));
+    f[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = INF;
+    <span class="hljs-keyword">int</span> anspass = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++) f[<span class="hljs-number">0</span>][i] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> obs = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-keyword">while</span>(arr[obs].p &lt; i) obs++;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = incl[i - <span class="hljs-number">1</span>]; j &lt;= m; j++)&#123;
+            f[i][j] = min(f[i][j], min(f[i - <span class="hljs-number">1</span>][j - incl[i - <span class="hljs-number">1</span>]], f[i][j - incl[i - <span class="hljs-number">1</span>]]) + <span class="hljs-number">1</span>);
+        &#125;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = m - incl[i - <span class="hljs-number">1</span>]; j &lt;= m; j++)&#123;
+            f[i][m] = min(f[i][m], min(f[i - <span class="hljs-number">1</span>][j], f[i][j]) + <span class="hljs-number">1</span>);
+        &#125;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j + decl[i -  <span class="hljs-number">1</span>] &lt;= m; j++)&#123;
+            f[i][j] = min(f[i][j], f[i - <span class="hljs-number">1</span>][j + decl[i - <span class="hljs-number">1</span>]]);
+        &#125;
+        f[i][<span class="hljs-number">0</span>] = INF;
+<span class="hljs-comment">//        printf(&quot;::%d %d\n&quot;, arr[obs].p, obs);</span>
+        <span class="hljs-keyword">if</span>(arr[obs].p == i)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt;= arr[obs].l; j++) f[i][j] = INF;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = arr[obs].h; j &lt;= m; j++) f[i][j] = INF;
+            <span class="hljs-keyword">bool</span> flg = <span class="hljs-literal">false</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)&#123;
+                <span class="hljs-keyword">if</span>(f[i][j] &lt; <span class="hljs-number">0x3f000000</span>)&#123;
+                    flg = <span class="hljs-literal">true</span>;
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+            &#125;
+            <span class="hljs-keyword">if</span>(flg) anspass++;
+        &#125;
+<span class="hljs-comment">//        for(int j = 1; j &lt;= m; j++)</span>
+<span class="hljs-comment">//            printf(&quot;:f[%d][%d] = %d\n&quot;, i, j, f[i][j]);</span>
+    &#125;
+    <span class="hljs-keyword">int</span> ans = INF;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++)&#123;
+        ans = min(ans, f[n][i]);
+    &#125;
+    <span class="hljs-keyword">if</span>(ans &lt;= <span class="hljs-number">0x3f000000</span>)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1\n%d\n&quot;</span>, ans);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    &#125;<span class="hljs-keyword">else</span>&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0\n%d\n&quot;</span>, anspass);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 
             </article>
             <hr>

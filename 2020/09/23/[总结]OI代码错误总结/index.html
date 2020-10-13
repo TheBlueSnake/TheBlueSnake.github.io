@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      76 字
+      209 字
     </span>
   
 
@@ -173,6 +173,15 @@
     &#125;
 &#125;</code></pre>
 <p>第3行和第4行原先交换了，赋值的时候会先倍增到祖先节点再进行赋值，导致错误。调试时间：<code>~30min</code></p>
+<h3 id="2020年10月13日"><a href="#2020年10月13日" class="headerlink" title="2020年10月13日"></a>2020年10月13日</h3><p>正确代码：</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = incl[i - <span class="hljs-number">1</span>]; j &lt;= m; j++)&#123;
+    f[i][j] = min(f[i][j], min(f[i - <span class="hljs-number">1</span>][j - incl[i - <span class="hljs-number">1</span>]], f[i][j - incl[i - <span class="hljs-number">1</span>]]) + <span class="hljs-number">1</span>);
+&#125;</code></pre>
+<p>原先代码：</p>
+<pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)&#123;
+    f[i][j] = min(f[i][j], min(f[i - <span class="hljs-number">1</span>][j - incl[i - <span class="hljs-number">1</span>]], f[i][j - incl[i - <span class="hljs-number">1</span>]]) + <span class="hljs-number">1</span>);
+&#125;</code></pre>
+<p>原先遍历从<code>j = 1</code>开始，然而缓冲区开了<code>100</code>，<code>incl[i - 1]</code>可能为<code>1000</code>，会向上溢出缓冲区访问到被污染的内存，导致答案小了<code>1</code>（$9874$、 $9875$）。调试时间：<code>~25min</code></p>
 
             </article>
             <hr>
