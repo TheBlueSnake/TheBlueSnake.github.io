@@ -536,6 +536,64 @@ node arr[MAXN];
 <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> &amp;x, <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> &amp;y)</span></span>&#123;
     <span class="hljs-keyword">return</span> x &lt; y;
 &#125;</code></pre>
+<h3 id="P1156-垃圾陷阱"><a href="#P1156-垃圾陷阱" class="headerlink" title="P1156 垃圾陷阱"></a>P1156 垃圾陷阱</h3><p>很经典的一道USACO的题目。</p>
+<h4 id="状态设计-6"><a href="#状态设计-6" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示前<code>i</code>个垃圾，堆叠到了<code>j</code>高度所能存活到的最久时间。</p>
+<h4 id="转移方程-6"><a href="#转移方程-6" class="headerlink" title="转移方程"></a>转移方程</h4><p>记垃圾出现时间为$t_i$，垃圾生命值$g_i$，垃圾高度$h_i$</p>
+<p>采用递推式转移，转移前提是$f_{i,j}\geq t_{i+1}$，转移方程为：</p>
+<script type="math/tex; mode=display">
+\large{
+\begin{aligned}
+f_{i+1,j}&=f_{i,j}+g_{i+1}\\
+f_{i+1,j+h_i}&=f_{i,j}
+\end{aligned}
+}</script><h4 id="AC代码-7"><a href="#AC代码-7" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">110</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXL = <span class="hljs-number">1100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXH = <span class="hljs-number">110</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span>&#123;</span>
+    <span class="hljs-keyword">int</span> t, f, h;
+    node(<span class="hljs-keyword">int</span> at = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> af = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> ah = <span class="hljs-number">0</span>)&#123;
+        t = at; f = af; h = ah;
+    &#125;
+&#125;;
+
+<span class="hljs-keyword">int</span> d, n;
+node arr[MAXN];
+<span class="hljs-keyword">int</span> f[MAXN][MAXH];<span class="hljs-comment">//高度堆到j的时候最多支撑生命 </span>
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node &amp;x, <span class="hljs-keyword">const</span> node &amp;y)</span></span>&#123;
+    <span class="hljs-keyword">return</span> x.t &lt; y.t;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;d, &amp;n);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d %d&quot;</span>, &amp;arr[i].t, &amp;arr[i].f, &amp;arr[i].h);
+    &#125;
+    sort(arr + <span class="hljs-number">1</span>, arr + n + <span class="hljs-number">1</span>, cmp);
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(f));
+    f[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">10</span>;
+    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)&#123;
+        ans = max(ans, f[i][<span class="hljs-number">0</span>]);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt;= d; j++)&#123;
+            <span class="hljs-keyword">if</span>(f[i][j] &lt; arr[i + <span class="hljs-number">1</span>].t)&#123;
+                <span class="hljs-keyword">continue</span>;
+            &#125;
+            <span class="hljs-keyword">if</span>(j + arr[i + <span class="hljs-number">1</span>].h &gt;= d)&#123;
+                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, arr[i + <span class="hljs-number">1</span>].t);
+                <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+            &#125;
+            f[i + <span class="hljs-number">1</span>][j + arr[i + <span class="hljs-number">1</span>].h] = max(f[i + <span class="hljs-number">1</span>][j + arr[i + <span class="hljs-number">1</span>].h], f[i][j]);
+            f[i + <span class="hljs-number">1</span>][j] = max(f[i + <span class="hljs-number">1</span>][j], f[i][j] + arr[i + <span class="hljs-number">1</span>].f);
+        &#125;
+    &#125;
+    ans = max(ans, f[n][<span class="hljs-number">0</span>]);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 
             </article>
             <hr>
