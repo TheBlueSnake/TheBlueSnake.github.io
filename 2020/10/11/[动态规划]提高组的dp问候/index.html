@@ -647,6 +647,70 @@ f_{i,j}=\max_{\quad1\leq k\leq s\\j\geq 2\times a_{i,k}+1}\left\{f_{i-1,j-2\time
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
+<h3 id="CF730J-Bottles"><a href="#CF730J-Bottles" class="headerlink" title="CF730J Bottles"></a>CF730J Bottles</h3><p>因为一个极小值赋初值搞错了，浪费了大概半个小时。</p>
+<p>首先答案$k$是很容易算出来的，只要贪心地取杯子就可以了。然后我们考虑让移动的水最少就是让保留在杯子里的水最多，所以题目转化为了一个双容量的01背包问题。</p>
+<h4 id="状态设计-8"><a href="#状态设计-8" class="headerlink" title="状态设计"></a>状态设计</h4><p>我们定义<code>f[i][j][k]</code>表示为前<code>i</code>个水杯，使用了<code>j</code>个水杯，还剩下<code>k</code>的水需要有地方放的最小倒水花费，最终答案就是水的总数减去这个值。</p>
+<h4 id="转移方程-8"><a href="#转移方程-8" class="headerlink" title="转移方程"></a>转移方程</h4><script type="math/tex; mode=display">
+\Large
+f_{i,j,k}=\max\left(f_{i-1,j,k},f_{i-1,j-1,k-b_{i}}+a_i\right)</script><h4 id="AC代码-9"><a href="#AC代码-9" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">110</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXM = <span class="hljs-number">10100</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span>&#123;</span>
+    <span class="hljs-keyword">int</span> a, b;
+    node(<span class="hljs-keyword">int</span> aa = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> ab = <span class="hljs-number">0</span>)&#123;
+        a = aa; b = ab;
+    &#125;
+&#125;;
+
+<span class="hljs-keyword">int</span> n;
+node arr[MAXN];
+<span class="hljs-keyword">int</span> sumli, sumsz, ansk, tmps;
+<span class="hljs-keyword">int</span> f[MAXN][MAXM];
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(node &amp;x, node &amp;y)</span></span>&#123;
+    <span class="hljs-keyword">return</span> x.b &gt; y.b || x.b == y.b &amp;&amp; x.a &gt; y.a;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;arr[i].a);
+        sumli += arr[i].a;
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;arr[i].b);
+    &#125;
+    sort(arr + <span class="hljs-number">1</span>, arr + n + <span class="hljs-number">1</span>, cmp);
+    ansk = <span class="hljs-number">0</span>;
+    tmps = sumli;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-keyword">if</span>(tmps &gt; arr[i].b)&#123;
+            tmps -= arr[i].b;
+        &#125;<span class="hljs-keyword">else</span>&#123;
+            ansk = i;
+            <span class="hljs-keyword">break</span>;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, ansk);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= ansk; i++) sumsz += arr[i].b;
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0x80</span>, <span class="hljs-keyword">sizeof</span>(f));
+    f[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = ansk; j &gt;= <span class="hljs-number">1</span>; j--)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k = sumsz; k &gt;= arr[i].b; k--)&#123;
+                f[j][k] = max(f[j][k], f[j - <span class="hljs-number">1</span>][k - arr[i].b] + arr[i].a);
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = sumli; i &lt;= sumsz; i++)&#123;
+        ans = max(ans, f[ansk][i]);
+    &#125;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, sumli - ans);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 
             </article>
             <hr>
