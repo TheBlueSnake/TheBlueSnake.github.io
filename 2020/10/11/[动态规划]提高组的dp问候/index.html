@@ -594,6 +594,59 @@ node arr[MAXN];
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
+<h3 id="P5322-BJOI2019-排兵布阵"><a href="#P5322-BJOI2019-排兵布阵" class="headerlink" title="P5322 [BJOI2019]排兵布阵"></a>P5322 [BJOI2019]排兵布阵</h3><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/115864">NaCly_Fish</a>大佬出的题，感觉好小清新呢。</p>
+<h4 id="状态设计-7"><a href="#状态设计-7" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示前<code>i</code>个城堡，共派遣了<code>j</code>个士兵可能获得的最大值。</p>
+<h4 id="转移方程-7"><a href="#转移方程-7" class="headerlink" title="转移方程"></a>转移方程</h4><p>令$a_{i,j}$表示第$i$个城堡，第$j$个对手派遣的士兵个数。</p>
+<script type="math/tex; mode=display">
+\large
+f_{i,j}=\max_{\quad1\leq k\leq s\\j\geq 2\times a_{i,k}+1}\left\{f_{i-1,j-2\times a_{i,k}-1}+i\times k\right\}</script><h4 id="AC代码-8"><a href="#AC代码-8" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXS = <span class="hljs-number">110</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">110</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXM = <span class="hljs-number">20100</span>;
+
+<span class="hljs-keyword">int</span> s, n, m;
+<span class="hljs-keyword">int</span> arr[MAXS][MAXN];
+<span class="hljs-keyword">int</span> f[MAXN][MAXM];
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span></span>&#123;
+    <span class="hljs-keyword">return</span> x &lt; y;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d %d&quot;</span>, &amp;s, &amp;n, &amp;m);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= s; i++)&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j++)&#123;
+            <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;arr[j][i]);
+        &#125;
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        sort(arr[i] + <span class="hljs-number">1</span>, arr[i] + s + <span class="hljs-number">1</span>, cmp);
+    &#125;
+<span class="hljs-comment">//    for(int i = 1; i &lt;= n; i++)&#123;</span>
+<span class="hljs-comment">//        for(int j = 1; j &lt;= s; j++)&#123;</span>
+<span class="hljs-comment">//            printf(&quot;:arr[%d][%d] = %d\n&quot;, i, j, arr[i][j]);</span>
+<span class="hljs-comment">//        &#125;</span>
+<span class="hljs-comment">//    &#125;</span>
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(f));
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++)&#123;
+            f[i][j] = f[i - <span class="hljs-number">1</span>][j];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k = <span class="hljs-number">1</span>; k &lt;= s; k++)&#123;
+                <span class="hljs-keyword">if</span>(j - arr[i][k] - arr[i][k] - <span class="hljs-number">1</span> &gt;= <span class="hljs-number">0</span>)&#123;
+                    f[i][j] = max(f[i][j], f[i - <span class="hljs-number">1</span>][j - arr[i][k] - arr[i][k] - <span class="hljs-number">1</span>] + k * i);
+<span class="hljs-comment">//                    printf(&quot;:%d %d %d %d\n&quot;, i, j, k, f[i][j]);</span>
+                &#125;
+            &#125;
+<span class="hljs-comment">//            printf(&quot;f[%d][%d] = %d\n&quot;, i, j, f[i][j]);</span>
+        &#125;
+    &#125;
+    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;= m; i++)
+        ans = max(ans, f[n][i]);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 
             </article>
             <hr>
