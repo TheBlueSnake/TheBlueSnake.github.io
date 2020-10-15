@@ -180,11 +180,11 @@ f_{i-1,j-(a_i-x)\times val_i,k-(b_i-y)\times val_i,p-(c_i-z)\times val_i}+
 \dfrac{\left|a_i-x\right|+\left|b_i-y\right|+\left|c_i-z\right|}{2}
 \right\}</script><p>这时我们可以发现会有许多无用状态，所以我们可以利用三者交换纸币，但是纸币之和是不变的将冗余状态扔掉。如果我们假设三者总共有$tot$元钱，那么使用<code>f[i][j][k]</code>表示<code>Alice</code>手中有$j$元，<code>Bob</code>手中有$k$元，<code>Cynthia</code>手中有$tot-j-k$元所需要交换的最小次数。转移的纸币是纸币$i$，其他意义同上。可以得到转移方程：</p>
 <script type="math/tex; mode=display">
-f_{i,j,k}=\min_{\begin{aligned}
-j-(a_i-x)\times val_i&\geq0\\
-k-(b_i-z)\times val_i&\geq0\\
-(tot-j-k)-(c_i-z)\times val_i&\geq0
-\end{aligned}}\left\{
+f_{i,j,k}=\min_{\begin{equation}
+\quad\;\; j-(a_i-x)\times val_i\geq0\\
+\quad\;\; k-(b_i-z)\times val_i\geq0\\
+(tot-j-k)-(c_i-z)\times val_i\geq0
+\end{equation}}\left\{
 f_{i-1,j-(a_i-x)\times val_i,k-(b_i-y)\times val_i}+
 \dfrac{\left|a_i-x\right|+\left|b_i-y\right|+\left|c_i-z\right|}{2}
 \right\}</script><p>此时我们可以利用该转移方程写出第一代代码。</p>
