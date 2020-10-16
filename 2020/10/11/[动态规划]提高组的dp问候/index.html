@@ -594,6 +594,60 @@ node arr[MAXN];
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
+<h4 id="2020年10月16日更新"><a href="#2020年10月16日更新" class="headerlink" title="2020年10月16日更新"></a>2020年10月16日更新</h4><p>之前就一直在想为什么题解里没有用<code>f[i][j]</code>表示前<code>i</code>个垃圾，还可以存活至<code>j</code>时间的最高高度。所以经过思考后自己实现了一下，发现是完全完全可行的。</p>
+<h4 id="新转移方程"><a href="#新转移方程" class="headerlink" title="新转移方程"></a>新转移方程</h4><script type="math/tex; mode=display">
+\begin{aligned}
+f_{i,j}&=\max_{j\geq t_i}\left\{f_{i-1,j}+h_i\right\}\\
+f_{i,j}&=\max_{j-f_i\geq t_i}\left\{f_{i-1,j-f_i}\right\}
+\end{aligned}</script><h4 id="正确性的部分证明"><a href="#正确性的部分证明" class="headerlink" title="正确性的部分证明"></a>正确性的部分证明</h4><p><strong>无后效性</strong>：如果物品是按照$t_i$排序，那么每件物品的选择不会影响到下一件物品的选择。影响下一件物品选择的只有转移到下一个位置的$j$是否满足两个转移方程。</p>
+<h4 id="新AC代码"><a href="#新AC代码" class="headerlink" title="新AC代码"></a>新AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">110</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXL = <span class="hljs-number">3100</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span>&#123;</span>
+    <span class="hljs-keyword">int</span> t, f, h;
+    node(<span class="hljs-keyword">int</span> at = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> af = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> ah = <span class="hljs-number">0</span>)&#123;
+        t = at; f = af; h = ah;
+    &#125;
+&#125;;
+
+<span class="hljs-keyword">int</span> d, g;
+node arr[MAXN];
+<span class="hljs-keyword">int</span> f[MAXN][MAXL];
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node &amp;x, <span class="hljs-keyword">const</span> node &amp;y)</span></span>&#123;
+    <span class="hljs-keyword">return</span> x.t &lt; y.t;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;d, &amp;g);
+    <span class="hljs-keyword">int</span> sumlife = <span class="hljs-number">10</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= g; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d %d&quot;</span>, &amp;arr[i].t, &amp;arr[i].f, &amp;arr[i].h);
+        sumlife += arr[i].f;
+    &#125;
+    sort(arr + <span class="hljs-number">1</span>, arr + g + <span class="hljs-number">1</span>, cmp);
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0x80</span>, <span class="hljs-keyword">sizeof</span>(f));
+    f[<span class="hljs-number">0</span>][<span class="hljs-number">10</span>] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">10</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; g; i++)&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt;= sumlife; j++)&#123;
+            <span class="hljs-keyword">if</span>(f[i][j] &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span>;
+            <span class="hljs-keyword">if</span>(j &gt;= arr[i + <span class="hljs-number">1</span>].t)&#123;
+                f[i + <span class="hljs-number">1</span>][j + arr[i + <span class="hljs-number">1</span>].f] = max(f[i + <span class="hljs-number">1</span>][j + arr[i + <span class="hljs-number">1</span>].f], f[i][j]);
+                f[i + <span class="hljs-number">1</span>][j] = max(f[i + <span class="hljs-number">1</span>][j], f[i][j] + arr[i + <span class="hljs-number">1</span>].h);
+                <span class="hljs-keyword">if</span>(f[i + <span class="hljs-number">1</span>][j] &gt;= d)&#123;
+                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, arr[i + <span class="hljs-number">1</span>].t);
+                    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+                &#125;
+                ans = max(ans, j + arr[i + <span class="hljs-number">1</span>].f);
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 <h3 id="P5322-BJOI2019-排兵布阵"><a href="#P5322-BJOI2019-排兵布阵" class="headerlink" title="P5322 [BJOI2019]排兵布阵"></a>P5322 [BJOI2019]排兵布阵</h3><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/115864">NaCly_Fish</a>大佬出的题，感觉好小清新呢。</p>
 <h4 id="状态设计-7"><a href="#状态设计-7" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示前<code>i</code>个城堡，共派遣了<code>j</code>个士兵可能获得的最大值。</p>
 <h4 id="转移方程-7"><a href="#转移方程-7" class="headerlink" title="转移方程"></a>转移方程</h4><p>令$a_{i,j}$表示第$i$个城堡，第$j$个对手派遣的士兵个数。</p>
