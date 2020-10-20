@@ -767,6 +767,98 @@ node arr[MAXN];
 &#125;</code></pre>
 <h3 id="P4026-SHOI2008-循环的债务"><a href="#P4026-SHOI2008-循环的债务" class="headerlink" title="P4026 [SHOI2008]循环的债务"></a>P4026 [SHOI2008]循环的债务</h3><p>很好地一道题，考验了对于冗余数据的处理优化。</p>
 <p>详见<a target="_blank" rel="noopener" href="http://bluesnake.top/2020/10/15/%5BSHOI2008%5D%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%80%BA%E5%8A%A1/">该题的杂题做题报告</a></p>
+<h3 id="P3188-HNOI2007-梦幻岛宝珠"><a href="#P3188-HNOI2007-梦幻岛宝珠" class="headerlink" title="P3188 [HNOI2007]梦幻岛宝珠"></a>P3188 [HNOI2007]梦幻岛宝珠</h3><p>暂时还是不会做，先咕咕咕一下子。</p>
+<h3 id="P2627-USACO11OPEN-Mowing-the-Lawn-G"><a href="#P2627-USACO11OPEN-Mowing-the-Lawn-G" class="headerlink" title="P2627 [USACO11OPEN]Mowing the Lawn G"></a>P2627 [USACO11OPEN]Mowing the Lawn G</h3><p>标准的单调队列优化dp。</p>
+<h4 id="状态设计-9"><a href="#状态设计-9" class="headerlink" title="状态设计"></a>状态设计</h4><p>用<code>f[i][0]</code>表示前<code>i</code>个奶牛中，第<code>i</code>个奶牛不选的最优效率。用<code>f[i][1]</code>表示前<code>i</code>个奶牛中第<code>i</code>个奶牛选的最优效率。</p>
+<h4 id="转移方程-9"><a href="#转移方程-9" class="headerlink" title="转移方程"></a>转移方程</h4><p>如果使用$sum_i$来表示前缀和的话，可以获得转移方程：</p>
+<script type="math/tex; mode=display">
+f_{i,0}=\max\left(f_{i-1,0},f_{i-1,1}\right)\\
+f_{i,1}=\max_{i-k\leq k\leq i-1}\left\{f_{k,0}+sum_{i}-sum_{k}\right\}</script><h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>单调队列优化：</p>
+<script type="math/tex; mode=display">
+f_{i,1}=\max_{i-k\leq k\leq i-1}\left\{f_{k,0}-sum_{k}\right\}+sum_{i}</script><p>单调队列维护$f_{k,0}-sum_k$。每个点只会进队出队一次，总体复杂度$O(n)$。</p>
+<h4 id="AC代码-10"><a href="#AC代码-10" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFL 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">100100</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+
+ll n, k, e[MAXN], pref[MAXN];
+ll f[MAXN][<span class="hljs-number">2</span>];
+<span class="hljs-built_in">deque</span>&lt;<span class="hljs-built_in">pair</span>&lt;ll, ll&gt; &gt; que;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld %lld&quot;</span>, &amp;n, &amp;k);
+    <span class="hljs-built_in">memset</span>(pref, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(pref));
+    <span class="hljs-keyword">for</span>(ll i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld&quot;</span>, &amp;e[i]);
+        pref[i] = pref[i - <span class="hljs-number">1</span>] + e[i];
+    &#125;
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(f));
+    que.push_back(<span class="hljs-built_in">make_pair</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>));
+    <span class="hljs-keyword">for</span>(ll i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        f[i][<span class="hljs-number">0</span>] = max(f[i - <span class="hljs-number">1</span>][<span class="hljs-number">0</span>], f[i - <span class="hljs-number">1</span>][<span class="hljs-number">1</span>]);
+        <span class="hljs-keyword">while</span>(!que.empty() &amp;&amp; que.front().first &lt; i - k) que.pop_front();
+        f[i][<span class="hljs-number">1</span>] = que.front().second + pref[i];
+        <span class="hljs-keyword">while</span>(!que.empty() &amp;&amp; que.back().second &lt; f[i][<span class="hljs-number">0</span>] - pref[i]) que.pop_back();
+        que.push_back(<span class="hljs-built_in">make_pair</span>(i, f[i][<span class="hljs-number">0</span>] - pref[i]));
+<span class="hljs-comment">//        for(int j = 1; j &lt;= k; j++)&#123;</span>
+<span class="hljs-comment">//            if(i - j &lt; 0) break;</span>
+<span class="hljs-comment">//            f[i][1] = max(f[i][1], f[i - j][0] + pref[i] - pref[i - j]);</span>
+<span class="hljs-comment">//        &#125;</span>
+    &#125;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lld\n&quot;</span>, max(f[n][<span class="hljs-number">0</span>], f[n][<span class="hljs-number">1</span>]));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h3 id="P3572-POI2014-PTA-Little-Bird"><a href="#P3572-POI2014-PTA-Little-Bird" class="headerlink" title="P3572 [POI2014]PTA-Little Bird"></a>P3572 [POI2014]PTA-Little Bird</h3><p>很有意思，可能需要一点点的思维。或者大胆的人可能直接就可以做出来了。<del>所以一定要敢于乱搞。</del></p>
+<h4 id="状态设计-10"><a href="#状态设计-10" class="headerlink" title="状态设计"></a>状态设计</h4><p>用<code>f[i]</code>表示跳跃到<code>i</code>位置的最小花费。</p>
+<h4 id="转移方程-10"><a href="#转移方程-10" class="headerlink" title="转移方程"></a>转移方程</h4><script type="math/tex; mode=display">
+f_{i} = \min_{i-k\leq j\leq i-1}\left\{f_{j}+\left[d_i\geq d_j\right]\right\}</script><h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><p>直接做每次询问是$O(n^2)$的，很明显会超时，所以我们要找一个$O(n)$询问的算法。考虑单调队列，每次维护出范围内$f_i$作为第一关键字最小，$d_i$作为第二关键字最大的$i$。这样做答案是正确的原因是如果队首不需要更多地花费劳累值，那么很明显队首是最优的。但是如果队首需要多花费劳累值，那么跟队首相同的$f_j$一定也需要花费一点劳累值。如果有不需要花费劳累值那么它的$f_j$一定至少比$f_i$多$1$，也就是$f_j\geq f_i+1$，所以<strong>不会比选$f_i$的结果更优</strong>。</p>
+<blockquote>
+<p>  思考：如果每次跳高的劳累值不是1，而是随意一个正整数$d\geq 1$，那么该怎么做呢？</p>
+</blockquote>
+<h4 id="AC代码-11"><a href="#AC代码-11" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFL 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> mp(x, y) make_pair(x, y)</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">1000100</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; pii;
+
+<span class="hljs-keyword">int</span> n, k, d[MAXN];
+<span class="hljs-keyword">int</span> f[MAXN];
+<span class="hljs-keyword">int</span> hd, tl, que[MAXN];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;d[i]);
+    &#125;
+    <span class="hljs-keyword">int</span> _task = <span class="hljs-number">1</span>; <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;_task);
+    <span class="hljs-keyword">while</span>(_task--)&#123;
+        hd = <span class="hljs-number">1</span>; tl = <span class="hljs-number">0</span>;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;k);
+        f[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) f[i] = INF;
+        que[++tl] = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++)&#123;
+            <span class="hljs-keyword">while</span>(hd &lt;= tl &amp;&amp; que[hd] &lt; i - k) hd++;
+            <span class="hljs-keyword">if</span>(d[que[hd]] &lt;= d[i]) f[i] = f[que[hd]] + <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">else</span> f[i] = f[que[hd]];
+            <span class="hljs-keyword">while</span>(hd &lt;= tl &amp;&amp; (f[que[tl]] &gt; f[i] ||
+                  f[que[tl]] == f[i] &amp;&amp; d[que[tl]] &lt; d[i])) tl--;
+            que[++tl] = i;
+<span class="hljs-comment">//            for(int j = i - 1; j &gt;= i - k; j--)&#123;</span>
+<span class="hljs-comment">//                if(j &lt; 0) break;</span>
+<span class="hljs-comment">//                f[i] = min(f[i], f[j] + (d[i] &gt;= d[j]));</span>
+<span class="hljs-comment">//            &#125;</span>
+        &#125;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, f[n]);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 
             </article>
             <hr>
