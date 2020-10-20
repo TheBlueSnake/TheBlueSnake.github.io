@@ -859,6 +859,50 @@ f_{i} = \min_{i-k\leq j\leq i-1}\left\{f_{j}+\left[d_i\geq d_j\right]\right\}</s
     &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
+<h3 id="CF1077F2-Pictures-with-Kittens-hard-version"><a href="#CF1077F2-Pictures-with-Kittens-hard-version" class="headerlink" title="CF1077F2 Pictures with Kittens (hard version)"></a>CF1077F2 Pictures with Kittens (hard version)</h3><p>记得开<code>long long</code>，不开<code>long long</code>见祖宗。</p>
+<h4 id="状态设计-11"><a href="#状态设计-11" class="headerlink" title="状态设计"></a>状态设计</h4><p>用<code>f[i][j]</code>表示前<code>i</code>个数，选了<code>`j</code>个数且最后一个数必须选的最大答案。</p>
+<h4 id="转移方程-11"><a href="#转移方程-11" class="headerlink" title="转移方程"></a>转移方程</h4><script type="math/tex; mode=display">
+f_{i,j}=\max_{j-k\leq p\leq j-1}\left\{f_{q,j-1}+a_i\right\}</script><h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>普通的单调队列优化，需要义工$O(m)$个单调队列，对于每一选项单独维护转移就行了。</p>
+<h4 id="AC代码-12"><a href="#AC代码-12" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">5100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXM = <span class="hljs-number">5100</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+
+ll n, m, k, arr[MAXN];
+ll hd[MAXM], tl[MAXM], que[MAXM][MAXN];
+ll f[MAXN][MAXM];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld %lld %lld&quot;</span>, &amp;n, &amp;k, &amp;m);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld&quot;</span>, &amp;arr[i]);
+    &#125;
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0x80</span>, <span class="hljs-keyword">sizeof</span>(f));
+    f[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(ll i = <span class="hljs-number">1</span>; i &lt;= m; i++) hd[i] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(ll i = <span class="hljs-number">1</span>; i &lt;= m; i++) tl[i] = <span class="hljs-number">0</span>;
+    <span class="hljs-built_in">memset</span>(que, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(que));
+    que[<span class="hljs-number">0</span>][++tl[<span class="hljs-number">0</span>]] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(ll i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-keyword">for</span>(ll j = m; j &gt;= <span class="hljs-number">1</span>; j--)&#123;
+            <span class="hljs-keyword">while</span>(hd[j - <span class="hljs-number">1</span>] &lt;= tl[j - <span class="hljs-number">1</span>] &amp;&amp; que[j - <span class="hljs-number">1</span>][hd[j - <span class="hljs-number">1</span>]] &lt; i - k) hd[j - <span class="hljs-number">1</span>]++;
+            <span class="hljs-keyword">if</span>(hd[j - <span class="hljs-number">1</span>] &lt;= tl[j - <span class="hljs-number">1</span>])&#123;
+                f[i][j] = f[que[j - <span class="hljs-number">1</span>][hd[j - <span class="hljs-number">1</span>]]][j - <span class="hljs-number">1</span>] + arr[i];
+                <span class="hljs-keyword">while</span>(hd[j] &lt;= tl[j] &amp;&amp; f[que[j][tl[j]]][j] &lt;= f[i][j]) tl[j]--;
+                que[j][++tl[j]] = i;
+            &#125;
+        &#125;
+    &#125;
+    ll ans = -INF;
+    <span class="hljs-keyword">for</span>(ll i = n - k + <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        ans = max(ans, f[i][m]);
+    &#125;
+    <span class="hljs-keyword">if</span>(ans == -INF) <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;-1\n&quot;</span>);
+    <span class="hljs-keyword">else</span> <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lld\n&quot;</span>, ans);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 
             </article>
             <hr>
