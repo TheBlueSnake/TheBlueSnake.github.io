@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.7k 字
+      2.4k 字
     </span>
   
 
@@ -388,7 +388,86 @@ ll n;
 &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<p>最终penalty是113罚分，通过ABCDE共5题，F题遗憾FST了。排名$355$。</p>
+<h3 id="G-Reducing-Delivery-Cost"><a href="#G-Reducing-Delivery-Cost" class="headerlink" title="G. Reducing Delivery Cost"></a><a target="_blank" rel="noopener" href="http://codeforces.com/contest/1433/problem/G">G. Reducing Delivery Cost</a></h3><p>给你一张图，你有一个使一条边变为 $0$ 的能力，问总共 $k$ 条航线，每条航线都走最短路的最短路之和最小是多少？</p>
+<p>最开始着迷于使用分层图，于是被卡住了。正解呢很巧妙，做 $n$ 次<code>dijkstra</code>，然后枚举每一条边判断如果该边变为 $0$ 的时候最短路之和最短是多少。可能的结果只有：直接走过去，不经过这条边；先走到这条边的 $x$ 然后从 $y$ 走到终点；先走到这条边的 $y$ 然后从 $x$ 走到终点三种可能性。只有后两种会更优的原因是如果要使用这条边更新答案就一定会经过这条边，经过这条边的最优解一定是最优地到达一个顶点并从另一个顶点最优地到达终点。这样做复杂度 $O(n^2\log m+mk)$，可以通过。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFll 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> mp(x, y) make_pair(x, y)</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">1100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXM = <span class="hljs-number">2100</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; pii;
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">edge</span>&#123;</span><span class="hljs-keyword">int</span> u, v, w; edge(<span class="hljs-keyword">int</span> au = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> av = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> aw = <span class="hljs-number">0</span>)&#123;u = au; v = av; w = aw;&#125;&#125;;
+
+<span class="hljs-keyword">int</span> n, m, k;
+<span class="hljs-keyword">int</span> x[MAXN], y[MAXN];
+<span class="hljs-keyword">int</span> tot, frt[MAXN], nxt[MAXM]; edge ed[MAXM];
+<span class="hljs-keyword">int</span> a[MAXN], b[MAXN];
+<span class="hljs-keyword">int</span> dis[MAXN][MAXN], vis[MAXN];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> v, <span class="hljs-keyword">int</span> w)</span></span>&#123;
+    ed[++tot] = edge(u, v, w);
+    nxt[tot] = frt[u]; frt[u] = tot;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span></span>&#123;
+    <span class="hljs-keyword">int</span> u, v, w;
+    <span class="hljs-built_in">priority_queue</span>&lt;pii, <span class="hljs-built_in">vector</span>&lt;pii&gt;, greater&lt;pii&gt; &gt; que;
+    <span class="hljs-built_in">memset</span>(dis[s], <span class="hljs-number">0x3f</span>, <span class="hljs-keyword">sizeof</span>(dis[s]));
+    <span class="hljs-built_in">memset</span>(vis, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(vis));
+    que.push(mp(<span class="hljs-number">0</span>, s));
+    dis[s][s] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span>(!que.empty())&#123;
+        u = que.top().second; que.pop();
+        <span class="hljs-keyword">if</span>(!vis[u])&#123;
+            vis[u] = <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = frt[u]; i; i = nxt[i])&#123;
+                v = ed[i].v;
+                w = ed[i].w;
+                <span class="hljs-keyword">if</span>(dis[s][v] &gt; dis[s][u] + w)&#123;
+                    dis[s][v] = dis[s][u] + w;
+                    que.push(mp(dis[s][v], v));
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">int</span> _task = <span class="hljs-number">1</span>; <span class="hljs-comment">//scanf(&quot;%d&quot;, &amp;_task);</span>
+<span class="hljs-keyword">while</span>(_task--)&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d %d&quot;</span>, &amp;n, &amp;m, &amp;k);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> w, i = <span class="hljs-number">1</span>; i &lt;= m; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d %d&quot;</span>, &amp;x[i], &amp;y[i], &amp;w);
+        add_edge(x[i], y[i], w);
+        add_edge(y[i], x[i], w);
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= k; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;a[i], &amp;b[i]);
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        dijkstra(i);
+    &#125;
+    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>, tmps;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= k; i++)&#123;
+        ans += dis[a[i]][b[i]];
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++)&#123;
+        tmps = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= k; j++)&#123;
+            tmps += min(dis[a[j]][b[j]], min(dis[a[j]][x[i]] + dis[y[i]][b[j]], dis[a[j]][y[i]] + dis[x[i]][b[j]]));
+        &#125;
+        ans = min(ans, tmps);
+    &#125;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
+&#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<p>最终penalty是113罚分，通过ABCDE共5题，F题遗憾FST了。排名$351$。</p>
 
             </article>
             <hr>
