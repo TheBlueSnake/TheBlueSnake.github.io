@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      448 字
+      451 字
     </span>
   
 
@@ -168,7 +168,7 @@
             <article class="markdown-body">
               <p><strong>题单地址：</strong><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/training/12927#problems">【动态规划】提高组的DP问候</a></p>
 <h3 id="P1880-NOI1995-石子合并"><a href="#P1880-NOI1995-石子合并" class="headerlink" title="P1880 [NOI1995] 石子合并"></a>P1880 [NOI1995] 石子合并</h3><p>标准dp模板题。</p>
-<h4 id="状态设计"><a href="#状态设计" class="headerlink" title="状态设计"></a>状态设计</h4><p>先将原串复制一遍，然后<code>f[i][j]</code>表示从<code>i</code>至<code>j</code>之间合并石子的最小得分，<code>g[i][j]</code>表示从<code>i</code>至<code>j</code>之间合并石子的最大得分。</p>
+<h4 id="状态设计"><a href="#状态设计" class="headerlink" title="状态设计"></a>状态设计</h4><p>先将原串复制一遍，然后<code>f[i][j]</code>表示从 $i$ 至 $j$ 之间合并石子的最小得分，<code>g[i][j]</code>表示从 $i$ 至 $j$ 之间合并石子的最大得分。</p>
 <h4 id="转移方程"><a href="#转移方程" class="headerlink" title="转移方程"></a>转移方程</h4><script type="math/tex; mode=display">
 f_{i,j}=\min_{i\leq k< j}\left\{f_{i,k}+f_{k+1,j}\right\}\\
 g_{i,j}=\max_{i\leq k< j}\left\{f_{i,k}+f_{k+1,j}\right\}</script><h4 id="AC代码"><a href="#AC代码" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
@@ -206,7 +206,7 @@ g_{i,j}=\max_{i\leq k< j}\left\{f_{i,k}+f_{k+1,j}\right\}</script><h4 id="AC代�
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="P3146-USACO16OPEN-248-G"><a href="#P3146-USACO16OPEN-248-G" class="headerlink" title="P3146 [USACO16OPEN]248 G"></a>P3146 [USACO16OPEN]248 G</h3><p>下一题的简化版，同样是一眼题，区间dp。</p>
-<h4 id="状态设计-1"><a href="#状态设计-1" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示从<code>i</code>至<code>j</code>可以在末尾合并出的最大数。</p>
+<h4 id="状态设计-1"><a href="#状态设计-1" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示从 $i$ 至 $j$ 可以在末尾合并出的最大数。</p>
 <h4 id="转移方程-1"><a href="#转移方程-1" class="headerlink" title="转移方程"></a>转移方程</h4><script type="math/tex; mode=display">
 f_{i,j}=\max_{i\leq k<j}\left\{\begin{aligned}
 &f_{i,k}+1&f_{i,k}=f_{k+1,j}\\
@@ -248,8 +248,8 @@ f_{i,j}=\max_{i\leq k<j}\left\{\begin{aligned}
 &#125;</code></pre>
 <h3 id="P3147-USACO16OPEN-262144-P"><a href="#P3147-USACO16OPEN-262144-P" class="headerlink" title="P3147 [USACO16OPEN]262144 P"></a>P3147 [USACO16OPEN]262144 P</h3><p>详见<a target="_blank" rel="noopener" href="http://bluesnake.top/2020/09/28/%5BUSACO16OPEN%5D262144P/"><strong>该题的杂题报告</strong></a>。</p>
 <h3 id="P3205-HNOI2010-合唱队"><a href="#P3205-HNOI2010-合唱队" class="headerlink" title="P3205 [HNOI2010]合唱队"></a>P3205 [HNOI2010]合唱队</h3><p>可能稍微会想一下，反向思考插入过程，可以认为是一种拆开来的过程，每次只是首或尾才会更新。</p>
-<h4 id="状态设计-2"><a href="#状态设计-2" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j][0/1]</code>表示从理想队形<code>i</code>位置至<code>j</code>位置，从首（<code>f[i][j][0]</code>）还是从尾（<code>f[i][j][1]</code>）进入该队伍。</p>
-<h4 id="转移方程-2"><a href="#转移方程-2" class="headerlink" title="转移方程"></a>转移方程</h4><p>理想队形第<code>i</code>位表示为<code>a[i]</code></p>
+<h4 id="状态设计-2"><a href="#状态设计-2" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j][0/1]</code>表示从理想队形 $i$ 位置至 $j$ 位置，从首（<code>f[i][j][0]</code>）还是从尾（<code>f[i][j][1]</code>）进入该队伍。</p>
+<h4 id="转移方程-2"><a href="#转移方程-2" class="headerlink" title="转移方程"></a>转移方程</h4><p>理想队形第 $i$ 位表示为<code>a[i]</code></p>
 <script type="math/tex; mode=display">
 f_{i,j,0}=f_{i+1,j,0}*\left[a_i<a_{i+1}\right]+f_{i+1,j,1}*\left[a_i<a_j\right]\\
 f_{i,j,1}=f_{i,j-1,0}*\left[a_i<a_j\right]+f_{i,j-1,1}*\left[a_{j-1}<a_j\right]\\</script><h4 id="AC代码-2"><a href="#AC代码-2" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
@@ -292,8 +292,8 @@ f_{i,j,1}=f_{i,j-1,0}*\left[a_i<a_j\right]+f_{i,j-1,1}*\left[a_{j-1}<a_j\right]\
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="P4342-IOI1998-Polygon"><a href="#P4342-IOI1998-Polygon" class="headerlink" title="P4342 [IOI1998]Polygon"></a>P4342 [IOI1998]Polygon</h3><p>很好地一道区间dp，有负数的参与，不过无脑转移就可以了。</p>
-<h4 id="状态设计-3"><a href="#状态设计-3" class="headerlink" title="状态设计"></a>状态设计</h4><p>先将原串复制一遍，然后<code>f[i][j]</code>表示从<code>i</code>至<code>j</code>能计算获得的最大值，<code>g[i][j]</code>表示从<code>i</code>至<code>j</code>能获得的最小值。</p>
-<h4 id="转移方程-3"><a href="#转移方程-3" class="headerlink" title="转移方程"></a>转移方程</h4><p>复制后的串第<code>i</code>符号位表示为<code>flg[i]</code></p>
+<h4 id="状态设计-3"><a href="#状态设计-3" class="headerlink" title="状态设计"></a>状态设计</h4><p>先将原串复制一遍，然后<code>f[i][j]</code>表示从 $i$ 至 $j$ 能计算获得的最大值，<code>g[i][j]</code>表示从 $i$ 至 $j$ 能获得的最小值。</p>
+<h4 id="转移方程-3"><a href="#转移方程-3" class="headerlink" title="转移方程"></a>转移方程</h4><p>复制后的串第 $i$ 符号位表示为<code>flg[i]</code></p>
 <script type="math/tex; mode=display">
 1^{\circ}\quad 第i符号位为加号时
 \left\{\begin{aligned}
@@ -360,8 +360,8 @@ g_{i,j}&=\min_{i\leq k<k}\left\{f_{i,k}*f_{k+1,j},\;f_{i,k}*g_{k+1,j},\;g_{i,k}*
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="P4302-SCOI2003-字符串折叠"><a href="#P4302-SCOI2003-字符串折叠" class="headerlink" title="P4302 [SCOI2003]字符串折叠"></a>P4302 [SCOI2003]字符串折叠</h3><p>很好玩的区间dp，<del>竟然刷到了学长的题解</del>。</p>
-<h4 id="状态设计-4"><a href="#状态设计-4" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示从<code>i</code>至<code>j</code>子串的最短折叠长度。</p>
-<h4 id="转移方程-4"><a href="#转移方程-4" class="headerlink" title="转移方程"></a>转移方程</h4><p>我们设函数$f(S,len)$表示将字符串$S$划分成$\frac{\left|S\right|}{len}$段长度为$len$的相同子串时，其最短折叠长度。若无法分割，则返回<code>0x3f3f3f3f</code>。同时用$S_{i,j}$表示原串$S$中从$i$开始，到$j$结束所截的子串。</p>
+<h4 id="状态设计-4"><a href="#状态设计-4" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示从 $i$ 至 $j$ 子串的最短折叠长度。</p>
+<h4 id="转移方程-4"><a href="#转移方程-4" class="headerlink" title="转移方程"></a>转移方程</h4><p>我们设函数 $f(S,len)$ 表示将字符串 $S$ 划分成 $\frac{\left|S\right|}{len}$ 段长度为 $len$ 的相同子串时，其最短折叠长度。若无法分割，则返回<code>0x3f3f3f3f</code>。同时用 $S_{i,j}$ 表示原串 $S$ 中从 $i$ 开始，到 $j$ 结束所截的子串。</p>
 <script type="math/tex; mode=display">
 f_{i,j}=\min\left(
 \min_{\left.k\middle|\left|S\right|\right.}\left\{f(S_{i,j},k)\right\},
@@ -411,13 +411,13 @@ f_{i,j}=\min\left(
 &#125;</code></pre>
 <h3 id="P2470-SCOI2007-压缩"><a href="#P2470-SCOI2007-压缩" class="headerlink" title="P2470 [SCOI2007]压缩"></a>P2470 [SCOI2007]压缩</h3><p>详见<a target="_blank" rel="noopener" href="http://bluesnake.top/2020/10/12/%5BSCOI2007%5D%E5%8E%8B%E7%BC%A9/"><strong>该题的杂题报告</strong></a>。</p>
 <h3 id="P1941-飞扬的小鸟"><a href="#P1941-飞扬的小鸟" class="headerlink" title="P1941 飞扬的小鸟"></a>P1941 飞扬的小鸟</h3><p>很有趣的一道题，将近花了一个小时才A的一道绿题，完美地向我们解释了什么叫做要维护内存安全。</p>
-<h4 id="状态设计-5"><a href="#状态设计-5" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示鸟飞到<code>(i,j)</code>位置所需要的最小点击次数。</p>
-<h4 id="转移方程-5"><a href="#转移方程-5" class="headerlink" title="转移方程"></a>转移方程</h4><p>记位置$i$的上升高度是$inc_{i}$，下降高度是$dec_{i}$</p>
+<h4 id="状态设计-5"><a href="#状态设计-5" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示鸟飞到 $(i,j)$ 位置所需要的最小点击次数。</p>
+<h4 id="转移方程-5"><a href="#转移方程-5" class="headerlink" title="转移方程"></a>转移方程</h4><p>记位置$i$的上升高度是 $inc_{i}$，下降高度是 $dec_{i}$</p>
 <p>首先是向上飞行的dp转移式，在实际实现中需要用完全背包进行优化。</p>
 <script type="math/tex; mode=display">
 f_{i,j}=\min_{\;\;0<k<j\\\left.inc_{i-1}\middle|j-k\right.}\left\{
 f_{i-1,k}+\frac{j-k}{inc_{i-1}}
-\right\}</script><p>特别地，对于顶端$y=m$位置会顶头不会继续上升，需要在上面的基础上加上：</p>
+\right\}</script><p>特别地，对于顶端 $y=m$ 位置会顶头不会继续上升，需要在上面的基础上加上：</p>
 <script type="math/tex; mode=display">
 f_{i,m}=\min_{m-inc_{i-1}\leq k<m}\left\{f_{i,k}+1\right\}</script><p>然后是向下自然掉落的dp转移式：</p>
 <script type="math/tex; mode=display">
@@ -537,9 +537,9 @@ node arr[MAXN];
     <span class="hljs-keyword">return</span> x &lt; y;
 &#125;</code></pre>
 <h3 id="P1156-垃圾陷阱"><a href="#P1156-垃圾陷阱" class="headerlink" title="P1156 垃圾陷阱"></a>P1156 垃圾陷阱</h3><p>很经典的一道USACO的题目。</p>
-<h4 id="状态设计-6"><a href="#状态设计-6" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示前<code>i</code>个垃圾，堆叠到了<code>j</code>高度所能存活到的最久时间。</p>
-<h4 id="转移方程-6"><a href="#转移方程-6" class="headerlink" title="转移方程"></a>转移方程</h4><p>记垃圾出现时间为$t_i$，垃圾生命值$g_i$，垃圾高度$h_i$</p>
-<p>采用递推式转移，转移前提是$f_{i,j}\geq t_{i+1}$，转移方程为：</p>
+<h4 id="状态设计-6"><a href="#状态设计-6" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示前 $i$ 个垃圾，堆叠到了 $j$ 高度所能存活到的最久时间。</p>
+<h4 id="转移方程-6"><a href="#转移方程-6" class="headerlink" title="转移方程"></a>转移方程</h4><p>记垃圾出现时间为 $t_i$，垃圾生命值 $g_i$，垃圾高度 $h_i$</p>
+<p>采用递推式转移，转移前提是 $f_{i,j}\geq t_{i+1}$，转移方程为：</p>
 <script type="math/tex; mode=display">
 \large{
 \begin{aligned}
@@ -594,12 +594,12 @@ node arr[MAXN];
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h4 id="2020年10月16日更新"><a href="#2020年10月16日更新" class="headerlink" title="2020年10月16日更新"></a>2020年10月16日更新</h4><p>之前就一直在想为什么题解里没有用<code>f[i][j]</code>表示前<code>i</code>个垃圾，还可以存活至<code>j</code>时间的最高高度。所以经过思考后自己实现了一下，发现是完全完全可行的。</p>
+<h4 id="2020年10月16日更新"><a href="#2020年10月16日更新" class="headerlink" title="2020年10月16日更新"></a>2020年10月16日更新</h4><p>之前就一直在想为什么题解里没有用<code>f[i][j]</code>表示前 $i $个垃圾，还可以存活至 $j$ 时间的最高高度。所以经过思考后自己实现了一下，发现是完全完全可行的。</p>
 <h4 id="新转移方程"><a href="#新转移方程" class="headerlink" title="新转移方程"></a>新转移方程</h4><script type="math/tex; mode=display">
 \begin{aligned}
 f_{i,j}&=\max_{j\geq t_i}\left\{f_{i-1,j}+h_i\right\}\\
 f_{i,j}&=\max_{j-f_i\geq t_i}\left\{f_{i-1,j-f_i}\right\}
-\end{aligned}</script><h4 id="正确性的部分证明"><a href="#正确性的部分证明" class="headerlink" title="正确性的部分证明"></a>正确性的部分证明</h4><p><strong>无后效性</strong>：如果物品是按照$t_i$排序，那么每件物品的选择不会影响到下一件物品的选择。影响下一件物品选择的只有转移到下一个位置的$j$是否满足两个转移方程。</p>
+\end{aligned}</script><h4 id="正确性的部分证明"><a href="#正确性的部分证明" class="headerlink" title="正确性的部分证明"></a>正确性的部分证明</h4><p><strong>无后效性</strong>：如果物品是按照 $t_i$ 排序，那么每件物品的选择不会影响到下一件物品的选择。影响下一件物品选择的只有转移到下一个位置的 $j$ 是否满足两个转移方程。</p>
 <h4 id="新AC代码"><a href="#新AC代码" class="headerlink" title="新AC代码"></a>新AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">110</span>;
@@ -649,8 +649,8 @@ node arr[MAXN];
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="P5322-BJOI2019-排兵布阵"><a href="#P5322-BJOI2019-排兵布阵" class="headerlink" title="P5322 [BJOI2019]排兵布阵"></a>P5322 [BJOI2019]排兵布阵</h3><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/user/115864">NaCly_Fish</a>大佬出的题，感觉好小清新呢。</p>
-<h4 id="状态设计-7"><a href="#状态设计-7" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示前<code>i</code>个城堡，共派遣了<code>j</code>个士兵可能获得的最大值。</p>
-<h4 id="转移方程-7"><a href="#转移方程-7" class="headerlink" title="转移方程"></a>转移方程</h4><p>令$a_{i,j}$表示第$i$个城堡，第$j$个对手派遣的士兵个数。</p>
+<h4 id="状态设计-7"><a href="#状态设计-7" class="headerlink" title="状态设计"></a>状态设计</h4><p>令<code>f[i][j]</code>表示前 $i$个城堡，共派遣了 $j$ 个士兵可能获得的最大值。</p>
+<h4 id="转移方程-7"><a href="#转移方程-7" class="headerlink" title="转移方程"></a>转移方程</h4><p>令 $a_{i,j}$ 表示第 $i$ 个城堡，第 $j$ 个对手派遣的士兵个数。</p>
 <script type="math/tex; mode=display">
 \large
 f_{i,j}=\max_{\quad1\leq k\leq s\\j\geq 2\times a_{i,k}+1}\left\{f_{i-1,j-2\times a_{i,k}-1}+i\times k\right\}</script><h4 id="AC代码-8"><a href="#AC代码-8" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
@@ -702,8 +702,8 @@ f_{i,j}=\max_{\quad1\leq k\leq s\\j\geq 2\times a_{i,k}+1}\left\{f_{i-1,j-2\time
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="CF730J-Bottles"><a href="#CF730J-Bottles" class="headerlink" title="CF730J Bottles"></a>CF730J Bottles</h3><p>因为一个极小值赋初值搞错了，浪费了大概半个小时。</p>
-<p>首先答案$k$是很容易算出来的，只要贪心地取杯子就可以了。然后我们考虑让移动的水最少就是让保留在杯子里的水最多，所以题目转化为了一个双容量的01背包问题。</p>
-<h4 id="状态设计-8"><a href="#状态设计-8" class="headerlink" title="状态设计"></a>状态设计</h4><p>我们定义<code>f[i][j][k]</code>表示为前<code>i</code>个水杯，使用了<code>j</code>个水杯，还剩下<code>k</code>的水需要有地方放的最小倒水花费，最终答案就是水的总数减去这个值。</p>
+<p>首先答案 $k$ 是很容易算出来的，只要贪心地取杯子就可以了。然后我们考虑让移动的水最少就是让保留在杯子里的水最多，所以题目转化为了一个双容量的01背包问题。</p>
+<h4 id="状态设计-8"><a href="#状态设计-8" class="headerlink" title="状态设计"></a>状态设计</h4><p>我们定义<code>f[i][j][k]</code>表示为前 $i$ 个水杯，使用了 $j$ 个水杯，还剩下 $k$ 的水需要有地方放的最小倒水花费，最终答案就是水的总数减去这个值。</p>
 <h4 id="转移方程-8"><a href="#转移方程-8" class="headerlink" title="转移方程"></a>转移方程</h4><script type="math/tex; mode=display">
 \Large
 f_{i,j,k}=\max\left(f_{i-1,j,k},f_{i-1,j-1,k-b_{i}}+a_i\right)</script><h4 id="AC代码-9"><a href="#AC代码-9" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
@@ -769,13 +769,13 @@ node arr[MAXN];
 <p>详见<a target="_blank" rel="noopener" href="http://bluesnake.top/2020/10/15/%5BSHOI2008%5D%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%80%BA%E5%8A%A1/">该题的杂题做题报告</a></p>
 <h3 id="P3188-HNOI2007-梦幻岛宝珠"><a href="#P3188-HNOI2007-梦幻岛宝珠" class="headerlink" title="P3188 [HNOI2007]梦幻岛宝珠"></a>P3188 [HNOI2007]梦幻岛宝珠</h3><p>暂时还是不会做，先咕咕咕一下子。</p>
 <h3 id="P2627-USACO11OPEN-Mowing-the-Lawn-G"><a href="#P2627-USACO11OPEN-Mowing-the-Lawn-G" class="headerlink" title="P2627 [USACO11OPEN]Mowing the Lawn G"></a>P2627 [USACO11OPEN]Mowing the Lawn G</h3><p>标准的单调队列优化dp。</p>
-<h4 id="状态设计-9"><a href="#状态设计-9" class="headerlink" title="状态设计"></a>状态设计</h4><p>用<code>f[i][0]</code>表示前<code>i</code>个奶牛中，第<code>i</code>个奶牛不选的最优效率。用<code>f[i][1]</code>表示前<code>i</code>个奶牛中第<code>i</code>个奶牛选的最优效率。</p>
-<h4 id="转移方程-9"><a href="#转移方程-9" class="headerlink" title="转移方程"></a>转移方程</h4><p>如果使用$sum_i$来表示前缀和的话，可以获得转移方程：</p>
+<h4 id="状态设计-9"><a href="#状态设计-9" class="headerlink" title="状态设计"></a>状态设计</h4><p>用<code>f[i][0]</code>表示前 $i$ 个奶牛中，第 $i$ 个奶牛不选的最优效率。用<code>f[i][1]</code>表示前个 $i$ 奶牛中第 $i$ 个奶牛选的最优效率。</p>
+<h4 id="转移方程-9"><a href="#转移方程-9" class="headerlink" title="转移方程"></a>转移方程</h4><p>如果使用 $sum_i$ 来表示前缀和的话，可以获得转移方程：</p>
 <script type="math/tex; mode=display">
 f_{i,0}=\max\left(f_{i-1,0},f_{i-1,1}\right)\\
 f_{i,1}=\max_{i-k\leq k\leq i-1}\left\{f_{k,0}+sum_{i}-sum_{k}\right\}</script><h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>单调队列优化：</p>
 <script type="math/tex; mode=display">
-f_{i,1}=\max_{i-k\leq k\leq i-1}\left\{f_{k,0}-sum_{k}\right\}+sum_{i}</script><p>单调队列维护$f_{k,0}-sum_k$。每个点只会进队出队一次，总体复杂度$O(n)$。</p>
+f_{i,1}=\max_{i-k\leq k\leq i-1}\left\{f_{k,0}-sum_{k}\right\}+sum_{i}</script><p>单调队列维护 $f_{k,0}-sum_k$。每个点只会进队出队一次，总体复杂度$O(n)$。</p>
 <h4 id="AC代码-10"><a href="#AC代码-10" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
@@ -812,9 +812,9 @@ ll f[MAXN][<span class="hljs-number">2</span>];
 &#125;
 </code></pre>
 <h3 id="P3572-POI2014-PTA-Little-Bird"><a href="#P3572-POI2014-PTA-Little-Bird" class="headerlink" title="P3572 [POI2014]PTA-Little Bird"></a>P3572 [POI2014]PTA-Little Bird</h3><p>很有意思，可能需要一点点的思维。或者大胆的人可能直接就可以做出来了。<del>所以一定要敢于乱搞。</del></p>
-<h4 id="状态设计-10"><a href="#状态设计-10" class="headerlink" title="状态设计"></a>状态设计</h4><p>用<code>f[i]</code>表示跳跃到<code>i</code>位置的最小花费。</p>
+<h4 id="状态设计-10"><a href="#状态设计-10" class="headerlink" title="状态设计"></a>状态设计</h4><p>用<code>f[i]</code>表示跳跃到 $i$ 位置的最小花费。</p>
 <h4 id="转移方程-10"><a href="#转移方程-10" class="headerlink" title="转移方程"></a>转移方程</h4><script type="math/tex; mode=display">
-f_{i} = \min_{i-k\leq j\leq i-1}\left\{f_{j}+\left[d_i\geq d_j\right]\right\}</script><h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><p>直接做每次询问是$O(n^2)$的，很明显会超时，所以我们要找一个$O(n)$询问的算法。考虑单调队列，每次维护出范围内$f_i$作为第一关键字最小，$d_i$作为第二关键字最大的$i$。这样做答案是正确的原因是如果队首不需要更多地花费劳累值，那么很明显队首是最优的。但是如果队首需要多花费劳累值，那么跟队首相同的$f_j$一定也需要花费一点劳累值。如果有不需要花费劳累值那么它的$f_j$一定至少比$f_i$多$1$，也就是$f_j\geq f_i+1$，所以<strong>不会比选$f_i$的结果更优</strong>。</p>
+f_{i} = \min_{i-k\leq j\leq i-1}\left\{f_{j}+\left[d_i\geq d_j\right]\right\}</script><h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><p>直接做每次询问是 $O(n^2)$ 的，很明显会超时，所以我们要找一个 $O(n)$ 询问的算法。考虑单调队列，每次维护出范围内 $f_i$ 作为第一关键字最小，$d_i$ 作为第二关键字最大的 $i$。这样做答案是正确的原因是如果队首不需要更多地花费劳累值，那么很明显队首是最优的。但是如果队首需要多花费劳累值，那么跟队首相同的 $f_j$ 一定也需要花费一点劳累值。如果有不需要花费劳累值那么它的 $f_j$ 一定至少比 $f_i$ 多 $1$，也就是 $f_j\geq f_i+1$ ，所以<strong>不会比选 $f_i$ 的结果更优</strong>。</p>
 <blockquote>
 <p>  思考：如果每次跳高的劳累值不是1，而是随意一个正整数$d\geq 1$，那么该怎么做呢？</p>
 </blockquote>
@@ -860,9 +860,9 @@ f_{i} = \min_{i-k\leq j\leq i-1}\left\{f_{j}+\left[d_i\geq d_j\right]\right\}</s
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="CF1077F2-Pictures-with-Kittens-hard-version"><a href="#CF1077F2-Pictures-with-Kittens-hard-version" class="headerlink" title="CF1077F2 Pictures with Kittens (hard version)"></a>CF1077F2 Pictures with Kittens (hard version)</h3><p>记得开<code>long long</code>，不开<code>long long</code>见祖宗。</p>
-<h4 id="状态设计-11"><a href="#状态设计-11" class="headerlink" title="状态设计"></a>状态设计</h4><p>用<code>f[i][j]</code>表示前<code>i</code>个数，选了<code>`j</code>个数且最后一个数必须选的最大答案。</p>
+<h4 id="状态设计-11"><a href="#状态设计-11" class="headerlink" title="状态设计"></a>状态设计</h4><p>用<code>f[i][j]</code>表示前 $i$ 个数，选了 $j$ 个数且最后一个数必须选的最大答案。</p>
 <h4 id="转移方程-11"><a href="#转移方程-11" class="headerlink" title="转移方程"></a>转移方程</h4><script type="math/tex; mode=display">
-f_{i,j}=\max_{j-k\leq p\leq j-1}\left\{f_{q,j-1}+a_i\right\}</script><h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>普通的单调队列优化，需要义工$O(m)$个单调队列，对于每一选项单独维护转移就行了。</p>
+f_{i,j}=\max_{j-k\leq p\leq j-1}\left\{f_{q,j-1}+a_i\right\}</script><h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><p>普通的单调队列优化，需要一共 $O(m)$ 个单调队列，对于每一选项单独维护转移就行了。</p>
 <h4 id="AC代码-12"><a href="#AC代码-12" class="headerlink" title="AC代码"></a>AC代码</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
@@ -959,6 +959,73 @@ ll f[MAXN][MAXM];
     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, min(f[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>], f[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]));
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
+<h3 id="P3174-HAOI2009-毛毛虫"><a href="#P3174-HAOI2009-毛毛虫" class="headerlink" title="P3174 [HAOI2009]毛毛虫"></a>P3174 [HAOI2009]毛毛虫</h3><p>还是很有趣的一道题，竟然没有一遍AC。</p>
+<h3 id="状态设计-12"><a href="#状态设计-12" class="headerlink" title="状态设计"></a>状态设计</h3><p>令<code>f[i]</code>表示以 $i$ 节点作为根的子树，最终结束在节点 $i$ 的答案减去 $1$ 的结果。</p>
+<h3 id="转移方程-12"><a href="#转移方程-12" class="headerlink" title="转移方程"></a>转移方程</h3><p>用 $cnt_u$ 表示 $u$ 的儿子节点的数量。用 $\overline\max$ 表示次小值。</p>
+<script type="math/tex; mode=display">
+f_{u}=\max_{v\in u的子树}\left\{f_{v}\right\}+cnt_{u}</script><p>同时，我们可以维护更新答案为：</p>
+<script type="math/tex; mode=display">
+ans=\max_{v\in u的子树}\left\{f_{v}\right\}+\overline\max_{v\in u的子树}\left\{f_{v}\right\}+cnt_u+1+[u不是根节点]</script><h3 id="AC代码-13"><a href="#AC代码-13" class="headerlink" title="AC代码"></a>AC代码</h3><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFll 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> mp(x, y) make_pair(x, y)</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">300100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXM = <span class="hljs-number">600100</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; pii;
+
+<span class="hljs-keyword">int</span> n, m;
+<span class="hljs-keyword">int</span> tot, frt[MAXN], nxt[MAXM], ed[MAXM];
+<span class="hljs-keyword">int</span> ans, f[MAXN], cnt[MAXN];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> v)</span></span>&#123;
+    ed[++tot] = v;
+    nxt[tot] = frt[u]; frt[u] = tot;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;maxi, <span class="hljs-keyword">int</span> &amp;secmaxi, <span class="hljs-keyword">int</span> val)</span></span>&#123;
+    <span class="hljs-keyword">if</span>(val &lt;= secmaxi) <span class="hljs-keyword">return</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(val &lt;= maxi)&#123;
+        secmaxi = val;
+        <span class="hljs-keyword">return</span>;
+    &#125;<span class="hljs-keyword">else</span>&#123;
+        secmaxi = maxi;
+        maxi = val;
+        <span class="hljs-keyword">return</span>;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> fa)</span></span>&#123;
+    <span class="hljs-keyword">int</span> v, maxi = <span class="hljs-number">0</span>, secmaxi = <span class="hljs-number">0</span>;
+    cnt[u] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = frt[u]; i; i = nxt[i])&#123;
+        v = ed[i];
+        <span class="hljs-keyword">if</span>(v != fa)&#123;
+            cnt[u]++;
+            dfs(v, u);
+            update(maxi, secmaxi, f[v]);
+        &#125;
+    &#125;
+    ans = max(ans, maxi + secmaxi + cnt[u] + <span class="hljs-number">1</span> + (fa != <span class="hljs-number">0</span>));
+    f[u] = maxi + cnt[u];
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">int</span> _task = <span class="hljs-number">1</span>; <span class="hljs-comment">//scanf(&quot;%d&quot;, &amp;_task);</span>
+<span class="hljs-keyword">while</span>(_task--)&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> u, v, i = <span class="hljs-number">1</span>; i &lt;= m; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;u, &amp;v);
+        add_edge(u, v);
+        add_edge(v, u);
+    &#125;
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(f));
+    dfs(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
+&#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
 
             </article>
             <hr>
