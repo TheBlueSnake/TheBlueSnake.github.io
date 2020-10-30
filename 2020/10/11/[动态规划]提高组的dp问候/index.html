@@ -906,7 +906,59 @@ ll f[MAXN][MAXM];
 <h3 id="P5665-划分"><a href="#P5665-划分" class="headerlink" title="P5665 划分"></a>P5665 划分</h3><p>毒瘤中的毒瘤题目。暂时使用<code>__int128</code>有空了试一试用<code>long long</code>模拟<code>__int128</code>。</p>
 <p>详见<a target="_blank" rel="noopener" href="http://bluesnake.top/2020/10/21/%5Bnoip%E6%8F%90%E9%AB%98%E7%BB%842019D2T2%5D%E5%88%92%E5%88%86/">该题的杂题做题报告</a>。</p>
 <h3 id="P6563-SBCOI2020-一直在你身旁"><a href="#P6563-SBCOI2020-一直在你身旁" class="headerlink" title="P6563 [SBCOI2020] 一直在你身旁"></a>P6563 [SBCOI2020] 一直在你身旁</h3><p>不会，等有时间再做。</p>
-<p>详见<a href>该题的杂题报告</a>（未完成）</p>
+<p>详见<a target="_blank" rel="noopener" href="http://bluesnake.top/2020/10/30/%5BSBCOI2020%5D%E4%B8%80%E7%9B%B4%E5%9C%A8%E4%BD%A0%E8%BA%AB%E6%97%81/">该题的杂题报告</a>（未完成）</p>
+<h3 id="P2016-战略游戏"><a href="#P2016-战略游戏" class="headerlink" title="P2016 战略游戏"></a>P2016 战略游戏</h3><p>标准树形dp，不想讲了。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">2100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXM = <span class="hljs-number">4100</span>;
+
+<span class="hljs-keyword">int</span> n;
+<span class="hljs-keyword">int</span> rev[MAXN], f[MAXN][<span class="hljs-number">2</span>];
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; r[MAXN];
+<span class="hljs-keyword">int</span> tot, frt[MAXN], nxt[MAXM], ed[MAXM];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> v)</span></span>&#123;
+    ed[++tot] = v;
+    nxt[tot] = frt[u]; frt[u] = tot;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> fa)</span></span>&#123;
+    <span class="hljs-keyword">int</span> v;
+    f[u][<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>; f[u][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = frt[u]; i; i = nxt[i])&#123;
+        v = ed[i];
+        <span class="hljs-keyword">if</span>(v != fa)&#123;
+            dfs(v, u);
+            f[u][<span class="hljs-number">0</span>] += f[v][<span class="hljs-number">1</span>];
+            f[u][<span class="hljs-number">1</span>] += min(f[v][<span class="hljs-number">1</span>], f[v][<span class="hljs-number">0</span>]);
+        &#125;
+    &#125;
+<span class="hljs-comment">//    printf(&quot;:%d, %d %d\n&quot;, u, f[u][0], f[u][1]);</span>
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k, pi, i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;pi);
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;k);
+        rev[pi] = i;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> input, j = <span class="hljs-number">1</span>; j &lt;= k; j++)&#123;
+            <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;input);
+            r[i].push_back(input);
+        &#125;
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-keyword">int</span> len = r[i].size();
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; len; j++)&#123;
+            add_edge(i, rev[r[i][j]]);
+            add_edge(rev[r[i][j]], i);
+<span class="hljs-comment">//            printf(&quot;:%d %d\n&quot;, i, rev[r[i][j]]);</span>
+        &#125;
+    &#125;
+    dfs(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, min(f[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>], f[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 
             </article>
             <hr>
