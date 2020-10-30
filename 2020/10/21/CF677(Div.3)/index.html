@@ -166,7 +166,7 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h3 id="A-Boring-Apartments"><a href="#A-Boring-Apartments" class="headerlink" title="A. Boring Apartments"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1433/problem/A">A. Boring Apartments</a></h3><p>保证每一位数字都一样的话，我们只要用<code>x % 10</code>取出个位数即可，然后一共需要加<code>x % 10</code>个$1+2+3+4=10$，最终再加上当前的位数的额外开销是$1$或$3$或$6$或$10$即可。</p>
+              <h3 id="A-Boring-Apartments"><a href="#A-Boring-Apartments" class="headerlink" title="A. Boring Apartments"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1433/problem/A">A. Boring Apartments</a></h3><p>保证每一位数字都一样的话，我们只要用<code>x % 10</code>取出个位数即可，然后一共需要加 $x\mod 10$ 个 $1+2+3+4=10$，最终再加上当前的位数的额外开销是 $1$ 或 $3$ 或 $6$ 或 $10$ 即可。</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
@@ -192,7 +192,7 @@
 &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h3 id="B-Yet-Another-Bookshelf"><a href="#B-Yet-Another-Bookshelf" class="headerlink" title="B. Yet Another Bookshelf"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1433/problem/B">B. Yet Another Bookshelf</a></h3><p>需要移动的步数很明显是最左边的$1$和最右边的$1$中间存在的$0$的个数。</p>
+<h3 id="B-Yet-Another-Bookshelf"><a href="#B-Yet-Another-Bookshelf" class="headerlink" title="B. Yet Another Bookshelf"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1433/problem/B">B. Yet Another Bookshelf</a></h3><p>需要移动的步数很明显是最左边的 $1$ 和最右边的 $1$ 中间存在的 $0$ 的个数。</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
@@ -224,7 +224,7 @@
 &#125;</code></pre>
 <h3 id="C-Dominant-Piranha"><a href="#C-Dominant-Piranha" class="headerlink" title="C. Dominant Piranha"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1433/problem/C">C. Dominant Piranha</a></h3><p>它只要求存在性，所以我们可以保证当且仅当所有数相同的情况下无解。证明如下：</p>
 <p>充分性：如果所有数相同，很明显任何一条鱼都无法吃掉旁边的鱼，无解。</p>
-<p>必要性：要证明无解时所有数全部相同，我们只要证明所有数不全相同时，一定有解即可。我们选取其中满足$a_{i-1}<a_i,a_i>a_{i+1}$的最大的$a_i$。我们可以保证这个数一定存在，因为如果最大值两边都是和它相同的数，那么两边的数继续向外遍历一定可以在遇到边界前遇到一个比它小的数，否则的话所有数都全部相同了。</a_i,a_i></p>
+<p>必要性：要证明无解时所有数全部相同，我们只要证明所有数不全相同时，一定有解即可。我们选取其中满足 $a_{i-1}<a_i,a_i>a_{i+1}$ 的最大的 $a_i$。我们可以保证这个数一定存在，因为如果最大值两边都是和它相同的数，那么两边的数继续向外遍历一定可以在遇到边界前遇到一个比它小的数，否则的话所有数都全部相同了。</a_i,a_i></p>
 <p>因此得证。</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
@@ -267,7 +267,7 @@
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="D-Districts-Connection"><a href="#D-Districts-Connection" class="headerlink" title="D. Districts Connection"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1433/problem/D">D. Districts Connection</a></h3><p>很有意思，做的时候没有第一反应做出来。上了个厕所才想出来的。</p>
-<p>对于数列$a_i$来说，如果所有数全部相同很明显不可以满足题目要求。除此之外的话我们一定可以满足题目要求。考虑如下构造：我们选出两个不同的数$a_i$和$a_j$，那么我们首先连边$i\to j$，对于$k\neq i,j$，如果$a_k\neq a_i$，那么我们连边$k\to i$，否则我们连边$k\to j$。如此每个点只会有一个确定的父亲节点，总共连边$n-1$条边且联通，所以一定是一棵树。满足题意。</p>
+<p>对于数列$a_i$来说，如果所有数全部相同很明显不可以满足题目要求。除此之外的话我们一定可以满足题目要求。考虑如下构造：我们选出两个不同的数 $a_i$ 和 $a_j$，那么我们首先连边 $i\to j$，对于 $k\neq i,j$，如果 $a_k\neq a_i$，那么我们连边 $k\to i$，否则我们连边 $k\to j$。如此每个点只会有一个确定的父亲节点，总共连边 $n-1$ 条边且联通，所以一定是一棵树。满足题意。</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
@@ -305,7 +305,7 @@
 &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h3 id="E-Two-Round-Dances"><a href="#E-Two-Round-Dances" class="headerlink" title="E. Two Round Dances"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1433/problem/E">E. Two Round Dances</a></h3><p>答案是$\dbinom{n}{\frac n 2}\times\left[\dfrac{\left(\frac n 2\right)!}{n}\right]^2$，原因也很容易解释前面的$\dbinom{n}{\frac n 2}$表示随机选出两者，后面乘以$\left(\frac n 2\right)!$是因为一共有这么多种排列方式，但是其中每$\frac n2\times2=n$种排列方式是重复的，所以要除掉，最终平方一下是因为上下两个队伍都可以这么变换。</p>
+<h3 id="E-Two-Round-Dances"><a href="#E-Two-Round-Dances" class="headerlink" title="E. Two Round Dances"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1433/problem/E">E. Two Round Dances</a></h3><p>答案是 $\dbinom{n}{\frac n 2}\times\left[\dfrac{\left(\frac n 2\right)!}{n}\right]^2$，原因也很容易解释前面的 $\dbinom{n}{\frac n 2}$ 表示随机选出两者，后面乘以 $\left(\dfrac n 2\right)!$ 是因为一共有这么多种排列方式，但是其中每 $\dfrac n2\times2=n$ 种排列方式是重复的，所以要除掉，最终平方一下是因为上下两个队伍都可以这么变换。</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
@@ -328,7 +328,7 @@ ll n;
 &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h3 id="F-Zero-Remainder-Sum"><a href="#F-Zero-Remainder-Sum" class="headerlink" title="F. Zero Remainder Sum"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1433/problem/F">F. Zero Remainder Sum</a></h3><p>明显dp。考虑使用<code>f[i][j][p]</code>表示在当前行，前$i$个数，一共选出来$j$个数，对于$k$取模后得到的和是$p$的最大权值和。暴力转移$f_{i,j,p}=\max\left(f_{i-1,j,p},f_{i-1,j-1,mod(p-a_i,k)}\right)$其中$mod(i,j)$表示$i$对于$j$取模的结果。</p>
+<h3 id="F-Zero-Remainder-Sum"><a href="#F-Zero-Remainder-Sum" class="headerlink" title="F. Zero Remainder Sum"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1433/problem/F">F. Zero Remainder Sum</a></h3><p>明显dp。考虑使用<code>f[i][j][p]</code>表示在当前行，前 $i$ 个数，一共选出来 $j$ 个数，对于$k$取模后得到的和是 $p$ 的最大权值和。暴力转移 $f_{i,j,p}=\max\left(f_{i-1,j,p},f_{i-1,j-1,mod(p-a_i,k)}\right)$ 其中 $mod(i,j)$ 表示 $i$ 对于 $j$ 取模的结果。</p>
 <p><strong>初值赋值为<code>-INF</code>！！！</strong>因为这个FST了，<del>身败名裂。</del></p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
@@ -467,7 +467,7 @@ ll n;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;
 </code></pre>
-<p>最终penalty是113罚分，通过ABCDE共5题，F题遗憾FST了。排名$351$。</p>
+<p>最终penalty是113罚分，通过ABCDE共5题，F题遗憾FST了。排名 $351$。</p>
 
             </article>
             <hr>

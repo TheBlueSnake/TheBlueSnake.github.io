@@ -166,7 +166,7 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h3 id="A-Yet-Another-Two-Integers-Problem"><a href="#A-Yet-Another-Two-Integers-Problem" class="headerlink" title="A. Yet Another Two Integers Problem"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1409/problem/A">A. Yet Another Two Integers Problem</a></h3><p>水，直接说结论：答案是$\left\lceil\dfrac{b-a}{10}\right\rceil$。</p>
+              <h3 id="A-Yet-Another-Two-Integers-Problem"><a href="#A-Yet-Another-Two-Integers-Problem" class="headerlink" title="A. Yet Another Two Integers Problem"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1409/problem/A">A. Yet Another Two Integers Problem</a></h3><p>水，直接说结论：答案是 $\left\lceil\dfrac{b-a}{10}\right\rceil$。</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-comment">//const int MAXN = ;</span>
@@ -183,7 +183,7 @@ ll a, b;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="B-Minimum-Product"><a href="#B-Minimum-Product" class="headerlink" title="B. Minimum Product"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1409/problem/B">B. Minimum Product</a></h3><p>尽管很水，但是考试的时候竟然卡了一会儿，因此这里给出详细解答：</p>
-<p>题意是给定两个正整数数$a$和$b$，每次操作使<code>a = a - 1</code>或<code>b = b - 1</code>，以公共可以进行$n$次这种操作，并且操作过程中要始终满足$a\geq x$且$b\geq y$，保证$x,y\in\mathbb{Z^+}$。首先思路是考虑对于$a$和$b$没有下限的控制，此时不妨设$a\leq b$，那么每次操作如果使$a - 1$的话，最终答案减小$b$；反之对$b$操作的话答案减小$a$。所以最优解一定是使$b$不停得减小减小，一直到$b-n$最终一定是最优解。那么此时考虑上两者有下限的要求时，如果$b-n\geq y$，对于最终答案没有任何变化。如果$b-n&lt;y$，我们会猜想最终答案一定在将$a$减少至$x$后再减小$b$与将$b$减小至$y$后再减小$a$之间。以下对这个结论进行证明：</p>
+<p>题意是给定两个正整数数$a$和$b$，每次操作使<code>a = a - 1</code>或<code>b = b - 1</code>，以公共可以进行$n$次这种操作，并且操作过程中要始终满足 $a\geq x$ 且 $b\geq y$，保证 $x,y\in\mathbb{Z^+}$。首先思路是考虑对于$a$和$b$没有下限的控制，此时不妨设 $a\leq b$，那么每次操作如果使 $a - 1$ 的话，最终答案减小 $b$；反之对$b$操作的话答案减小 $a$。所以最优解一定是使 $b$ 不停得减小减小，一直到 $b-n$ 最终一定是最优解。那么此时考虑上两者有下限的要求时，如果 $b-n\geq y$，对于最终答案没有任何变化。如果 $b-n&lt;y$，我们会猜想最终答案一定在将 $a$ 减少至 $x$ 后再减小 $b$ 与将 $b$ 减小至 $y$ 后再减小 $a$ 之间。以下对这个结论进行证明：</p>
 <p>我们不妨假设$a$最终减小了$i$，那么根据题意我们必须满足如下不等式</p>
 <script type="math/tex; mode=display">
 \left\{
@@ -199,8 +199,8 @@ y+n-b\leq i\leq a-x</script><p>那么我们最终答案的表达式也可以表�
 a\times b&=\left(a-i\right)\left[b-\left(n-i\right)\right]\\
 &=ab-an+ai-bi+ni-i^2\\
 &=-i^2+(a-b+n)i+a(b-n)
-\end{aligned}</script><p>我们可以看到是关于$i$的一个二次函数，开口向下，在$i\in\mathbb{R}$上只有最大值，因此在范围$i\in\left[y+n-b,a-x\right]$上，它的最小值一定取在区间两端即$i=y+n-b$或$i=a-x$的时候，分别是将$a$取到$x$和将$b$取到$y$的时候。</p>
-<p>综上所述，最优情况一定在将$a$减少至$x$后再减小$b$与将$b$减小至$y$后再减小$a$之间，我们可以$O(1)$实现判断和计算。</p>
+\end{aligned}</script><p>我们可以看到是关于 $i$ 的一个二次函数，开口向下，在 $i\in\mathbb{R}$ 上只有最大值，因此在范围 $i\in\left[y+n-b,a-x\right]$ 上，它的最小值一定取在区间两端即 $i=y+n-b$ 或 $i=a-x$ 的时候，分别是将 $a$ 取到 $x$ 和将 $b$ 取到 $y$ 的时候。</p>
+<p>综上所述，最优情况一定在将 $a$ 减少至 $x$ 后再减小 $b$ 与将 $b$ 减小至 $y$ 后再减小 $a$ 之间，我们可以 $O(1)$ 实现判断和计算。</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-comment">//const int MAXN = ;</span>
@@ -229,7 +229,7 @@ ll a, b, x, y, n;
     &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h3 id="C-Yet-Another-Array-Restoration"><a href="#C-Yet-Another-Array-Restoration" class="headerlink" title="C. Yet Another Array Restoration"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1409/problem/C">C. Yet Another Array Restoration</a></h3><p>水，题目大意是让你找一个含有$x,y\in\left[1,50\right]$的长度为$n$的等差数列子序列，使数列中最大值最小。就直接做就行。</p>
+<h3 id="C-Yet-Another-Array-Restoration"><a href="#C-Yet-Another-Array-Restoration" class="headerlink" title="C. Yet Another Array Restoration"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1409/problem/C">C. Yet Another Array Restoration</a></h3><p>水，题目大意是让你找一个含有 $x,y\in\left[1,50\right]$ 的长度为 $n$ 的等差数列子序列，使数列中最大值最小。就直接做就行。</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-comment">//const int MAXN = ;</span>
@@ -306,7 +306,7 @@ ll n, s;
     &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h3 id="E-Two-Platforms"><a href="#E-Two-Platforms" class="headerlink" title="E. Two Platforms"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1409/problem/E">E. Two Platforms</a></h3><p>水，由题意可知物体的$y$轴没有任何意义，只要我平面放得够低就行。先按照$x$轴升序排序，然后直接从后向前维护一遍从$i$点到$n$点开始放单独一个平面最大可以接到多少物品，然后从前往后再扫一遍计算从当前点开始放第一块平面，加上之前预处理的$k$长度之后放第二块平面的最大值之和是多少，然后更新答案即可。</p>
+<h3 id="E-Two-Platforms"><a href="#E-Two-Platforms" class="headerlink" title="E. Two Platforms"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1409/problem/E">E. Two Platforms</a></h3><p>水，由题意可知物体的 $y$ 轴没有任何意义，只要我平面放得够低就行。先按照 $x$ 轴升序排序，然后直接从后向前维护一遍从 $i$ 点到 $n$ 点开始放单独一个平面最大可以接到多少物品，然后从前往后再扫一遍计算从当前点开始放第一块平面，加上之前预处理的$k$长度之后放第二块平面的最大值之和是多少，然后更新答案即可。</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">200100</span>;
@@ -343,7 +343,7 @@ ll n, s;
     &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h3 id="F-Subsequences-of-Length-Two"><a href="#F-Subsequences-of-Length-Two" class="headerlink" title="F. Subsequences of Length Two"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1409/problem/F">F. Subsequences of Length Two</a></h3><p>一度以为自己无法AK了，认为这道题不可做，甚至考虑了一下建立各种自动机上计算，然后发现就是一个水得不行的dp。首先特判$t$本身是两个相同的数的情况，最优解一定是能换多少个就换多少个，然后计算答案为$\left(\begin{aligned}n\\2\end{aligned}\right)$即可。对于另一种情况我们令<code>f[i][j][k]</code>表示前$i$个位置，一共有$j$个<code>t[1]</code>，还剩下$k$次修改操作可以使用，转移方程比较复杂：</p>
+<h3 id="F-Subsequences-of-Length-Two"><a href="#F-Subsequences-of-Length-Two" class="headerlink" title="F. Subsequences of Length Two"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1409/problem/F">F. Subsequences of Length Two</a></h3><p>一度以为自己无法AK了，认为这道题不可做，甚至考虑了一下建立各种自动机上计算，然后发现就是一个水得不行的dp。首先特判$t$本身是两个相同的数的情况，最优解一定是能换多少个就换多少个，然后计算答案为 $\left(\begin{aligned}n\\2\end{aligned}\right)$ 即可。对于另一种情况我们令<code>f[i][j][k]</code>表示前$i$个位置，一共有 $j$ 个 $t_1$，还剩下 $k$ 次修改操作可以使用，转移方程比较复杂：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
 如果S_i不是t_1也不是t_2\quad
@@ -368,7 +368,7 @@ f_{i,j,k}&=\max\left\{
 &f_{i+1,j+1,k-1}\\
 \end{aligned}
 \right.
-\end{aligned}</script><p>转移代价是$O(1)$，总体复杂度$O(n^2k)$可以过</p>
+\end{aligned}</script><p>转移代价是 $O(1)$，总体复杂度 $O(n^2k)$ 可以过</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
 <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">210</span>;
