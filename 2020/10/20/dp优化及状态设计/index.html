@@ -178,7 +178,7 @@ f_{i,j}=\max_{\;0\leq k\leq cnt_i\\j-k\times w_i\geq0}\left\{f_{i-1,j-k\times w_
 <li><p>有$k$次操作，每次操作给出一个左闭右开的区间（或封闭区间可以转换为“左闭右加一开”）将区间内的数进行某种操作（比如全部$+1$），最终计算$ans$只与单独每个位置相关（如$ans=\sum\limits_{i=1}^m A_i^{k}$）。</p>
 <ul>
 <li><p>可以将该问题转变为一个括号序列，使用<code>f[i][j][k]</code>表示$i$位置，$j$左括号，$k$右括号；或者对于某些问题可以扔掉一维，变为<code>f[i][j]</code>，表示$i$位置，在括号内$j$层进行转移计算。<strong>e.g.</strong></p>
-<p><img src="https://i.loli.net/2020/09/11/slnAtchKj2BkYg5.png" srcset="/img/loading.gif" alt="题目原文.PNG"></p>
+<p><img src="/2020/10/20/dp%E4%BC%98%E5%8C%96%E5%8F%8A%E7%8A%B6%E6%80%81%E8%AE%BE%E8%AE%A1/1.png" srcset="/img/loading.gif" alt></p>
 </li>
 </ul>
 </li>

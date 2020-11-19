@@ -254,18 +254,18 @@ ll arr[MAXN], cnt[MAXM], ans = <span class="hljs-number">0</span>;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
 <h3 id="D-TediousLee"><a href="#D-TediousLee" class="headerlink" title="D. TediousLee"></a><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1369/problem/D">D. TediousLee</a></h3><p>非常有意思的一道递推题，虽然不难但是很有意思。<br>我们先观察图的生成方式<br>一级RDB（有根死亡灌木）：</p>
-<p><img src="https://i.loli.net/2020/08/03/6MfFGCdEK2yDZPQ.png" srcset="/img/loading.gif" alt="1.PNG"></p>
+<p><img src="/2020/07/07/CF652(Div.2)/1.png" srcset="/img/loading.gif" alt></p>
 <p>二级RDB（有根死亡灌木）：</p>
-<p><img src="https://i.loli.net/2020/08/03/mOiJN3k1KDj9zgd.png" srcset="/img/loading.gif" alt="2.PNG"></p>
+<p><img src="/2020/07/07/CF652(Div.2)/2.png" srcset="/img/loading.gif" alt></p>
 <p>三级RDB（有根死亡灌木）：</p>
-<p><img src="https://i.loli.net/2020/08/03/a3ksRYNiLFD9r16.png" srcset="/img/loading.gif" alt="3.PNG"></p>
+<p><img src="/2020/07/07/CF652(Div.2)/3.png" srcset="/img/loading.gif" alt></p>
 <p>四级RDB（有根死亡灌木）：</p>
-<p><img src="https://i.loli.net/2020/08/03/ZcSChHjkxYartB9.png" srcset="/img/loading.gif" alt="4.PNG"></p>
+<p><img src="/2020/07/07/CF652(Div.2)/4.png" srcset="/img/loading.gif" alt></p>
 <p>五级RDB（有根死亡灌木）：</p>
-<p><img src="https://i.loli.net/2020/08/03/FG4jKuV8Zk3sn5v.png" srcset="/img/loading.gif" alt="5.PNG"></p>
+<p><img src="/2020/07/07/CF652(Div.2)/5.png" srcset="/img/loading.gif" alt></p>
 <p>找到规律了吗？</p>
 <p>我们将五级RDB与四级RDB和三级RDB比较一下：</p>
-<p><img src="https://i.loli.net/2020/08/03/pKfWTOo3Dchn6FJ.png" srcset="/img/loading.gif" alt="5modified.PNG"></p>
+<p><img src="/2020/07/07/CF652(Div.2)/6.png" srcset="/img/loading.gif" alt></p>
 <p>图中是五级RDB，红线圈出部分为四级RDB，蓝线圈出部分为三级RDB。推广一下可以得到$n$级RDB由一个$n-1$级RDB和两个$n-2$级RDB组合而成。<br>题目要我们求的是树上可以涂色的爪子的数量，那么可以轻易得到一个递推式$f[i]=f[i-1]+2\times f[i-2]$，然而我们使用这个递推式递推的时候却会发现，只有前几个是满足的，大样例答案错误。<br>经过思考可以很容易推出错误原因，连接几个小RDB的端点$1$可以和几个小RDB组成一个可行的爪子，但是这不一定每次都要加上$4$有时候却不能组成一个爪子，因此我们引入新的$head$数组用来记录最优解时是不是一定要将顶端点涂色，可以得到递推式：</p>
 <script type="math/tex; mode=display">
 f[i] = f[i - 1] + 2\times f[i - 2] + 4\times\left[ head[i-1]=0\text{且}head[i-2]=0 \right]</script><script type="math/tex; mode=display">
@@ -296,7 +296,7 @@ ll n, f[MAXN], head[MAXN];
     &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
-<h3 id="E-DeadLee"><a href="#E-DeadLee" class="headerlink" title="E. DeadLee"></a><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1369/problem/E">E. DeadLee</a></h3><p><img src="https://i.loli.net/2020/08/03/luWpzRYk6qtVDhm.png" srcset="/img/loading.gif" alt="saying.PNG"></p>
+<h3 id="E-DeadLee"><a href="#E-DeadLee" class="headerlink" title="E. DeadLee"></a><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1369/problem/E">E. DeadLee</a></h3><p><img src="/2020/07/07/CF652(Div.2)/7.png" srcset="/img/loading.gif" alt></p>
 <p>Lee的好朋友（确信）<br>题目本身其实也不难，可以贪心，假设有一种食物，喜欢这种食物的人的数量甚至比食物本身有的数量还要少，我们可以得到结论：喜欢这种食物的朋友都不会生气到吃掉Lee，因此贪心地将喜欢这种食物的朋友全部都放到尽量后面去，这样他们能不用消耗其他的食物就尽量不消耗其他食物。所以我们可以把喜欢该食物的人喜欢的另一种食物需求量减少$1$，因为就算没有剩下一种食物了，他还是可以吃这种食物（稍微有那么点像拓扑排序），于是借鉴拓扑排序思想一遍一遍滚，如果到最后还是有朋友吃不上饭，那么就真的是吃不上饭了。</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
 <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;

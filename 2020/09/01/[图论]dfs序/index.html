@@ -178,7 +178,7 @@
 3 8
 5 9
 2 10</code></pre>
-<p><img src="https://i.loli.net/2020/09/01/Mro7ZHpL6xaBc5T.png" srcset="/img/loading.gif" alt="欧拉序-图1.PNG"></p>
+<p><img src="/2020/09/01/[%E5%9B%BE%E8%AE%BA]dfs%E5%BA%8F/1.png" srcset="/img/loading.gif" alt></p>
 <p>它的遍历为<code>1-&gt;2-&gt;10-&gt;6-&gt;3-&gt;8-&gt;5-&gt;7-&gt;9-&gt;4</code>，最终得到的欧拉序列是<code>1, 2, 10, 2, 6, 2, 1, 3, 8, 3, 5, 7, 5, 9, 5, 3, 4, 3, 1</code>。我们可以发现，对于欧拉序来说，其中每个节点第一次出现和最后一次出现的位置截成的子序列正好是其子树内的欧拉序，如3节点的第一次出现在8位置，最后一次出现在19位置，中间截成的子序列正好是3的子树的欧拉序。</p>
 <h3 id="dfs序有什么作用"><a href="#dfs序有什么作用" class="headerlink" title="dfs序有什么作用"></a>dfs序有什么作用</h3><p>dfs序的本质就是将一个本来在树上维护的数据转变为$O(n)$级的一维数据进行维护。此时可以<strong>在线</strong>进行维护的量为以某一节点为根的子树，同时dfs序的每一个子序列均代表原树上的一条路径（不一定是简单路径）且任意路径均可以表示为欧拉序上的一条子序列。所以可以进行的常用操作有：</p>
 <h4 id="利用欧拉序在线求LCA"><a href="#利用欧拉序在线求LCA" class="headerlink" title="利用欧拉序在线求LCA"></a>利用欧拉序在线求LCA</h4><p>欧拉序的最基本应用，需要在<code>dfs</code>的时候同时维护一下每个点的深度，那么任意两点$i$，$j$的LCA就是$i$首次进入欧拉序的位置<code>id[i]</code>和<code>idin[j]</code>，其截出的子序列中深度最小的节点就是两点的LCA，可以使用ST表在线维护，最终做到$O(n\log n)$预处理，$O(1)$求两点LCA。</p>
