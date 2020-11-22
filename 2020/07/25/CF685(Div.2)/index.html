@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" type="image/png" href="/img/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Codeforces Round #685 (Div.2) 做题报告 | TheBlueSnake Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 75vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>TheBlueSnake's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://i.loli.net/2020/09/04/dkWiupI56tbNMOJ.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-07-25 09:53">
+      2020-07-25 09:53
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>自从打Codeforces以来最有惊无险的一场比赛。期间疯狂WA，一直做到最后20秒，最后一发提交AC了。谨以此文祭此次比赛经历。</p>
+<h3 id="A-Subtract-or-Divide"><a href="#A-Subtract-or-Divide" class="headerlink" title="A.Subtract or Divide"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1451/problem/A">A.Subtract or Divide</a></h3><p>给你一个数，每次可以将它除以不为自身的任意一个约数，或者可以减一，问最少多少次操作可以变成1。其实是很水的，但是最开始做错了，两次……（害怕qwq。正解为特判 $n=1$ 答案是 $0$， $n=2$ 答案是 $1$， $n=3$ 答案是 $4$。其他情况下，如果 $n$ 是偶数，最优操作一定是将它除以 $\frac n 2$ 变为 $2$，再一次操作变为 $1$。如果 $n$ 是偶数，最优解一定是将它减一，除以 $\frac{n-1}2$，并再减一得到 $1$。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFll 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> mp(x, y) make_pair(x, y)</span>
+<span class="hljs-comment">//const int MAXN = ;</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; pii;
+
+<span class="hljs-keyword">int</span> n;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">int</span> _task = <span class="hljs-number">1</span>; <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;_task);
+<span class="hljs-keyword">while</span>(_task--)&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+    <span class="hljs-keyword">if</span>(n == <span class="hljs-number">1</span>)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0\n&quot;</span>);
+        <span class="hljs-keyword">continue</span>;
+    &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(n == <span class="hljs-number">2</span>)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1\n&quot;</span>);
+        <span class="hljs-keyword">continue</span>;
+    &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(n == <span class="hljs-number">3</span>)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;2\n&quot;</span>);
+        <span class="hljs-keyword">continue</span>;
+    &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(n % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;2\n&quot;</span>);
+        <span class="hljs-keyword">continue</span>;
+    &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(n % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;3\n&quot;</span>);
+        <span class="hljs-keyword">continue</span>;
+    &#125;
+&#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<h3 id="B-Non-Substring-Subsequence"><a href="#B-Non-Substring-Subsequence" class="headerlink" title="B. Non-Substring Subsequence"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1451/problem/B">B. Non-Substring Subsequence</a></h3><p>最开始读错题，以为优秀的联通块是指最大联通长度不超过 $2$，浪费了两次提交。</p>
+<p>其实只要满足 $a_{l_i}$ 是第一个 $0$ 或者第一个 $1$ 或者 $a_{r_i}$ 是最后一个 $0$ 或者最后一个 $1$ 不同时满足，就一定可以满足条件，只要把首尾的那个数换成更前面或者更后面的 $0$ 或 $1$ 即可。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFll 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> mp(x, y) make_pair(x, y)</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">110</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; pii;
+
+<span class="hljs-keyword">int</span> n, q;
+<span class="hljs-keyword">char</span> str[MAXN];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">int</span> _task = <span class="hljs-number">1</span>; <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;_task);
+<span class="hljs-keyword">while</span>(_task--)&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;n, &amp;q);
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, str + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">int</span> fst1 = <span class="hljs-number">-1</span>, fst0 = <span class="hljs-number">-1</span>, lst1 = <span class="hljs-number">-1</span>, lst0 = <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-keyword">if</span>(str[i] == <span class="hljs-string">&#x27;1&#x27;</span>)&#123;
+            fst1 = i;
+            <span class="hljs-keyword">break</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-keyword">if</span>(str[i] == <span class="hljs-string">&#x27;0&#x27;</span>)&#123;
+            fst0 = i;
+            <span class="hljs-keyword">break</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = n; i &gt;= <span class="hljs-number">1</span>; i--)&#123;
+        <span class="hljs-keyword">if</span>(str[i] == <span class="hljs-string">&#x27;1&#x27;</span>)&#123;
+            lst1 = i;
+            <span class="hljs-keyword">break</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = n; i &gt;= <span class="hljs-number">1</span>; i--)&#123;
+        <span class="hljs-keyword">if</span>(str[i] == <span class="hljs-string">&#x27;0&#x27;</span>)&#123;
+            lst0 = i;
+            <span class="hljs-keyword">break</span>;
+        &#125;
+    &#125;
+<span class="hljs-comment">//    printf(&quot;:%d %d %d %d\n&quot;, fst0, fst1, lst0, lst1);</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> li, ri, i = <span class="hljs-number">1</span>; i &lt;= q; i++)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;li, &amp;ri);
+        <span class="hljs-keyword">if</span>(ri - li + <span class="hljs-number">1</span> &lt; <span class="hljs-number">2</span>)&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;NO\n&quot;</span>);
+            <span class="hljs-keyword">continue</span>;
+        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>((li == fst1 || li == fst0) &amp;&amp; (ri == lst1 || ri == lst0))&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;NO\n&quot;</span>);
+            <span class="hljs-keyword">continue</span>;
+        &#125;<span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;YES\n&quot;</span>);
+            <span class="hljs-keyword">continue</span>;
+        &#125;
+    &#125;
+&#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<h3 id="C-String-Equality"><a href="#C-String-Equality" class="headerlink" title="C. String Equality"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1451/problem/C">C. String Equality</a></h3><p>最开始以为最不可做，结果是唯一一个一次提交就过了的题目。由于每次操作必须是 $k$ 次变换，我们不妨先将 $a$ 串用 <code>swap</code> 操作变为有序，从连续的 $a$ 开始操作，每次变 $k$ 个，如果每次都可以正好留下 $b$ 串中该字符个数个字符，就接着往下做，否则就不可以做到。全部变换完成后，再用 <code>swap</code> 操作换成 $b$ 顺序即可。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFll 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> mp(x, y) make_pair(x, y)</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">1000100</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; pii;
+
+<span class="hljs-keyword">int</span> n, k;
+<span class="hljs-keyword">char</span> str[MAXN];
+<span class="hljs-keyword">int</span> l1[<span class="hljs-number">30</span>], l2[<span class="hljs-number">30</span>];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">int</span> _task = <span class="hljs-number">1</span>; <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;_task);
+<span class="hljs-keyword">while</span>(_task--)&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;n, &amp;k);
+    <span class="hljs-built_in">memset</span>(l1, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(l1));
+    <span class="hljs-built_in">memset</span>(l2, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(l2));
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, str + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        l1[str[i] - <span class="hljs-string">&#x27;a&#x27;</span> + <span class="hljs-number">1</span>]++;
+    &#125;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, str + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        l2[str[i] - <span class="hljs-string">&#x27;a&#x27;</span> + <span class="hljs-number">1</span>]++;
+    &#125;
+    <span class="hljs-keyword">bool</span> flag = <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">26</span>; i++)&#123;
+<span class="hljs-comment">//        printf(&quot;:%c: %d %d\n&quot;, &#x27;a&#x27; + i - 1, l1[i], l2[i]);</span>
+        <span class="hljs-keyword">if</span>(l1[i] - l2[i] &gt;= <span class="hljs-number">0</span> &amp;&amp; (l1[i] - l2[i]) % k == <span class="hljs-number">0</span>)&#123;
+            l1[i + <span class="hljs-number">1</span>] += l1[i] - l2[i];
+        &#125;<span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;No\n&quot;</span>);
+            flag = <span class="hljs-literal">true</span>;
+            <span class="hljs-keyword">break</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span>(!flag)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Yes\n&quot;</span>);
+        <span class="hljs-keyword">continue</span>;
+    &#125;
+&#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<h3 id="D-Circle-Game"><a href="#D-Circle-Game" class="headerlink" title="D. Circle Game"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1451/problem/D">D. Circle Game</a></h3><p>最开始看到这道题脑子还是蒙的。事实证明，我用一个口胡的奇怪做法过了这道题，然后貌似还没有FST。我的想法就是先把圆按照比例缩小。将半径 $d$ 除以每次走的长度 $d$，此时就变成了一个半径为 $\frac d k$ 的圆，每次走一格，问谁会赢。（这两步之间应该是等价的吧？）此时我们只要找出可以走的整数格子中距离原点曼哈顿距离最大的位置。所以先找中间的 $(p,p)$ 这个坐标轴角平分线上的对称的点，然后看 $(p+1,p)$ 或者 $(p,p+1)$ 是不是也在圆内，是的话就说明最远的点在旁边，不然的话就是这个点。然后只要判断奇偶性就可以得出谁获胜了，因为不存在会被压制的情况，所以直接输出即可。</p>
+<p>尝试过 <code>long long</code>，尝试过把除法移过去变为乘法。<del>最终还是向 <code>double</code> 屈服了……</del></p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFll 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> mp(x, y) make_pair(x, y)</span>
+<span class="hljs-comment">//const int MAXN = ;</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; pii;
+
+<span class="hljs-keyword">int</span> di, k;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">int</span> _task = <span class="hljs-number">1</span>; <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;_task);
+<span class="hljs-keyword">while</span>(_task--)&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d&quot;</span>, &amp;di, &amp;k);
+    <span class="hljs-keyword">double</span> dis = <span class="hljs-built_in">floor</span>(<span class="hljs-number">1.0</span> * di / <span class="hljs-built_in">sqrt</span>(<span class="hljs-number">2</span>) / k);
+    <span class="hljs-keyword">if</span>(<span class="hljs-number">1.0</span> * dis * dis + <span class="hljs-number">1.0</span> * (dis + <span class="hljs-number">1</span>) * (dis + <span class="hljs-number">1</span>) &lt;= <span class="hljs-number">1.0</span> * di * di / k / k)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Ashish\n&quot;</span>);
+    &#125;<span class="hljs-keyword">else</span>&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Utkarsh\n&quot;</span>);
+    &#125;
+&#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h3 id="E1-Bitwise-Queries-Easy-Version"><a href="#E1-Bitwise-Queries-Easy-Version" class="headerlink" title="E1. Bitwise Queries (Easy Version)"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1451/problem/E1">E1. Bitwise Queries (Easy Version)</a></h3><p>暂时只做出来了Easy Version。不过看了官方题解，口胡出了Hard Version。</p>
+<p>其实考场上看到是一道交互题就不想做了，但是看了看F口胡一个算法，但是细节貌似时间不够了就回来看E。</p>
+<p>先说我考场上的想法，我最开始以为三种操作是给你从 $a_i$ 一直异或异或异或到 $a_j$ 的区间查询，然后就写了一个询问 $a_1 \oplus a_2$，$a_2 \oplus a_3$，$a_1\oplus a_2\oplus a_3$，然后就算出来$a_1$，$a_2$，$a_3$美滋滋，直接一路异或到 $a_n$ 就可以求出全部答案了。一交，三号点错了（谢天谢地，不然就FST了）。然后心态崩了，反复调试，然后才又读了一遍题，发现只是询问 $a_i \oplus a_j$。</p>
+<p>于是想到了另一种做法，我考虑到所有位运算都不存在<del>方向性</del>（就是指 $f(x,y)=f(y,x)$），所以我要想办法把它换一种操作去做，于是就想到了加减法。$a+b=(a \oplus b)+((a \and b) &lt;&lt; 1)$。原理就是两者都是 $1$ 所以要进位。于是我们用四次操作得到了 $a_1+a_2$，$a_2+a_3$。但是有操作次数限制，从 $a_4$ 开始每次需要一个异或询问来得到结果。（其实中间卡在思考题目保证的 $n$ 是 $2$ 指数次幂有什么用）。所以只留下 $5$ 次操作给前三个数，这时候我们可以省下来一次操作，因为 $a_1\oplus a_3=(a_1\oplus a_2)\oplus(a_2\oplus a_3)$，所以直接通过前两次计算得到了 $a_1\oplus a_3$，只需要询问 $a_1\and a_3$ 就可以计算出 $a_1+a_3$，$a_1+a_2+a_3=\frac{(a_1+a_2)+(a_2+a_3)+(a_3+a_1)}2$，每个相减即可得到 $a_1,a_2,a_3$。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 0x3f3f3f3f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INFll 0x3f3f3f3f3f3f3f3fll</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> mp(x, y) make_pair(x, y)</span>
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">100100</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; pii;
+
+<span class="hljs-keyword">int</span> n;
+<span class="hljs-keyword">int</span> arr[MAXN];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">xxor</span><span class="hljs-params">(<span class="hljs-keyword">int</span> l, <span class="hljs-keyword">int</span> r)</span></span>&#123;
+    <span class="hljs-keyword">int</span> ret;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;XOR %d %d\n&quot;</span>, l, r);
+    fflush(<span class="hljs-built_in">stdout</span>);
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;ret);
+    <span class="hljs-keyword">return</span> ret;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">aand</span><span class="hljs-params">(<span class="hljs-keyword">int</span> l, <span class="hljs-keyword">int</span> r)</span></span>&#123;
+    <span class="hljs-keyword">int</span> ret;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;AND %d %d\n&quot;</span>, l, r);
+    fflush(<span class="hljs-built_in">stdout</span>);
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;ret);
+    <span class="hljs-keyword">return</span> ret;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">oor</span><span class="hljs-params">(<span class="hljs-keyword">int</span> l, <span class="hljs-keyword">int</span> r)</span></span>&#123;
+    <span class="hljs-keyword">int</span> ret;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;OR %d %d\n&quot;</span>, l, r);
+    fflush(<span class="hljs-built_in">stdout</span>);
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;ret);
+    <span class="hljs-keyword">return</span> ret;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+    <span class="hljs-keyword">int</span> xxor12 = xxor(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>), aand12 = aand(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);
+    <span class="hljs-keyword">int</span> xxor23 = xxor(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>), aand23 = aand(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>);
+    <span class="hljs-keyword">int</span> sum12 = xxor12 + (aand12 &lt;&lt; <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">int</span> sum23 = xxor23 + (aand23 &lt;&lt; <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">int</span> xxor13 = xxor12 ^ xxor23;
+    <span class="hljs-keyword">int</span> aand13 = aand(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>);
+    <span class="hljs-keyword">int</span> sum13 = xxor13 + (aand13 &lt;&lt; <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">int</span> sum123 = (sum12 + sum23 + sum13) / <span class="hljs-number">2</span>;
+    arr[<span class="hljs-number">1</span>] = sum123 - sum23;
+    arr[<span class="hljs-number">2</span>] = sum123 - sum13;
+    arr[<span class="hljs-number">3</span>] = sum123 - sum12;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">4</span>; i &lt;= n; i++)&#123;
+        arr[i] = arr[i - <span class="hljs-number">1</span>] ^ xxor(i - <span class="hljs-number">1</span>, i);
+    &#125;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;! &quot;</span>);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>, arr[i]);
+    &#125;
+    fflush(<span class="hljs-built_in">stdout</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+<h3 id="E1-Bitwise-Queries-Hard-Version"><a href="#E1-Bitwise-Queries-Hard-Version" class="headerlink" title="E1. Bitwise Queries (Hard Version)"></a><a target="_blank" rel="noopener" href="https://codeforc.es/contest/1451/problem/E2">E1. Bitwise Queries (Hard Version)</a></h3><p>其实就是上面的做法，只不过因为值域在 $[0,n-1]$，所以要么所有数都不相同，是全排列，要么是存在相同的数。通过一遍相邻异或并计算出所有数之间的异或，此时操作 $n-1$ 次，如果有两者相同，那么这两个数相同，可以比上面省下来一次 $a_i\and a_j$，总共 $n+1$ 次询问。如果没有数相同，就利用 $n$ 和之间关系直接推导 $n$ 个数（异或之间确定），总计 $n-1$ 次询问。</p>
+<p>比赛题目质量超高，是我太菜了，这次全球排名 $835$。Rating Change: $1782\to 1811$。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/Codeforces-%E5%81%9A%E9%A2%98%E6%8A%A5%E5%91%8A/">Codeforces 做题报告</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Codeforces Round #685 (Div.2) 做题报告&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 25,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
