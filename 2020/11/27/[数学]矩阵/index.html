@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>文件索引 | TheBlueSnake Blog</title>
+  <title>[数学] 矩阵 | TheBlueSnake Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -123,8 +123,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-11-22 13:26">
-      2020-11-22 13:26
+    <time datetime="2020-11-27 14:22">
+      2020-11-27 14:22
     </time>
   </div>
 
@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      37 字
+      1.2k 字
     </span>
   
 
@@ -166,11 +166,149 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <ol>
-<li><a target="_blank" rel="noopener" href="http://bluesnake.top/uploads/IOI2018%E4%B8%AD%E5%9B%BD%E5%9B%BD%E5%AE%B6%E5%80%99%E9%80%89%E9%98%9F%E8%AE%BA%E6%96%87%E9%9B%86%E6%AD%A3%E5%BC%8F%E7%89%88.pdf">IOI2018中国国家候选队论文集正式版.pdf</a></li>
-<li><a target="_blank" rel="noopener" href="http://bluesnake.top/uploads/IOI2019%E4%B8%AD%E5%9B%BD%E5%9B%BD%E5%AE%B6%E5%80%99%E9%80%89%E9%98%9F%E8%AE%BA%E6%96%87%E9%9B%86.pdf">IOI2019中国国家候选队论文集.pdf</a></li>
-<li><a target="_blank" rel="noopener" href="http://bluesnake.top/uploads/IOI2018%E4%B8%AD%E5%9B%BD%E5%9B%BD%E5%AE%B6%E5%80%99%E9%80%89%E9%98%9F%E8%AE%BA%E6%96%87%E9%9B%86%E6%AD%A3%E5%BC%8F%E7%89%88.pdf">国家集训队论文集1999_2018.7z</a></li>
+              <h3 id="矩阵的定义"><a href="#矩阵的定义" class="headerlink" title="矩阵的定义"></a>矩阵的定义</h3><p>矩阵是一个二维数字阵列。一个 $m$ 行 $n$ 列的矩阵可以表示为表示为：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+a_{1,1} & a_{1,2} & \cdots & a_{1,n}\\
+a_{2,1} & a_{2,2} & \cdots & a _{2,n}\\
+\vdots & \vdots & \ddots & \vdots \\
+a_{n,1} & a_{n,2} & \cdots & a_{n,m}\\
+\end{bmatrix}</script><p>或者按照高中教科书上要求表示为：</p>
+<script type="math/tex; mode=display">
+\begin{pmatrix}
+a_{1,1} & a_{1,2} & \cdots & a_{1,n}\\
+a_{2,1} & a_{2,2} & \cdots & a _{2,n}\\
+\vdots & \vdots & \ddots & \vdots \\
+a_{n,1} & a_{n,2} & \cdots & a_{n,m}\\
+\end{pmatrix}</script><p>由于本 OIer 最近文化课正好在学，因此在高中生涯中将统一使用后者。</p>
+<p>其中，满足 $n=m$ 的矩阵成为方阵。</p>
+<h3 id="特殊的矩阵"><a href="#特殊的矩阵" class="headerlink" title="特殊的矩阵"></a>特殊的矩阵</h3><ol>
+<li>单位矩阵</li>
 </ol>
+<p>是满足 $a_{i,i}=1(1\leq i\leq n)$ 且 $a_{i,j}=0(1\leq i,j\leq n,i\neq j)$ 的方阵。eg. $4$ 行 $4$ 列的单位矩阵记做：</p>
+<script type="math/tex; mode=display">
+I_4=
+\begin{pmatrix}
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & 1\\
+\end{pmatrix}</script><ol>
+<li>零矩阵</li>
+</ol>
+<p>满足 $a_{i,j}=0(1\leq i\leq n,q\leq j\leq m)$ 的矩阵是零矩阵。eg. $3$ 行 $4$ 列的零矩阵记做：</p>
+<script type="math/tex; mode=display">
+O_{3,4}=
+\begin{pmatrix}
+0&0&0&0\\
+0&0&0&0\\
+0&0&0&0\\
+\end{pmatrix}</script><h3 id="矩阵的运算"><a href="#矩阵的运算" class="headerlink" title="矩阵的运算"></a>矩阵的运算</h3><ol>
+<li><p>矩阵加法/减法</p>
+<p>很显而易懂，只有两个行数和列数相同的矩阵 $A_{m,n},B_{m,n}$ 才可以相加，且相加后矩阵 $Ans_{m,n}$ 列数和行数与计算的矩阵行数和列数相同。直接对应位相加减即可：</p>
+<script type="math/tex; mode=display">
+Ans_{i,j}=A_{i,j}+B_{i,j}\quad(1\leq i\leq n,1\leq j\leq m)</script><p>记做：</p>
+<script type="math/tex; mode=display">
+Ans=A+B</script></li>
+<li><p>矩阵乘以实数</p>
+<p>同样显而易懂，直接每一位都乘上一个数即可：</p>
+<script type="math/tex; mode=display">
+Ans_{i,j}=a\times A_{i,j}\quad (1\leq i\leq n,1\leq j\leq m)</script><p>记做：</p>
+<script type="math/tex; mode=display">
+Ans=aA</script></li>
+<li><p>矩阵乘法</p>
+<p>最多使用的一种计算。通常可以用来<strong>加速递推</strong>，<strong>优化dp</strong>，<strong>数列求和</strong>等。</p>
+<p>矩阵乘法必须满足相乘的两个矩阵中，第一个矩阵的列数和第二个矩阵的行数相同时才可以计算。即矩阵 $A_{m,p},B_{p,n}$ 才可以计算矩阵乘法，且最终得到的结果 $Ans_{m,n}$ 有第一个矩阵的列数和第二个矩阵的行数。具体计算方式是：</p>
+<script type="math/tex; mode=display">
+Ans_{i,j}=\sum_{k=1}^p A_{i,k}\times B_{k,j}</script><p>记做：</p>
+<script type="math/tex; mode=display">
+Ans=AB,Ans=A\cdot B</script></li>
+<li><p>哈达玛积</p>
+<p>另一种矩阵之间的乘法运算，很少会使用。但是不妨学一下。和加减法一样，要求两者行数列数分别相同，结果也与其行数列数相同，计算方式为：</p>
+<script type="math/tex; mode=display">
+Ans_{i,j}=A_{i,j}\times B_{i,j}</script><p>记做：</p>
+<script type="math/tex; mode=display">
+Ans=A\times B</script></li>
+<li><p>克罗内克积</p>
+<p>克罗内克积可以在任意两个矩阵之间进行运算，也被称为直积或者张量积。<strong>该部分将在本蒟蒻上大学后更新，敬请期待。</strong></p>
+</li>
+</ol>
+<h3 id="矩阵快速幂"><a href="#矩阵快速幂" class="headerlink" title="矩阵快速幂"></a>矩阵快速幂</h3><p>和普通快速幂一样，只是计算的数据换成了矩阵。一定要分清楚初始数据矩阵和递推矩阵，一般来说数据矩阵都会比递推矩阵小一点，所以应用好的话，可以很大程度地节约时间。</p>
+<pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">matrix</span>&#123;</span>
+    ll c, r, mat[MAXN][MAXN];
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">(<span class="hljs-keyword">int</span> ac = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> ar = <span class="hljs-number">0</span>)</span></span>&#123;<span class="hljs-built_in">memset</span>(mat, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(mat)); c = ac; r = ar;&#125;
+    matrix <span class="hljs-keyword">operator</span>* (matrix x) <span class="hljs-keyword">const</span>&#123;
+        matrix ret; ret.clear(x.c, r);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= ret.c; i++)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= ret.r; j++)&#123;
+                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k = <span class="hljs-number">1</span>; k &lt;= c; k++)&#123;
+                    (ret.mat[i][j] += (mat[i][k] * x.mat[k][j] % MOD)) %= MOD;
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> ret;
+    &#125;
+&#125;;
+<span class="hljs-comment">//矩阵数据结构及矩阵乘法</span>
+<span class="hljs-function">matrix <span class="hljs-title">I</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;
+    matrix ret; ret.clear(x, x);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= x; i++) ret.mat[i][i] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">return</span> ret;
+&#125;
+<span class="hljs-comment">//单位矩阵</span>
+<span class="hljs-function">matrix <span class="hljs-title">qpow</span><span class="hljs-params">(matrix &amp;x, ll pwr)</span></span>&#123;
+    matrix ret; ret = I(x.c);
+    <span class="hljs-keyword">while</span>(pwr)&#123;
+        <span class="hljs-keyword">if</span>(pwr &amp; <span class="hljs-number">1</span>) ret = ret * x;
+        x = x * x;
+        pwr &gt;&gt;= <span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> ret;
+&#125;
+<span class="hljs-comment">//矩阵快速幂</span></code></pre>
+<h3 id="矩阵乘法的应用"><a href="#矩阵乘法的应用" class="headerlink" title="矩阵乘法的应用"></a>矩阵乘法的应用</h3><h4 id="斐波那契（Fibonacci）数列"><a href="#斐波那契（Fibonacci）数列" class="headerlink" title="斐波那契（Fibonacci）数列"></a>斐波那契（Fibonacci）数列</h4><p>斐波那契数列可以定义为：</p>
+<script type="math/tex; mode=display">
+a_{i}=\left\{
+\begin{eqnarray}
+&&1&&i=1\\
+&&1&&i=2\\
+&&a_{i-1}+a_{i-2}&&i\geq2\\
+\end{eqnarray}
+\right.</script><p>我们可以构造和递推式相同维度的矩阵计算，即使用第一行 $A^n_{1,1}=a_{n},A^n_{1,2}=a_{n-1}$。第二行 $A^n_{2,1}=a_{n-1},A^n_{2,2}=a_{n-2}$。那么我们可以得出：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\begin{pmatrix}
+a_{n}&a_{n-1}\\
+a_{n-1}&a_{n-2}\\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+1&1\\
+1&0
+\end{pmatrix}\\\\
+=&
+\begin{pmatrix}
+a_{n}+a_{n-1} & a_{n}\\
+a_{n-1}+a_{n-2} & a_{n-1}\\
+\end{pmatrix}\\\\
+=&
+\begin{pmatrix}
+a_{n+1} & a_{n}\\
+a_{n} & a_{n-1}
+\end{pmatrix}
+\end{aligned}</script><p>所以定义初始矩阵：</p>
+<script type="math/tex; mode=display">
+A=
+\begin{pmatrix}
+1 & 1\\
+1 & 0\\
+\end{pmatrix}</script><p>定义递推矩阵：</p>
+<script type="math/tex; mode=display">
+F=
+\begin{pmatrix}
+1 & 1\\
+1 & 0\\
+\end{pmatrix}</script><p>得到最终结果为 $a_{n}=\left(A\cdot M^{n-2}\right)_{1,1}$。</p>
 
             </article>
             <hr>
@@ -182,7 +320,9 @@
                     
                       <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
                     
-                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E8%A7%84%E8%8C%83-%E6%80%BB%E7%BB%93-%E6%95%B4%E7%90%86/">规范/总结/整理</a>
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E5%AD%A6/">数学</a>
                     
                   </div>
                 
@@ -295,7 +435,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "文件索引&nbsp;",
+        "[数学] 矩阵&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 25,
