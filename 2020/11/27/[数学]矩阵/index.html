@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      1.6k 字
     </span>
   
 
@@ -233,7 +233,9 @@ Ans=A\times B</script></li>
 <p>克罗内克积可以在任意两个矩阵之间进行运算，也被称为直积或者张量积。<strong>该部分将在本蒟蒻上大学后更新，敬请期待。</strong></p>
 </li>
 </ol>
-<h3 id="矩阵快速幂"><a href="#矩阵快速幂" class="headerlink" title="矩阵快速幂"></a>矩阵快速幂</h3><p>和普通快速幂一样，只是计算的数据换成了矩阵。一定要分清楚初始数据矩阵和递推矩阵，一般来说数据矩阵都会比递推矩阵小一点，所以应用好的话，可以很大程度地节约时间。</p>
+<h3 id="矩阵快速幂"><a href="#矩阵快速幂" class="headerlink" title="矩阵快速幂"></a>矩阵快速幂</h3><p>首先，很明显矩阵乘法是不具有交换律，结合律的。但是快速幂需要其数据结构具有交换律和结合律，那我们为什么可以使用快速幂呢？</p>
+<p><strong>很好，我也不知道，不过会更新的，请大家放心。</strong></p>
+<h4 id="快速幂的实现"><a href="#快速幂的实现" class="headerlink" title="快速幂的实现"></a>快速幂的实现</h4><p>和普通快速幂一样，只是计算的数据换成了矩阵。一定要分清楚初始数据矩阵和递推矩阵，一般来说数据矩阵都会比递推矩阵小一点，所以应用好的话，可以很大程度地节约时间。</p>
 <pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">matrix</span>&#123;</span>
     ll c, r, mat[MAXN][MAXN];
     <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">(<span class="hljs-keyword">int</span> ac = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> ar = <span class="hljs-number">0</span>)</span></span>&#123;<span class="hljs-built_in">memset</span>(mat, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(mat)); c = ac; r = ar;&#125;
@@ -256,7 +258,7 @@ Ans=A\times B</script></li>
     <span class="hljs-keyword">return</span> ret;
 &#125;
 <span class="hljs-comment">//单位矩阵</span>
-<span class="hljs-function">matrix <span class="hljs-title">qpow</span><span class="hljs-params">(matrix &amp;x, ll pwr)</span></span>&#123;
+<span class="hljs-function">matrix <span class="hljs-title">qpow</span><span class="hljs-params">(matrix x, ll pwr)</span></span>&#123;
     matrix ret; ret = I(x.c);
     <span class="hljs-keyword">while</span>(pwr)&#123;
         <span class="hljs-keyword">if</span>(pwr &amp; <span class="hljs-number">1</span>) ret = ret * x;
@@ -270,16 +272,14 @@ Ans=A\times B</script></li>
 <script type="math/tex; mode=display">
 a_{i}=\left\{
 \begin{eqnarray}
-&&1&&i=1\\
-&&1&&i=2\\
+&&1&&i\in\left\{1,2\right\}\\
 &&a_{i-1}+a_{i-2}&&i\geq2\\
 \end{eqnarray}
 \right.</script><p>我们可以构造和递推式相同维度的矩阵计算，即使用第一行 $A^n_{1,1}=a_{n},A^n_{1,2}=a_{n-1}$。第二行 $A^n_{2,1}=a_{n-1},A^n_{2,2}=a_{n-2}$。那么我们可以得出：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
 &\begin{pmatrix}
-a_{n}&a_{n-1}\\
-a_{n-1}&a_{n-2}\\
+a_{n} & a_{n-1}\\
 \end{pmatrix}
 \cdot
 \begin{pmatrix}
@@ -288,27 +288,93 @@ a_{n-1}&a_{n-2}\\
 \end{pmatrix}\\\\
 =&
 \begin{pmatrix}
-a_{n}+a_{n-1} & a_{n}\\
-a_{n-1}+a_{n-2} & a_{n-1}\\
-\end{pmatrix}\\\\
-=&
-\begin{pmatrix}
 a_{n+1} & a_{n}\\
-a_{n} & a_{n-1}
-\end{pmatrix}
-\end{aligned}</script><p>所以定义初始矩阵：</p>
+\end{pmatrix}\\\\
+\end{aligned}</script><p>所以构造初始矩阵：</p>
 <script type="math/tex; mode=display">
 A=
 \begin{pmatrix}
-1 & 1\\
 1 & 0\\
-\end{pmatrix}</script><p>定义递推矩阵：</p>
+\end{pmatrix}</script><p>构造递推矩阵：</p>
 <script type="math/tex; mode=display">
 F=
 \begin{pmatrix}
 1 & 1\\
 1 & 0\\
-\end{pmatrix}</script><p>得到最终结果为 $a_{n}=\left(A\cdot M^{n-2}\right)_{1,1}$。</p>
+\end{pmatrix}</script><p>得到最终结果为 $a_{n}=\left(A\cdot F^{n-1}\right)_{1,1}$。</p>
+<h3 id="类斐波那契额数列"><a href="#类斐波那契额数列" class="headerlink" title="类斐波那契额数列"></a>类斐波那契额数列</h3><p>递推式形如 $a_{i}=x\cdot a_{i-1}+y\cdot a_{i-2}$ 或者更长（在一定长度内）的递推式均可以用类似的方法处理。这里以<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1939">P1939 【模板】矩阵加速（数列）</a>为例。</p>
+<p>由数列定义式：</p>
+<script type="math/tex; mode=display">
+a_x=\left\{
+\begin{eqnarray}
+&&1&&x\in\left\{1,2,3\right\}\\
+&&a_{x-1}+a_{x-3}&&x\geq 4\\
+\end{eqnarray}
+\right.</script><p>构造初始矩阵：</p>
+<script type="math/tex; mode=display">
+A=
+\begin{pmatrix}
+1 & 0 & 0\\
+\end{pmatrix}</script><p>构造递推矩阵：</p>
+<script type="math/tex; mode=display">
+F=
+\begin{pmatrix}
+1 & 1 & 0\\
+0 & 0 & 1\\
+1 & 0 & 0\\
+\end{pmatrix}</script><p>最终结果为 $a_n=\left(A\cdot F^{n-1}\right)_{1,1}$。代码如下：</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">5</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MOD = <span class="hljs-number">1000000007</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">matrix</span>&#123;</span>
+    ll c, r, mat[MAXN][MAXN];
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">(<span class="hljs-keyword">int</span> ac = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> ar = <span class="hljs-number">0</span>)</span></span>&#123;<span class="hljs-built_in">memset</span>(mat, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(mat)); c = ac; r = ar;&#125;
+    matrix <span class="hljs-keyword">operator</span>* (matrix x) <span class="hljs-keyword">const</span>&#123;
+        matrix ret; ret.clear(x.c, r);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= ret.c; i++)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= ret.r; j++)&#123;
+                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k = <span class="hljs-number">1</span>; k &lt;= c; k++)&#123;
+                    (ret.mat[i][j] += (mat[i][k] * x.mat[k][j] % MOD)) %= MOD;
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> ret;
+    &#125;
+&#125;;
+
+ll T, n;
+matrix A, F;
+
+<span class="hljs-function">matrix <span class="hljs-title">I</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;
+    matrix ret; ret.clear(x, x);
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= x; i++) ret.mat[i][i] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">return</span> ret;
+&#125;
+
+<span class="hljs-function">matrix <span class="hljs-title">qpow</span><span class="hljs-params">(matrix &amp;init, matrix x, ll pwr)</span></span>&#123;
+    matrix ret = init;
+    <span class="hljs-keyword">while</span>(pwr)&#123;
+        <span class="hljs-keyword">if</span>(pwr &amp; <span class="hljs-number">1</span>) ret = ret * x;
+        x = x * x;
+        pwr &gt;&gt;= <span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> ret;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    A.clear(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>);
+    A.mat[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    F.clear(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>); 
+    F.mat[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] = F.mat[<span class="hljs-number">1</span>][<span class="hljs-number">2</span>] = F.mat[<span class="hljs-number">2</span>][<span class="hljs-number">3</span>] = F.mat[<span class="hljs-number">3</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld&quot;</span>, &amp;T); <span class="hljs-keyword">while</span>(T--)&#123;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;n);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lld\n&quot;</span>, qpow(A, F, n - <span class="hljs-number">1</span>).mat[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 
             </article>
             <hr>
