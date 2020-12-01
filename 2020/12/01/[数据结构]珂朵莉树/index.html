@@ -198,7 +198,7 @@
     <span class="hljs-keyword">return</span> st.insert(node(pos, r, val)).first;
 &#125;</code></pre>
 <p>除了根据题目需要编写的操作外的最后一个操作就是最重要的区间推平操作，即区间赋值。通过这个操作，我们可以将大量的不同区间合并为一个以降低复杂度。</p>
-<h3 id="代码3-modify"><a href="#代码3-modify" class="headerlink" title="代码3 modify()"></a>代码3 <code>modify()</code></h3><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">modify</span><span class="hljs-params">(<span class="hljs-keyword">int</span> l, <span class="hljs-keyword">int</span> r, <span class="hljs-keyword">int</span> val)</span></span>&#123;
+<h5 id="代码3-modify"><a href="#代码3-modify" class="headerlink" title="代码3 modify()"></a>代码3 <code>modify()</code></h5><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">modify</span><span class="hljs-params">(<span class="hljs-keyword">int</span> l, <span class="hljs-keyword">int</span> r, <span class="hljs-keyword">int</span> val)</span></span>&#123;
     _it itl = split(l), itr = split(r);
     st.erase(itl, itr);
     st.insert(node(l, r, val));
