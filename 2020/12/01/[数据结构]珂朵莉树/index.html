@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" type="image/png" href="/img/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>[数据结构] 珂朵莉树 | TheBlueSnake Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 75vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>TheBlueSnake's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://i.loli.net/2020/09/04/dkWiupI56tbNMOJ.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-12-01 14:54">
+      2020-12-01 14:54
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      704 字
+    </span>
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p>虽然本蒟蒻没有看过末日三问——末日时在做什么？有没有空？可以来拯救吗？（在补了在补了）但是这个数据结构还是要学的。</p>
+<h3 id="珂朵莉树简述"><a href="#珂朵莉树简述" class="headerlink" title="珂朵莉树简述"></a>珂朵莉树简述</h3><p>珂朵莉树，又名老司机树。对于存在区间推平操作的区间操作问题上很有用。珂朵莉树的核心思想在于已经操作过的大量相同数据尽量不再进行第二次操作。举个例子，考虑要求你写一个数据结构以可以使用一下操作：区间赋值，区间加减，区间第 $k$ 小，区间求和。如果我们每次直接 $O(n)$ 暴力操作的总体复杂度是 $O(nq)$ 的。但是如果我们将所有相同的数据维护成一个数，然后以后处理的时候就将这一个数据块一起维护，类似分块（按照老师的说法：像老司机一样，走过一遍的路不用走第二遍）维护的话，便可以获得极优秀的复杂度了。</p>
+<h3 id="珂朵莉树的实现"><a href="#珂朵莉树的实现" class="headerlink" title="珂朵莉树的实现"></a>珂朵莉树的实现</h3><p>我们首先定义珂朵莉树的基本单位，是从 $l$ 到 $r$ 的一个数据块，里面同时还存储着这个块的所有信息。对于上述的问题，我们可以构建如下的珂朵莉树节点。</p>
+<h5 id="代码1-珂朵莉树节点"><a href="#代码1-珂朵莉树节点" class="headerlink" title="代码1 珂朵莉树节点"></a>代码1 珂朵莉树节点</h5><pre><code class="hljs cpp"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span>&#123;</span>
+    <span class="hljs-keyword">int</span> l, r;
+    <span class="hljs-keyword">mutable</span> ll val;
+    node(<span class="hljs-keyword">int</span> al = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> ar = <span class="hljs-number">0</span>, ll aval = <span class="hljs-number">0</span>)&#123;
+        l = al;
+        r = ar;
+        val = aval;
+    &#125;
+    <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>&lt; (<span class="hljs-keyword">const</span> node &amp;x)<span class="hljs-keyword">const</span>&#123;
+        <span class="hljs-keyword">return</span> l &lt; x.l;    
+    &#125;
+&#125;;
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">set</span>&lt;node&gt;::iterator _it;
+
+<span class="hljs-comment">//珂朵莉树</span>
+<span class="hljs-built_in">set</span>&lt;node&gt; st;</code></pre>
+<p>然后是珂朵莉树的基本操作，在同一个集合中，如果不是正好修改查询在首尾，那么我们需要将一个节点从中间拆分开来，这样我们的操作就又是在节点的边界上了。</p>
+<h5 id="代码2-split"><a href="#代码2-split" class="headerlink" title="代码2 split()"></a>代码2 <code>split()</code></h5><pre><code class="hljs cpp"><span class="hljs-function">_it <span class="hljs-title">split</span><span class="hljs-params">(<span class="hljs-keyword">int</span> pos)</span></span>&#123;
+    _it it = st.lower_bound(node(pos, <span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>));
+    <span class="hljs-keyword">if</span>(it != st.end() &amp;&amp; it-&gt;l == pos)&#123;
+        <span class="hljs-keyword">return</span> it;
+    &#125;
+    <span class="hljs-keyword">int</span> l = it-&gt;l, r = it-&gt;r;
+    ll val = it-&gt;val;
+    st.erase(it);
+    st.insert(node(l, pos - <span class="hljs-number">1</span>, val));
+    <span class="hljs-keyword">return</span> st.insert(node(pos, r, val)).first;
+&#125;</code></pre>
+<p>除了根据题目需要编写的操作外的最后一个操作就是最重要的区间推平操作，即区间赋值。通过这个操作，我们可以将大量的不同区间合并为一个以降低复杂度。</p>
+<h3 id="代码3-modify"><a href="#代码3-modify" class="headerlink" title="代码3 modify()"></a>代码3 <code>modify()</code></h3><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">modify</span><span class="hljs-params">(<span class="hljs-keyword">int</span> l, <span class="hljs-keyword">int</span> r, <span class="hljs-keyword">int</span> val)</span></span>&#123;
+    _it itl = split(l), itr = split(r);
+    st.erase(itl, itr);
+    st.insert(node(l, r, val));
+&#125;</code></pre>
+<p>然后剩余的操作暴力直接做即可。</p>
+<h3 id="珂朵莉树的复杂度"><a href="#珂朵莉树的复杂度" class="headerlink" title="珂朵莉树的复杂度"></a>珂朵莉树的复杂度</h3><p><strong>每次推平操作都会把堆的复杂度拉低，于是最终趋近于 $O(\log n)$ 的堆内元素数量</strong>。</p>
+<p>具体证明在咕。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "[数据结构] 珂朵莉树&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 25,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
