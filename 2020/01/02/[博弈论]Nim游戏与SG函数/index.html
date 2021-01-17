@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" type="image/png" href="/img/favicon.ico">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>[博弈论]Nim游戏与SG函数 | TheBlueSnake Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 5.0.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header style="height: 75vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>TheBlueSnake's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://i.loli.net/2020/09/04/dkWiupI56tbNMOJ.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-01-02 11:03">
+      2020-01-02 11:03
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <blockquote>
+<p>  <code>ztyqwq</code>被数论单方面虐的时代，终于结束了！现在他要开始学博弈论了！</p>
+</blockquote>
+<h3 id="textsf-ICG-游戏"><a href="#textsf-ICG-游戏" class="headerlink" title="$\textsf{ICG}$ 游戏"></a>$\textsf{ICG}$ 游戏</h3><p>一个模型是 <strong>ICG</strong> 的要求是：</p>
+<ol>
+<li>有两名选手</li>
+<li>两名选手交替对游戏进行移动，每次移动中你可以在有限的合法的移动集合中任选一种进行移动。</li>
+<li>对于任意一种可能的局面，合法的移动集合只取决于局面本身，不取决于哪名选手操作，以前的操作，骰子的点数等任意其他因素</li>
+<li>如果轮到某位选手移动时，他合法的移动集合为空集，那么这名选手负。</li>
+</ol>
+<h3 id="textsf-Nim-游戏"><a href="#textsf-Nim-游戏" class="headerlink" title="$\textsf{Nim}$ 游戏"></a>$\textsf{Nim}$ 游戏</h3><p>$\textsf{Nim}$ 游戏是最经典的博弈论模型之一，有很多基于 $\textsf{Nim}$ 的博弈论题目。是组合游戏（$\textsf{ICG}$）中的一种。</p>
+<p>一个通常的 $\textsf{Nim}$ 游戏的定义是这样子的：有若干堆石子，每堆石子的数量有限，每位选手的合法移动是“选取一堆石子拿走若干颗石子（不可以不拿）”，如果轮到某人时石子堆空了，那么他就判负。</p>
+<h3 id="textsf-SG-函数与-textsf-SG-定理"><a href="#textsf-SG-函数与-textsf-SG-定理" class="headerlink" title="$\textsf{SG}$ 函数与 $\textsf{SG}$ 定理"></a>$\textsf{SG}$ 函数与 $\textsf{SG}$ 定理</h3><p>先讲一讲 <strong>SG</strong> 中的一些概念：</p>
+<ul>
+<li><strong>必胜点</strong>（N点）：如果在某种局面时，操作的选手在采取最优操作的时候必胜，那么我们就称这种局面为必胜点。</li>
+<li><strong>必败点</strong>（P点）：如果在某种局面时，操作的选手在采取任何操作的时候都必输，俺么我们就称这种局面为必败点。</li>
+</ul>
+<p>我们可以很轻易得从它们的定义中推出一些性质：</p>
+<ul>
+<li>最终局面（即输者的最后一个局面）必定是必败点。</li>
+<li>从必胜点操作，至少有一种方式可以达到必败点。</li>
+<li>无论如何操作，必败点只可能进入必胜点。</li>
+</ul>
+<p>我们通常进行计算的时候都是逆序计算，从结束的局面入手，这样有助于我们分析。比如刚刚的 Nim 游戏：</p>
+<p>先考虑所有的石子全部取空的局面，这个点很明显是P点。那么从这种情况前推，如果只有一堆石子的时候，此时的先手只需要将所有石子取光就一定可以获胜，很明显是N点。但是这么做的结果是 $O\left(\prod\limits_{i=1}^na_{i}\right)$ 的复杂度，很明显无法接受。</p>
+<h5 id="偏一下题"><a href="#偏一下题" class="headerlink" title="偏一下题"></a><strong>偏一下题</strong></h5><p>那么这道题该如何处理呢？有一个 $\texttt{Bouton’s Theorem}$ 可以用来处理这个问题，他的结论是对于一个 $\textsf{Nim}$ 游戏的局面，如果满足 $a_1 \oplus a_2 \oplus \cdots\oplus a_n=0$ 那么这个点就是必败点。</p>
+<h5 id="证明"><a href="#证明" class="headerlink" title="证明"></a><strong>证明</strong></h5><p>在最终局面，很明显只有一个 $0$，是必败点。对于某个局面，如果 $a_1 \oplus a_2 \oplus \cdots \oplus a_n \neq 0$，那么一定存在某个合法的移动，将 $a_i$ 变为 $a_i’$ 后可以满足 $a_1\oplus a_2\oplus\cdots\oplus a_i’\oplus\cdots\oplus a_n=0$，并且因为 $0\oplus 0=0$，所以一定可以通过将某一个数上某些位的 $1$ 变为 $0$ 使异或和为 $0$ ，且一定将 $a_i$ 变小。满足题目条件。</p>
+<h5 id="textsf-SG-函数："><a href="#textsf-SG-函数：" class="headerlink" title="$\textsf{SG}$ 函数："></a>$\textsf{SG}$ 函数：</h5><p>我们可以将每一个状态抽象为一个图中的点，那么每两个状态之间的转移就可以看为图上连接两点的边。可以证明任何 $\textsf{ICG}$ 游戏抽象成为的图是一个可以拓扑排序的有向无环图。这张图上点可以分为两个集合，必胜点集合 $N$ 以及必败点集合 $P$。集合 $P$ 中的点出边一定连向 $N$ 集合中的点。但要注意这不一定是一张二分图，因为集合 $N$ 中的点可以到达集合 $N$ 中的点。</p>
+<p>因此这个游戏规则可以转换为：给订一张有向无环图和图上的一个顶点，两名选手从选定顶点开始，交替沿有向边移动，移动到无法继续移动的人输。很明显根据上面定义，任意 $\textsf{ICG}$ 模型均可以抽象为这样的简化模型。</p>
+<p>我们定义这个游戏或这张图的 $\textsf{SG}$ 函数为 $SG(x)=\text{mex}\left\{SG(y)\middle|\left\{x,y\right\}\in E\right\}$，$E$ 为该图的边集， $\text{mex}\{A\}$ 函数表示最小的不属于这个集合的非负整数。比如下图就是一个石子堆为 $\left\{1,2,1\right\}$ 的 $\textsf{Nim}$ 游戏抽象出的图：</p>
+<p><img src="/2020/01/02/[%E5%8D%9A%E5%BC%88%E8%AE%BA]Nim%E6%B8%B8%E6%88%8F%E4%B8%8ESG%E5%87%BD%E6%95%B0/1.png" srcset="/img/loading.gif" alt></p>
+<h5 id="textsf-SG-定理："><a href="#textsf-SG-定理：" class="headerlink" title="$\textsf{SG}$ 定理："></a>$\textsf{SG}$ 定理：</h5><p>所以 $\textsf{SG}$ 定理：对于多个单一的游戏，</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%8D%9A%E5%BC%88%E8%AE%BA/">博弈论</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "[博弈论]Nim游戏与SG函数&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 25,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "§"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
