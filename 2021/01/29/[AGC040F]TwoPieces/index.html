@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>[数学] 数论 | TheBlueSnake Blog</title>
+  <title>[AGC040F] Two Pieces | TheBlueSnake Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -123,8 +123,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-12-04 19:28">
-      2020-12-04 19:28
+    <time datetime="2021-01-29 17:57">
+      2021-01-29 17:57
     </time>
   </div>
 
@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      456 字
+      1.2k 字
     </span>
   
 
@@ -166,55 +166,83 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>本文主要用来记载一些OI中会使用的数学公式、定理的证明，学习等。</p>
-<h2 id="求数的逆元——费马小定理"><a href="#求数的逆元——费马小定理" class="headerlink" title="求数的逆元——费马小定理"></a>求数的逆元——费马小定理</h2><blockquote>
-<p>  如果 $p$ 是一个质数，而且满足 $\gcd(a, p)=1,a&lt;p$，那么有 $a^{p-1}\equiv 1\mod p$。</p>
-</blockquote>
-<hr>
-<p>证：首先证明存在引理</p>
-<blockquote>
-<p>  引理1：如果 $\gcd(c,p)=1$ 且 $a\times c\equiv b\times c\mod p$ 那么 $a\equiv b\mod p$。</p>
-</blockquote>
+              <h2 id="题面"><a href="#题面" class="headerlink" title="题面"></a>题面</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>We have two indistinguishable pieces places on a number line. Both pieces are initially at coordinate $0$. (They can occupy the same position.)</p>
+<p>We can do the following two kinds of operiations:</p>
+<ul>
+<li>Choose a piece and moce it to the right (the positive direction) by $1$.</li>
+<li>Move the pieces with the smaller coordinate to the position of the pieces with the greater coordinate. If two pieces alrealy occupy the same position, nothing happend, but it still counts as doing one operation.</li>
+</ul>
+<p>We want to do a total of $N$ operations of these kinds in some order so that one of the pieces will be at coordinate $A$ and the other at coordinate $B$. Find the number of ways to move the pieces to achieve it. The answer can be enormous, so compute the count moudlo $998244353$.</p>
+<p>Two ways to move the pieces are considered different if and only if there exists an integer $i(1\leq i\leq N)$ such that the ser od the coordinates occupied by the pieces after the $i$-th operation is different in those two ways.</p>
+<h3 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h3><p>Input is given from Sandard Input in the following format:</p>
+<pre><figcaption><span>text</span></figcaption><code class="hljs plain">N A B</code></pre>
+<h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>Print the number of ways to move the pieces to achieve our objective, modulo $998244353$.</p>
+<h3 id="输入样例1"><a href="#输入样例1" class="headerlink" title="输入样例1"></a>输入样例1</h3><pre><figcaption><span>text</span></figcaption><code class="hljs plain">5 1 3</code></pre>
+<h3 id="输出样例1"><a href="#输出样例1" class="headerlink" title="输出样例1"></a>输出样例1</h3><pre><figcaption><span>text</span></figcaption><code class="hljs plain">4</code></pre>
+<h3 id="输入样例2"><a href="#输入样例2" class="headerlink" title="输入样例2"></a>输入样例2</h3><pre><figcaption><span>text</span></figcaption><code class="hljs plain">10 0 0</code></pre>
+<h3 id="输出样例2"><a href="#输出样例2" class="headerlink" title="输出样例2"></a>输出样例2</h3><pre><figcaption><span>text</span></figcaption><code class="hljs plain">1</code></pre>
+<h3 id="输入样例3"><a href="#输入样例3" class="headerlink" title="输入样例3"></a>输入样例3</h3><pre><figcaption><span>text</span></figcaption><code class="hljs plain">10 4 6</code></pre>
+<h3 id="输出样例3"><a href="#输出样例3" class="headerlink" title="输出样例3"></a>输出样例3</h3><pre><figcaption><span>text</span></figcaption><code class="hljs plain">197</code></pre>
+<h3 id="输入样例4"><a href="#输入样例4" class="headerlink" title="输入样例4"></a>输入样例4</h3><pre><figcaption><span>text</span></figcaption><code class="hljs plain">1000000 100000 200000</code></pre>
+<h3 id="输出样例4"><a href="#输出样例4" class="headerlink" title="输出样例4"></a>输出样例4</h3><pre><figcaption><span>text</span></figcaption><code class="hljs plain">758840509</code></pre>
+<h2 id="分析-amp-题解"><a href="#分析-amp-题解" class="headerlink" title="分析 &amp; 题解"></a>分析 &amp; 题解</h2><p>首先题目大意就是数轴上两个棋子，每次可以选一个向右移动一格或者将坐标小的移动到坐标大的位置，问两个棋子分别移动到移动到 $A,B$ 位置的可能性一共多少种。因为最终判断操作方式不同是按照位置的区别判断的，所以我们先定义操作 $2$ 能够操作当且仅当两者当前的距离 $\geq 2$。否则操作一和操作二是一样的。</p>
+<p>所以我们首先考虑动规。定义状态 $f_{i,j,k}$ 表示进行了 $i$ 次操作，坐标小的在 $j$，坐标大的在 $j$ 的可能性一共多少种。贡献方程很容易就可以写出来：</p>
 <script type="math/tex; mode=display">
+f_{i,j,k}\Rightarrow\left\{
 \begin{aligned}
-&\because a\times c\equiv b\times c\mod p\\
-&\therefore (a-b)\times c\equiv 0\mod p\\
-&\therefore \exists k,(a-b)\times c=kp\\
-and\;&\because \gcd(c,p)=1,(a-b)=\frac{kp}{c}=\frac{k}{c}p\\
-make~&k^{'}= \frac{k}{c},\therefore a-b=k^{'}p\\
-&\Leftrightarrow a-b\equiv 0\mod p\\
-&\Leftrightarrow a\equiv b\mod p\\
-\end{aligned}</script><blockquote>
-<p>  引理2：若 $a_1,a_2,\dots,a_p$ 为 $\mod p$ 的完全剩余系，$\gcd(b,p)=0$，则 $b\times a_1,b\times a_2,\dots,b\times a_p$ 也为 $\mod p$ 的完全剩余系。</p>
-</blockquote>
-<script type="math/tex; mode=display">
-\begin{aligned}
-if~&\exists b\times a_i\equiv b\times a_j\mod p\\
-&\therefore a_i\equiv a_j\mod p\\
-&Q.E.D
-\end{aligned}</script><p>现在开始证明：</p>
-<p>首先$1,2,\dots,p-1$ 是 $\mod p$ 的完全剩余系，又因为 $\gcd(a,p)=1$，因此 $a,a\times 2,\dots,a\times (p-1)$ 也是 $\mod p$ 的完全剩余系，因此 $1\times2\times3\times\cdots\times (p-1)\equiv a\times(a\times 2)\times (a\times 3)\times \cdots\times\left[a\times(p-1)\right]\mod p$，即 $(p-1)!\equiv (p-1)!\times a^{p-1}\mod p$，消去 $(p-1)!$ 得证。</p>
-<hr>
-<p>因此，一个数 $a(\gcd(a,p)=1)$ 满足 $a^{-1}\equiv a^{p-2}\mod p$，因此在计算时如果需要除以 $a$，可以使用乘以 $a^{p-2}$ 替换，后者可以使用快速幂在 $O(\log p)$ 的复杂度内计算。</p>
-<h2 id="线性求逆元"><a href="#线性求逆元" class="headerlink" title="线性求逆元"></a>线性求逆元</h2><p>递推公式：</p>
-<script type="math/tex; mode=display">
-inv_{i}=\left\{
-\begin{aligned}
-&1&i=1\\
-&\left(p-\left\lfloor\frac p i\right\rfloor\right)\times inv_{p\mod i}&i\neq 1
+&f_{i+1,j+1,k}&(k-j\geq 2)\\
+&f_{i+1,k,k}\\
+&f_{i+1,j,k+1}\\
 \end{aligned}
-\right.</script><p>证明过程：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-&\because1^{-1}=1\mod p\\
-make~&p=k\times i+r(1<r<i<p)\\
-&\therefore \exists k\times i+r\equiv 0\mod p\\
-&\Leftrightarrow k\times r^{-1}+i^{-1}\equiv 0\mod p\\
-&\therefore i^{-1}\equiv -k\times r^{-1}\mod p\\
-&\therefore i^{-1}\equiv
--\left\lfloor\frac p i\right\rfloor\times\left(p\mod i\right)^{-1}\mod p\\
-&Q.E.D.
-\end{aligned}</script>
+\right.</script><p> 这样子做的复杂度是 $O(NAB)$ 的，很明显会超时。所以此时我们考虑其他方式。</p>
+<p>如果我们将状态定义为 $i$ 次操作，大的棋子在 $j$，棋子之间的距离为 $d$，那么我们可以发现两个操作会有三种结果。如果将坐标大的棋子进行操作 $1$，那么 $j+1,d+1$，如果将坐标小的棋子进行操作 $1$，那么 $j$ 不变，$d-1$。如果进行操作 $2$，那么 $d$ 变为 $0$。</p>
+<p>我们定义新的操作 $1,2,3$ 为这三种操作，题目可以变成等价问题：两个数 $x,d$，期初都为 $0$，三种操作 $x+1,d+1$，$d-1$，$d=0$，其中操作 $2$ 只能在 $d\geq 2$ 的情况加进行，问进行 $N$ 次操作后 $x=B,d=B-A$ 的操作可能数一共多少种。此时我们定义操作三种操作一共进行了 $p,q,r$ 次操作，分类讨论一下：</p>
+<p>首先我们会发现只有操作 $1$ 会改变 $x$ 的值，而最终 $x$ 要变成 $B$，所以 $p=B$，即 $q+r=N-B$。如果 $r=0$，即不存在操作 $3$ 那么 $q=N-B$。不管怎么排列这两种操作那么最终一定会使 $x=B,d=B-(N-B)$，我们需要 $2B-N=B-A$，即 $N=A+B$ 的时候才可能。否则的话我们发现如果我们只考虑操作一和操作二时前 $i$ 步进行完后 $d$ 的值记为 $d_i$，那么操作三可以插在第 $i$ 次前当且仅当 $\forall j&gt;i,d_{j}&gt;d_{i}$，否则将操作三插入后就会让 $d&lt;0$。为了让最后满足 $d=B-A$，最后一次插入操作 $3$ 的位置一定是最后一次使 $d_{i}=A-q$ 的位置，所以剩余的 $A-q-1$ 个可能的位置要插入 $r-1$ 次操作，用插板法计算一下即可。</p>
+<p>实现的时候枚举操作二进行了 $k$ 次，操作三便进行了 $N-B-k$ 次。</p>
+<h2 id="AC代码"><a href="#AC代码" class="headerlink" title="AC代码"></a>AC代码</h2><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAXN = <span class="hljs-number">10000100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MOD = <span class="hljs-number">998244353</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+
+<span class="hljs-keyword">int</span> n, a, b;
+ll pre[MAXN], inv[MAXN];
+
+<span class="hljs-function">ll <span class="hljs-title">C</span><span class="hljs-params">(ll i, ll j)</span></span>&#123;
+    <span class="hljs-keyword">return</span> (pre[i] * inv[i - j] % MOD) * inv[j] % MOD;
+&#125;
+
+<span class="hljs-function">ll <span class="hljs-title">ask</span><span class="hljs-params">(ll k)</span></span>&#123;
+    <span class="hljs-keyword">return</span> (C(k + b - <span class="hljs-number">1</span>, b - <span class="hljs-number">1</span>) - C(k + b - <span class="hljs-number">1</span>, k - <span class="hljs-number">1</span>) + MOD) % MOD;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d %d %d&quot;</span>, &amp;n, &amp;a, &amp;b);
+    <span class="hljs-keyword">if</span>(a == <span class="hljs-number">0</span> &amp;&amp; b == <span class="hljs-number">0</span>)&#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1\n&quot;</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    &#125;
+    pre[<span class="hljs-number">0</span>] = pre[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    inv[<span class="hljs-number">0</span>] = inv[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++)&#123;
+        pre[i] = pre[i - <span class="hljs-number">1</span>] * i % MOD;
+        inv[i] = (MOD - MOD / i) * inv[MOD % i] % MOD;
+    &#125;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++)&#123;
+        inv[i] = inv[i - <span class="hljs-number">1</span>] * inv[i] % MOD;
+    &#125;
+    ll ans = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt;= min(n - b, min(a, b - <span class="hljs-number">1</span>)); k++)&#123;
+        ll tmps = k ? ask(k) : <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">if</span>(n - b - k == <span class="hljs-number">0</span> &amp;&amp; a - k == <span class="hljs-number">0</span>)&#123;
+            ans = (ans + tmps) % MOD;
+        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(n - b - k != <span class="hljs-number">0</span>)&#123;
+            ans = (ans + tmps * C(n - b - k - <span class="hljs-number">1</span> + a - k, a - k) % MOD) % MOD;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lld\n&quot;</span>, ans);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
             </article>
             <hr>
             <div>
@@ -225,9 +253,7 @@ make~&p=k\times i+r(1<r<i<p)\\
                     
                       <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
                     
-                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-                    
-                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E5%AD%A6/">数学</a>
+                      <a class="hover-with-bg" href="/categories/OI%E7%9B%B8%E5%85%B3/%E6%9D%82%E9%A2%98%E5%81%9A%E9%A2%98%E6%8A%A5%E5%91%8A/">杂题做题报告</a>
                     
                   </div>
                 
@@ -340,7 +366,7 @@ make~&p=k\times i+r(1<r<i<p)\\
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "[数学] 数论&nbsp;",
+        "[AGC040F] Two Pieces&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 25,

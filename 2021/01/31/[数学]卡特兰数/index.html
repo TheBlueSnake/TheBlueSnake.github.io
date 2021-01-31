@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>[数学] 数论 | TheBlueSnake Blog</title>
+  <title>[数学] 卡特兰数 | TheBlueSnake Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -123,8 +123,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-12-04 19:28">
-      2020-12-04 19:28
+    <time datetime="2021-01-31 09:35">
+      2021-01-31 09:35
     </time>
   </div>
 
@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      456 字
+      595 字
     </span>
   
 
@@ -166,55 +166,32 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>本文主要用来记载一些OI中会使用的数学公式、定理的证明，学习等。</p>
-<h2 id="求数的逆元——费马小定理"><a href="#求数的逆元——费马小定理" class="headerlink" title="求数的逆元——费马小定理"></a>求数的逆元——费马小定理</h2><blockquote>
-<p>  如果 $p$ 是一个质数，而且满足 $\gcd(a, p)=1,a&lt;p$，那么有 $a^{p-1}\equiv 1\mod p$。</p>
-</blockquote>
-<hr>
-<p>证：首先证明存在引理</p>
-<blockquote>
-<p>  引理1：如果 $\gcd(c,p)=1$ 且 $a\times c\equiv b\times c\mod p$ 那么 $a\equiv b\mod p$。</p>
-</blockquote>
+              <p>这篇文章是在做 <code>AGC040F</code> 的时候学会的，在此记录一下卡特兰数的学习笔记。</p>
+<h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><p>在一个平面内，定义左下角为 $(0,0)$，每次可以向右或向上移动一格，不可以超过斜线 $x=y$，问最终到达 $(n,m)$ 的可能操作序列一共有多少种？</p>
+<p>如果作为dp题，那么很明显就可以得到状态和转移方程：$f_{i,j}$ 表示到 $(i,j)$ 的可能操作序列一共多少种，转移方程：$f_{i,j}=f_{i-1,j}+f_{i,j-1}$。</p>
+<p>但是这样子做的复杂度为 $O(nm)$ 的，有没有更好的方法呢？</p>
+<h3 id="卡特兰数"><a href="#卡特兰数" class="headerlink" title="卡特兰数"></a>卡特兰数</h3><p>设 $C_{i}$ 为卡特兰（$\textsf{Catalan}$）数的第 $i$ 项，那么它满足递推公式：</p>
 <script type="math/tex; mode=display">
-\begin{aligned}
-&\because a\times c\equiv b\times c\mod p\\
-&\therefore (a-b)\times c\equiv 0\mod p\\
-&\therefore \exists k,(a-b)\times c=kp\\
-and\;&\because \gcd(c,p)=1,(a-b)=\frac{kp}{c}=\frac{k}{c}p\\
-make~&k^{'}= \frac{k}{c},\therefore a-b=k^{'}p\\
-&\Leftrightarrow a-b\equiv 0\mod p\\
-&\Leftrightarrow a\equiv b\mod p\\
-\end{aligned}</script><blockquote>
-<p>  引理2：若 $a_1,a_2,\dots,a_p$ 为 $\mod p$ 的完全剩余系，$\gcd(b,p)=0$，则 $b\times a_1,b\times a_2,\dots,b\times a_p$ 也为 $\mod p$ 的完全剩余系。</p>
-</blockquote>
+C_{n}=C_{0}\cdot C_{n-1}+C_{1}\cdot C_{n-2}+\cdots+C_{n-1}\cdot C_{0}(n\geq 2)</script><p>并且存在如下通项公式：</p>
 <script type="math/tex; mode=display">
-\begin{aligned}
-if~&\exists b\times a_i\equiv b\times a_j\mod p\\
-&\therefore a_i\equiv a_j\mod p\\
-&Q.E.D
-\end{aligned}</script><p>现在开始证明：</p>
-<p>首先$1,2,\dots,p-1$ 是 $\mod p$ 的完全剩余系，又因为 $\gcd(a,p)=1$，因此 $a,a\times 2,\dots,a\times (p-1)$ 也是 $\mod p$ 的完全剩余系，因此 $1\times2\times3\times\cdots\times (p-1)\equiv a\times(a\times 2)\times (a\times 3)\times \cdots\times\left[a\times(p-1)\right]\mod p$，即 $(p-1)!\equiv (p-1)!\times a^{p-1}\mod p$，消去 $(p-1)!$ 得证。</p>
-<hr>
-<p>因此，一个数 $a(\gcd(a,p)=1)$ 满足 $a^{-1}\equiv a^{p-2}\mod p$，因此在计算时如果需要除以 $a$，可以使用乘以 $a^{p-2}$ 替换，后者可以使用快速幂在 $O(\log p)$ 的复杂度内计算。</p>
-<h2 id="线性求逆元"><a href="#线性求逆元" class="headerlink" title="线性求逆元"></a>线性求逆元</h2><p>递推公式：</p>
+C_{n}=\frac{2n\choose n}{n+1}</script><p>实际应用中，一般使用其变形：</p>
 <script type="math/tex; mode=display">
-inv_{i}=\left\{
-\begin{aligned}
-&1&i=1\\
-&\left(p-\left\lfloor\frac p i\right\rfloor\right)\times inv_{p\mod i}&i\neq 1
-\end{aligned}
-\right.</script><p>证明过程：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-&\because1^{-1}=1\mod p\\
-make~&p=k\times i+r(1<r<i<p)\\
-&\therefore \exists k\times i+r\equiv 0\mod p\\
-&\Leftrightarrow k\times r^{-1}+i^{-1}\equiv 0\mod p\\
-&\therefore i^{-1}\equiv -k\times r^{-1}\mod p\\
-&\therefore i^{-1}\equiv
--\left\lfloor\frac p i\right\rfloor\times\left(p\mod i\right)^{-1}\mod p\\
-&Q.E.D.
-\end{aligned}</script>
+C_{n}={2n\choose n}-{2n\choose n-1}</script><h4 id="基本模型"><a href="#基本模型" class="headerlink" title="基本模型"></a>基本模型</h4><p>有一个长度为 $2n$ 的 $01$ 序列，其中 $1$ 和 $0$ 各 $n$ 个，要求对于任意整数 $k\in[1,2n]$，数列的前 $k$ 个数中，$1$ 的个数不少于 $0$。</p>
+<p>我们可以等价为在一张平面上，有两种操作，$1$ 是向右上角走一步，$0$ 是向右下角走一步，那么按照这个规则走完整个序列到达 $(2n,0)$ 并且要求走过的路线永远不接触直线 $y=-1$。</p>
+<p>如果我们考虑所有可能的操作，那么一共有 ${2n\choose n}$ 种可能。而与 $y=-1$ 有接触的可能性中，如果我们把第一次与 $y=-1$ 接触的位置作为起始点以 $y=-1$ 为对称轴翻转，那么最终会到达 $(2n,-2)$，所以相当于会有 $n-1$ 个 $1$ 和 $n+1$ 个 $0$，总共有 ${2n\choose n-1}$ 钟可能性。</p>
+<p>综上，满足条件的序列数量就是 ${2n\choose n}-{2n\choose n-1}$，我们发现正好就是 $C_{n}$。</p>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><ol>
+<li><p>$n$ 对括号的合法配对方案数</p>
+<p>左括号当做 $1$，右括号当做 $0$，可以转换为卡特兰数。</p>
+</li>
+<li><p>$n$ 个节点的二叉树形态数</p>
+</li>
+<li><p>$n+1$ 个叶子节点（$n$ 个非叶子节点）的满二叉树的形态数</p>
+</li>
+<li><p>$n$ 个数入栈后出栈的排列总数</p>
+</li>
+</ol>
+
             </article>
             <hr>
             <div>
@@ -340,7 +317,7 @@ make~&p=k\times i+r(1<r<i<p)\\
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "[数学] 数论&nbsp;",
+        "[数学] 卡特兰数&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 25,

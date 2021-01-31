@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>[多项式] 多项式变换从入门到入土 | TheBlueSnake Blog</title>
+  <title>[多项式] 多项式从入门到入土 | TheBlueSnake Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -134,7 +134,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.5k 字
+      4.5k 字
     </span>
   
 
@@ -438,6 +438,40 @@ ll arr1[MAXN], arr2[MAXN], ans[MAXN];
     &#125;
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre>
+<h3 id="生成函数"><a href="#生成函数" class="headerlink" title="生成函数"></a>生成函数</h3><p>如果存在数列 $\left\{a_{n}\right\}$ 生成函数为 $g(x)=\sum_{i=0}^{+\infty}a_{i}k_{n}(x)$。如果是普通生成函数，则 $k_{n}(x)=x^{n}$；如果是指数生成函数，则 $k_{n}(x)=\frac{x^{n}}{n!}$；如果是狄利克雷生成函数，则 $k_{n}(x)=\frac{1}{n^{x}}$。并且对于生成函数 $f(x)$，我们使用 $[k_{n}(x)]f(x)$ 代表它第 $n$ 项的核函数对应的系数，即 $a_{n}$。</p>
+<h4 id="普通生成函数"><a href="#普通生成函数" class="headerlink" title="普通生成函数"></a>普通生成函数</h4><p>关于生成函数，感谢<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/ShadowassIIXVIIIIV/sheng-cheng-han-shuo-xia-chui">shadowice1984 的文章</a>。</p>
+<p>这里引用一段Ta对于生成函数的引言：</p>
+<blockquote>
+<p>我们在计数题当中经常会碰到一些数列</p>
+<p>比如常数列 $1,1,\dots,1$</p>
+<p>比如等比数列 $1,2,4,\dots,2^{n}$</p>
+<p>比如二项式系数的一行 ${n\choose 1},{n\choose 2},\dots,{n\choose n}$</p>
+<p>我们在做多项式题的时候会碰到一些多项式</p>
+<p>比如 $f(x)=1++x^2+\cdots+x^{n}$</p>
+<p>比如 $f(x)=1+2x+4x^2+\cdots+2^nx^n$</p>
+<p>比如 $f(x)=1+{n\choose1}x+{n\choose2}x^{2}+\cdots+{n\choose n}x^{n}$</p>
+<p>当我们存一个数列的时候，我们会开一个数组，数组的第 $i$ 项存数列的第 $i$ 项</p>
+<p>当我们存一个多项式的时候，我们会开一个数组，数组的第 $i$ 项存多项式的第 $i$ 项系数</p>
+<p>我们会发现尽管多项式的存储方式似乎和数列的方式没有什么本质的区别，但是我们却可以把两个多项式相乘，相除，开根，做 $\exp$ 取 $\ln$</p>
+<p>另一个诡异的事实是我们不能把两个数列相乘除或者做一些奇奇怪怪的运算，尽管数列和多项式可以构建一一对应的映射，怎么想怎么不对劲啊，所以我们搞出了生成函数</p>
+<p>定义一个数列 $a$ 的一般生成函数 $G(z)$ 是</p>
+<script type="math/tex; mode=display">
+G(z)=\sum_ia_{i}z^{i}</script><p>嗯这样我们就把一个数列映射到了一个多项式上，但是多项式的限制太多了，我们需要考虑定义域和收敛性等一系列杂七杂八的东西，我们搞了一个生成函数出来不是来看多项式的限制的，我们只想对生成函数背后的数列进行操作</p>
+<p>形式幂级数就是为此而生的，简单来说形式幂级数的精髓就在于它定义了一套运算规则可以让我们对数列进行类似于多项式的加减乘除开根 $\exp$ 取 $\ln$，但是却不用像多项式一样考虑它是否有意义，事实上我们平时使用的多项式算法都是形式幂级数之间的运算</p>
+</blockquote>
+<p>Ta的博客中有关生成函数的运算将会在后面有说明。</p>
+<h4 id="编生成函数"><a href="#编生成函数" class="headerlink" title="编生成函数"></a>编生成函数</h4><blockquote>
+<p>很多计数题的套路是这样的，先搞一个数列，通过这个数列我们能得到答案，然后我们把这个数列的生成函数编出来发现它是一堆形式幂级数进行运算得到的，然后我们使用多项式科技就做完了这道题</p>
+<p>显然编生成函数就是解题的关键了，绝大部分情况下只有数数精们才能编的出来，但是对于一些简单的数列我们还是可以试着编一编生成函数的</p>
+</blockquote>
+<h4 id="常见的生成函数套路"><a href="#常见的生成函数套路" class="headerlink" title="常见的生成函数套路"></a>常见的生成函数套路</h4><p>下面将会用菲波那切数列推演演示一下如何将对个有递归式的数列求生成树函数。</p>
+<h6 id="斐波那数列数列"><a href="#斐波那数列数列" class="headerlink" title="斐波那数列数列"></a>斐波那数列数列</h6><p>斐波那契数列有以下递推式：</p>
+<script type="math/tex; mode=display">
+fib(i)=fib(i-1)+fib(i-2)</script><p>以及以下边界条件：</p>
+<script type="math/tex; mode=display">
+fib(1)=1, fib(0)=0</script><p>我们不妨设 $G(z)$ 为斐波那契数列的生成函数，我们可以得到以下式子：</p>
+<script type="math/tex; mode=display">
+G(z)=G(z)z+G(z)z^{2}+z</script>
             </article>
             <hr>
             <div>
@@ -563,7 +597,7 @@ ll arr1[MAXN], arr2[MAXN], ans[MAXN];
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "[多项式] 多项式变换从入门到入土&nbsp;",
+        "[多项式] 多项式从入门到入土&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 25,

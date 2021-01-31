@@ -135,6 +135,82 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/25/CF659(Div.2)/">Codeforces Round #659 (Div. 2) 做题报告</a>
+
+      <a href="/2020/07/25/CF659(Div.2)/" class="index-excerpt">
+        
+        
+          
+        
+        <div>A. Common Prefixes又是一道构造题，想明白了其实很简单的，假设原串是$s_0$，那么对于$a_i=k$，我们只要将$s_0$前$k$位不动，后面$k$位全部加一，如果是$z$就变成$a$即可。至此，不妨假设原串$s_0$是$aaa\dots aaa$，即可满足题意。
+#include&lt;bits/stdc++.h&gt;
+using namespace std;
+const i</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-25
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
+            
+              <a href="/categories/OI%E7%9B%B8%E5%85%B3/Codeforces-%E5%81%9A%E9%A2%98%E6%8A%A5%E5%91%8A/">Codeforces 做题报告</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/25/CF658(Div.2)/">Codeforces Round #658 (Div. 2) 做题报告</a>
+
+      <a href="/2020/07/25/CF658(Div.2)/" class="index-excerpt">
+        
+        
+          
+        
+        <div>A. Common Subsequence题目说最短公共子序列。我们可以发现，对于任意公共子序列，一定存在长度为$1$，也就是单独一个字母的公共子序列。所以题目就变成了看存不存在相同数字。使用类似归并排序合并的方式，两个序列排序后，分别从左往右两个指针扫一下就可以了。复杂度$O(n+m)$
+#include&lt;bits/stdc++.h&gt;
+using namespace std;
+con</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-25
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
+            
+              <a href="/categories/OI%E7%9B%B8%E5%85%B3/Codeforces-%E5%81%9A%E9%A2%98%E6%8A%A5%E5%91%8A/">Codeforces 做题报告</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/07/25/CF685(Div.2)/">Codeforces Round #685 (Div.2) 做题报告</a>
 
       <a href="/2020/07/25/CF685(Div.2)/" class="index-excerpt">
@@ -273,6 +349,46 @@ int main()&#123;
               <a href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
             
               <a href="/categories/OI%E7%9B%B8%E5%85%B3/Atcoder-%E5%81%9A%E9%A2%98%E6%8A%A5%E5%91%8A/">Atcoder 做题报告</a>
+            
+          </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/01/27/%5B%E6%95%B0%E5%AD%A6%5DexLucas%E5%AE%9A%E7%90%86/">[数学] exLucas定理</a>
+
+      <a href="/2020/01/27/%5B%E6%95%B0%E5%AD%A6%5DexLucas%E5%AE%9A%E7%90%86/" class="index-excerpt">
+        
+        
+          
+        
+        <div>求解 ${n\choose m}$ 的方法：如果我们需要计算组合数并要求 $O(1)$ 查询每个组合数的值的时候，我们可以使用递推式：${n\choose m}={n-1\choose m}+{n-1\choose m-1}$。这样子做预处理 $O(nm)$，查询 $O(1)$。
+如果我们需要计算更大量的组合数并要求 $O(1)$ 查询每个组合数的值的时候，我们会使用定义式：
+
+{n\choose</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-01-27
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/OI%E7%9B%B8%E5%85%B3/">OI相关</a>
+            
+              <a href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+            
+              <a href="/categories/OI%E7%9B%B8%E5%85%B3/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%95%B0%E5%AD%A6/">数学</a>
             
           </div>
         
